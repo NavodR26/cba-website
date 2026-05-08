@@ -90,7 +90,7 @@ export default function TopBar({ events }: { events: EventLite[] }) {
   const sequence = upcoming.length ? [...upcoming, ...upcoming] : []
 
   return (
-    <div className="relative bg-gradient-to-r from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-white text-xs overflow-hidden group hover-glow transition-all duration-300">
+    <div className="relative bg-gradient-to-r from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-white text-xs overflow-hidden group hover-glow transition-all duration-300 z-40">
       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_40%_50%,rgba(255,193,7,0.1),transparent_50%)]"></div>
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex items-stretch min-h-[40px] relative z-10">
         <div className="flex-1 min-w-0 flex items-center gap-3">
