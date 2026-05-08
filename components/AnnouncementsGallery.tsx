@@ -1,0 +1,172 @@
+import Link from 'next/link'
+import { client, urlFor } from '@/lib/sanity'
+
+async function getAnnouncements() {
+  try {
+    return await client.fetch(
+      `*[_type == "announcement"] | order(date desc)[0...5]{
+        _id, title, date, description,
+        "fileUrl": file.asset->url,
+        "fileName": file.asset->originalFilename
+      }`
+    )
+  } catch (error) {
+    console.warn('Failed to fetch announcements:', error)
+    return []
+  }
+}
+
+async function getGallery() {
+  try {
+    return await client.fetch(`*[_type == "gallery"][0]`)
+  } catch (error) {
+    console.warn('Failed to fetch gallery:', error)
+    return null
+  }
+}
+
+function formatDate(d: any) {
+  if (!d) return ''
+  const date = new Date(d)
+  if (Number.isNaN(date.getTime())) return ''
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+
+function DocIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+      <path d="M14 2v6h6" />
+      <path d="M9 13h6M9 17h6" />
+    </svg>
+  )
+}
+
+function DownloadIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M12 3v12" />
+      <path d="M7 10l5 5 5-5" />
+      <path d="M5 21h14" />
+    </svg>
+  )
+}
+
+export default async function AnnouncementsGallery() {
+  const announcements = await getAnnouncements()
+  const gallery = await getGallery()
+
+  return (
+    <section
+      id="announcements"
+      className="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-950 scroll-mt-24"
+    >
+      <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-10">
+        {/* ANNOUNCEMENTS */}
+        <div>
+          <div className="flex items-end justify-between mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+              Latest Announcements
+            </h2>
+            <Link
+              href="#announcements"
+              className="text-sm font-semibold text-[var(--maroon)] hover:underline"
+            >
+              View all →
+            </Link>
+          </div>
+
+          {announcements.length === 0 ? (
+            <p className="text-sm text-gray-400 italic">
+              No announcements yet.
+            </p>
+          ) : (
+            <ul className="space-y-3">
+              {announcements.map((item: any) => (
+                <li
+                  key={item._id}
+                  className="group flex items-start gap-4 p-4 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl hover:border-[var(--maroon)]/40 hover:shadow-md transition"
+                >
+                  <div className="w-11 h-11 rounded-xl bg-[var(--maroon)]/10 text-[var(--maroon)] flex items-center justify-center shrink-0">
+                    <DocIcon />
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 dark:text-white truncate">
+                      {item.title}
+                    </p>
+                    {item.description && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-1">
+                        {item.description}
+                      </p>
+                    )}
+                    <p className="text-xs text-gray-400 mt-1">
+                      {formatDate(item.date)}
+                    </p>
+                  </div>
+
+                  {item.fileUrl ? (
+                    <a
+                      href={item.fileUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      download={item.fileName || true}
+                      className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--maroon)] text-white hover:opacity-90 transition"
+                    >
+                      <DownloadIcon /> PDF
+                    </a>
+                  ) : (
+                    <span className="shrink-0 text-xs text-gray-400 italic px-2">
+                      No file
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* GALLERY */}
+        <div>
+          <div className="flex items-end justify-between mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+              Gallery Highlights
+            </h2>
+            <Link
+              href="/gallery"
+              className="text-sm font-semibold text-[var(--maroon)] hover:underline"
+            >
+              View all →
+            </Link>
+          </div>
+
+          {gallery?.images?.length ? (
+            <div className="grid grid-cols-2 gap-3">
+              {gallery.images.slice(0, 4).map((img: any, i: number) => (
+                <div
+                  key={i}
+                  className="relative overflow-hidden rounded-xl aspect-[4/3] group"
+                >
+                  <img
+                    src={urlFor(img).width(600).url()}
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                    alt=""
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-400 italic">
+              No gallery items yet.
+            </p>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -1,65 +1,119 @@
-import Image from "next/image";
+import Link from 'next/link'
+import Navbar from '@/components/Navbar'
+import TopBar from '@/components/TopBar'
+import HeritageStrip from '@/components/HeritageStrip'
+import TraditionSection from '@/components/TraditionSection'
+import ChairmanMessage from '@/components/ChairmanMessage'
+import UpcomingEvents from '@/components/UpcomingEvents'
+import StatsBar from '@/components/StatsBar'
+import AnnouncementsGallery from '@/components/AnnouncementsGallery'
+import Newsletter from '@/components/Newsletter'
+import Footer from '@/components/Footer'
+import AboutSection from '@/components/AboutSection'
+import Reveal from '@/components/Reveal'
+import { getEvents } from '@/lib/events'
 
-export default function Home() {
+export default async function Home() {
+  const events = await getEvents()
+
+  const safeEvents = events.map((e: any) => ({
+    ...e,
+    start_date: e.start_date ? new Date(e.start_date).toISOString() : null,
+    end_date: e.end_date ? new Date(e.end_date).toISOString() : null,
+  }))
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="cba-page-shell bg-white text-gray-800">
+      <TopBar events={safeEvents} />
+      <Navbar />
+
+      {/* HERO */}
+      <section className="cba-hero-mesh relative h-[88vh] min-h-[560px] flex items-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="/hero.png"
+            className="w-full h-full object-cover scale-105 hero-kenburns"
+            alt="Colombo skyline"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-[var(--maroon)]/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+
+          {/* Floating glow orbs */}
+          <div aria-hidden className="hero-orb hero-orb-1" />
+          <div aria-hidden className="hero-orb hero-orb-2" />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 w-full">
+          <div className="max-w-3xl text-white">
+            <Reveal>
+              <span className="cba-glass-panel inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-[0.2em] uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse" />
+                Established 1904
+              </span>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <h1 className="mt-6 text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight">
+                The Colombo Brokers&rsquo;
+                <br />
+                <span className="bg-gradient-to-r from-amber-300 via-amber-200 to-amber-400 bg-clip-text text-transparent">
+                  Association
+                </span>
+              </h1>
+            </Reveal>
+
+            <Reveal delay={220}>
+              <p className="mt-6 text-lg md:text-xl text-gray-200 max-w-xl leading-relaxed">
+                The apex body representing brokers across Sri Lanka&rsquo;s
+                tea, rubber, coconut and spices auction industries.
+              </p>
+            </Reveal>
+
+            <Reveal delay={320}>
+              <div className="mt-9 flex flex-wrap gap-4">
+                <Link
+                  href="/events"
+                  className="cba-btn-magnetic px-7 py-3.5 bg-[var(--maroon)] hover:bg-[#601822] rounded-md font-semibold shadow-lg shadow-black/30 transition relative overflow-hidden"
+                >
+                  <span className="relative z-10">View Calendar</span>
+                </Link>
+                <Link
+                  href="/about"
+                  className="cba-glass-panel px-7 py-3.5 hover:bg-white/20 rounded-md font-semibold transition"
+                >
+                  About CBA
+                </Link>
+              </div>
+            </Reveal>
+          </div>
         </div>
-      </main>
-    </div>
-  );
+
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/70 text-xs tracking-[0.3em] uppercase">
+          <span className="cba-scroll-hint">Scroll</span>
+        </div>
+      </section>
+
+      <HeritageStrip />
+      <Reveal>
+        <AboutSection />
+      </Reveal>
+      <Reveal>
+        <ChairmanMessage />
+      </Reveal>
+      <Reveal>
+        <UpcomingEvents />
+      </Reveal>
+      <Reveal>
+        <TraditionSection />
+      </Reveal>
+      <StatsBar />
+      <Reveal>
+        <AnnouncementsGallery />
+      </Reveal>
+      <Reveal>
+        <Newsletter />
+      </Reveal>
+      <Footer />
+    </main>
+  )
 }
