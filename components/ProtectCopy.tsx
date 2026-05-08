@@ -33,4 +33,4 @@ export default function ProtectCopy() {
     }
   }, [])
 
-  return null
+  return null}
