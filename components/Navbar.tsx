@@ -46,11 +46,11 @@ export default function Navbar() {
   const [hoverIdx, setHoverIdx] = useState<number | null>(null)
 
   return (
-    <header className="sticky top-0 z-30 backdrop-blur-md bg-white/75 border-b border-white/20 shadow-sm hover-glow transition-all duration-300">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/95 border-b border-white/20 shadow-lg hover-glow transition-all duration-300">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-3 flex justify-between items-center gap-4 animate-fade-in-scale">
         {/* LOGO */}
         <Link href="/" className="flex items-center gap-3 shrink-0 group hover-scale transition-all duration-300">
-          <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-[68px] md:h-[68px] shrink-0 p-1 rounded-xl bg-gradient-to-br from-[var(--maroon)]/10 to-amber-100/10 group-hover:from-[var(--maroon)]/20 group-hover:to-amber-100/20 transition-all duration-300">
+          <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-[68px] md:h-[68px] shrink-0 p-1 rounded-xl bg-gradient-to-br from-[var(--maroon)]/10 to-amber-100/10 group-hover:from-[var(--maroon)]/15 group-hover:to-amber-100/15 transition-all duration-300">
             <Image
               src="/logo.png"
               alt="Colombo Brokers' Association"
@@ -109,7 +109,7 @@ export default function Navbar() {
                     </svg>
                   )}
                   {active && (
-                    <span className="absolute left-4 right-4 -bottom-1 h-1 bg-gradient-to-r from-[var(--maroon)] via-[var(--maroon)]/80 to-amber-400 rounded-full shadow-md shadow-[var(--maroon)]/30" />
+                    <span className="absolute left-4 right-4 -bottom-1 h-1 bg-gradient-to-r from-[var(--maroon)] via-[var(--maroon)]/80 to-amber-400 rounded-full shadow-md shadow-[var(--maroon)]/30"></span>
                   )}
                   {/* Hover background */}
                   <div className={`absolute inset-0 rounded-lg transition-all duration-300 ${
@@ -127,7 +127,7 @@ export default function Navbar() {
                         <Link
                           key={child.label}
                           href={child.href}
-                          className="relative block px-5 py-3.5 hover:bg-gradient-to-r hover:from-[var(--maroon)]/8 hover:to-amber-100/8 transition-all duration-300 hover-lift border-b border-white/20 last:border-b-0 group"
+                          className="relative block px-5 py-3.5 hover:bg-gradient-to-r hover:from-[var(--maroon)]/8 hover:to-amber-100/8 transition-all duration-300 hover-lift border-b border-white/30 last:border-b-0 group"
                           style={{ animationDelay: `${childIdx * 50}ms` }}
                         >
                           <p className="font-semibold text-gray-900 text-sm group-hover:text-[var(--maroon)] transition-colors duration-300">
