@@ -7,10 +7,64 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
 }
 
 body {
   font-feature-settings: 'cv11', 'ss01';
+}
+
+body,
+html,
+main,
+section,
+article,
+div,
+span,
+p,
+li,
+strong,
+em,
+blockquote,
+th,
+td {
+  cursor: default;
+}
+
+a,
+button,
+input,
+textarea,
+select,
+label {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  cursor: text;
+}
+
+img,
+svg,
+video,
+canvas {
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 /* Reusable line-clamp utilities */
@@ -271,6 +325,11 @@ body {
   width: max-content;
 }
 
+.animate-float-particle {
+  animation: float-particle 8s ease-in-out infinite;
+}
+
+
 .ticker-track:hover {
   animation-play-state: paused;
 }
@@ -322,6 +381,11 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+.animate-shimmer {
+  animation: shimmer-text 2s infinite;
+  background-size: 200% 100%;
+}
+
 /* Scale pulse */
 @keyframes scale-pulse {
   0%, 100% { transform: scale(1); }
@@ -355,7 +419,7 @@ body {
   0% { opacity: 0; transform: scale(0.95); }
   100% { opacity: 1; transform: scale(1); }
 }
-.fade-in-scale { animation: fade-in-scale 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.fade-in-scale, .animate-fade-in-scale { animation: fade-in-scale 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
 
 /* Border glow animation */
 @keyframes border-glow {

@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Viewport } from 'next'
 import CursorDot from '@/components/CursorDot'
+import ProtectCopy from '@/components/ProtectCopy'
 
 export const metadata = {
   title: "The Colombo Brokers' Association",
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-white text-gray-800 font-sans antialiased">
         <CursorDot />
+        <ProtectCopy />
         {children}
       </body>
     </html>

@@ -340,6 +340,96 @@ export default async function AboutPage() {
         </div>
       </section>
 
+      {/* HERITAGE MILESTONE — 150 Years showcase */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-amber-50/30 to-white relative overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute top-0 right-0 w-96 h-96 rounded-full bg-amber-300/8 blur-3xl -translate-y-1/2 translate-x-1/4"
+        />
+        <div className="max-w-[1200px] mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 text-[var(--maroon)] text-xs font-bold uppercase tracking-widest animate-fade-in-scale">
+              ✨ Milestone Moment
+            </span>
+            <h2 className="mt-5 text-3xl md:text-5xl font-bold text-gray-900 animate-fade-in-scale" style={{ animationDelay: '100ms' }}>
+              150 Years of Excellence
+            </h2>
+            <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed animate-fade-in-scale" style={{ animationDelay: '200ms' }}>
+              Since 1867, the Colombo Brokers&rsquo; Association has stood as the pinnacle of integrity and excellence in Sri Lanka&rsquo;s auction trade.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8 items-stretch">
+            {/* Main Image */}
+            <div className="lg:col-span-2">
+              <div className="relative group animate-fade-in-scale" style={{ animationDelay: '300ms' }}>
+                {/* Frame effect */}
+                <div className="absolute -inset-4 bg-gradient-to-br from-amber-400/20 via-[var(--maroon)]/10 to-amber-300/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/40 to-transparent rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500" />
+                
+                {/* Image container */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white p-4 md:p-6 border border-amber-100/50 group-hover:border-amber-200 transition-all duration-300">
+                  <div className="relative rounded-lg overflow-hidden bg-gray-100">
+                    <img
+                      src="/img01.png"
+                      alt="150 Years of Ceylon Brokers' Association"
+                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+                </div>
+
+                {/* Badge */}
+                <div className="absolute -top-3 -right-3 md:-top-6 md:-right-6 w-20 h-20 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-2xl flex items-center justify-center border-4 border-white animate-fade-in-scale" style={{ animationDelay: '500ms' }}>
+                  <div className="text-center">
+                    <p className="text-xs md:text-sm font-bold text-[var(--maroon)] uppercase tracking-wider">150</p>
+                    <p className="text-[10px] md:text-xs font-semibold text-[var(--maroon)] uppercase">Years</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Heritage Facts */}
+            <div className="space-y-5 lg:mt-0 mt-8">
+              <div className="group relative bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 animate-fade-in-scale" style={{ animationDelay: '400ms' }}>
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-300 to-amber-500 text-white flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M13 7H7v6h6V7z" />
+                    <path fillRule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2V2a1 1 0 112 0v1a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2v1a1 1 0 11-2 0v-1h-2v1a1 1 0 11-2 0v-1a2 2 0 01-2-2v-2H3a1 1 0 110-2h1V9H3a1 1 0 010-2h1V5a2 2 0 012-2v-1a1 1 0 010-2h2V2z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-400">Founded</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">1867</p>
+                <p className="text-xs text-gray-500 mt-2">Era of colonial auction trade</p>
+              </div>
+
+              <div className="group relative bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 animate-fade-in-scale" style={{ animationDelay: '450ms' }}>
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-300 to-amber-500 text-white flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                    <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" />
+                  </svg>
+                </div>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-400">Commodities</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">4 Major</p>
+                <p className="text-xs text-gray-500 mt-2">Tea, rubber, coconut, spices</p>
+              </div>
+
+              <div className="group relative bg-gradient-to-br from-[var(--maroon)] to-[#5a1620] rounded-2xl border border-[var(--maroon)]/30 p-6 text-white hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 animate-fade-in-scale" style={{ animationDelay: '500ms' }}>
+                <div className="w-10 h-10 rounded-lg bg-white/20 backdrop-blur flex items-center justify-center mb-3 group-hover:bg-white/30 transition-colors duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+                <p className="text-xs font-bold uppercase tracking-wider text-white/80">Legacy</p>
+                <p className="text-lg font-bold mt-1">Trusted Authority</p>
+                <p className="text-xs text-white/70 mt-2">Guiding South Asia&rsquo;s auction trade</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* PAST CHAIRMEN */}
       <section
         id="past"

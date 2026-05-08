@@ -61,10 +61,10 @@ export default function Navbar() {
             />
           </div>
           <div className="leading-tight">
-            <p className="font-bold text-[var(--maroon)] text-lg sm:text-xl md:text-2xl tracking-wide group-hover:text-gradient transition-all duration-300">
+            <p className="font-bold text-[var(--maroon)] text-lg sm:text-xl md:text-2xl tracking-wide transition-all duration-300 group-hover:text-amber-400">
               CBA
             </p>
-            <p className="text-[9px] sm:text-[10px] md:text-[11px] text-gray-500 tracking-[0.18em] uppercase hidden sm:block group-hover:text-[var(--maroon)]/70 transition-colors duration-300">
+            <p className="text-[9px] sm:text-[10px] md:text-[11px] text-gray-500 tracking-[0.18em] uppercase hidden sm:block transition-colors duration-300 group-hover:text-[var(--maroon)]/70">
               Colombo Brokers&rsquo; Assoc. · Est. 1904
             </p>
           </div>

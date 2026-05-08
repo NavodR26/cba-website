@@ -74,7 +74,7 @@ export default function Footer() {
               />
             </div>
             <div>
-              <p className="font-bold text-white text-lg leading-tight group-hover:text-gradient transition-all duration-300">
+              <p className="font-bold text-white text-lg leading-tight transition-all duration-300 group-hover:text-amber-300">
                 The Colombo Brokers&rsquo;
                 <br />
                 Association
