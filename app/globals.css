@@ -16,6 +16,7 @@ html {
   color-scheme: light;
   background-color: #ffffff;
   overflow-x: hidden;
+  padding-top: 0;
 }
 
 @media (prefers-color-scheme: dark) {
