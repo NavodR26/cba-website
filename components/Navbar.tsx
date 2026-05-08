@@ -46,7 +46,7 @@ export default function Navbar() {
   const [hoverIdx, setHoverIdx] = useState<number | null>(null)
 
   return (
-    <header className="sticky top-0 z-30 backdrop-blur-md bg-white/75 dark:bg-neutral-950/75 border-b border-white/20 dark:border-neutral-800/50 shadow-sm hover-glow transition-all duration-300">
+    <header className="sticky top-0 z-30 backdrop-blur-md bg-white/75 border-b border-white/20 shadow-sm hover-glow transition-all duration-300">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-3 flex justify-between items-center gap-4 animate-fade-in-scale">
         {/* LOGO */}
         <Link href="/" className="flex items-center gap-3 shrink-0 group hover-scale transition-all duration-300">
@@ -121,20 +121,20 @@ export default function Navbar() {
 
                 {item.children && hoverIdx === i && (
                   <div className="absolute left-0 top-full pt-3 min-w-[280px] animate-fade-in-scale">
-                    <div className="backdrop-blur-xl bg-white/80 dark:bg-neutral-900/80 rounded-2xl shadow-2xl ring-1 ring-white/30 dark:ring-neutral-700/30 overflow-hidden border border-white/40 dark:border-neutral-700/50">
+                    <div className="backdrop-blur-xl bg-white/80 rounded-2xl shadow-2xl ring-1 ring-white/30 overflow-hidden border border-white/40">
                       <div className="absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-transparent pointer-events-none rounded-2xl"></div>
                       {item.children.map((child, childIdx) => (
                         <Link
                           key={child.label}
                           href={child.href}
-                          className="relative block px-5 py-3.5 hover:bg-gradient-to-r hover:from-[var(--maroon)]/8 hover:to-amber-100/8 transition-all duration-300 hover-lift border-b border-white/20 dark:border-neutral-700/30 last:border-b-0 group"
+                          className="relative block px-5 py-3.5 hover:bg-gradient-to-r hover:from-[var(--maroon)]/8 hover:to-amber-100/8 transition-all duration-300 hover-lift border-b border-white/20 last:border-b-0 group"
                           style={{ animationDelay: `${childIdx * 50}ms` }}
                         >
-                          <p className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-[var(--maroon)] transition-colors duration-300">
+                          <p className="font-semibold text-gray-900 text-sm group-hover:text-[var(--maroon)] transition-colors duration-300">
                             {child.label}
                           </p>
                           {child.desc && (
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors duration-300">
+                            <p className="text-xs text-gray-500 mt-1 group-hover:text-gray-600 transition-colors duration-300">
                               {child.desc}
                             </p>
                           )}

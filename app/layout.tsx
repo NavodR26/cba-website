@@ -12,7 +12,7 @@ export const metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5,
+  userScalable: true,
   themeColor: '#7a1f2a',
 }
 
@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="light">
-      <body className="bg-white text-gray-800 font-sans antialiased">
+      <body className="bg-white text-gray-800 font-sans antialiased overflow-x-hidden">
         <CursorDot />
         <ProtectCopy />
         {children}
