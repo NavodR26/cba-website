@@ -37,12 +37,15 @@ export default async function ChairmanMessage() {
 
       <div className="relative max-w-[1400px] mx-auto">
         <div className="text-center mb-12">
-          <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider animate-fade-in-scale">
-            Leadership
+          <span className="inline-block px-4 py-1.5 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-[0.28em] animate-fade-in-scale">
+            Chairman&rsquo;s Message
           </span>
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900 animate-fade-in-scale" style={{ animationDelay: '0.1s' }}>
+          <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 animate-fade-in-scale" style={{ animationDelay: '0.1s' }}>
             From the Chairman&rsquo;s Desk
           </h2>
+          <p className="mt-4 text-sm text-gray-500 max-w-2xl mx-auto leading-relaxed animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
+            A refined leadership statement with crisp styling, clear purpose and premium presentation for every screen.
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-10 items-center">
@@ -50,13 +53,13 @@ export default async function ChairmanMessage() {
           <div className="lg:col-span-5 animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
             <div className="relative max-w-md mx-auto group">
               {/* Maroon offset frame with glow */}
-              <div className="absolute -top-4 -left-4 w-full h-full rounded-2xl bg-gradient-to-br from-[var(--maroon)] to-[#4a1119] -z-10 group-hover:shadow-2xl group-hover:shadow-[var(--maroon)]/30 transition-all duration-500" />
+              <div className="absolute -top-5 -left-5 w-full h-full rounded-[2rem] bg-gradient-to-br from-[var(--maroon)]/20 to-transparent -z-10 blur-2xl opacity-70 group-hover:opacity-100 transition-all duration-700" />
 
               {/* Photo */}
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl bg-gray-100 hover-scale">
+              <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-[0_30px_90px_rgba(122,31,42,0.12)] bg-gray-100 border border-gray-200 hover-scale transition duration-500">
                 {data.photo ? (
                   <img
-                    src={urlFor(data.photo).width(800).url()}
+                    src={urlFor(data.photo).width(900).url()}
                     alt={data.name}
                     className="w-full h-full object-cover"
                   />
@@ -73,39 +76,42 @@ export default async function ChairmanMessage() {
 
           {/* MESSAGE */}
           <div className="lg:col-span-7 animate-fade-in-scale" style={{ animationDelay: '0.3s' }}>
-            <svg
-              className="w-12 h-12 text-[var(--maroon)]/30 mb-4 hover:text-[var(--maroon)]/60 transition-colors duration-300"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M9.6 5.4c-2.5 1.5-4.6 4-4.6 7.6v5h6v-6H7.4c.2-1.6 1.3-2.7 2.7-3.6L9.6 5.4zm9 0c-2.5 1.5-4.6 4-4.6 7.6v5h6v-6h-3.6c.2-1.6 1.3-2.7 2.7-3.6L18.6 5.4z" />
-            </svg>
+            <div className="inline-flex items-center gap-3 mb-6 text-sm text-gray-500">
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-3xl bg-[var(--maroon)]/10 text-[var(--maroon)] shadow-sm">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M7 8h10M7 12h6M7 16h10" />
+                </svg>
+              </span>
+              <span className="uppercase tracking-[0.28em] font-semibold text-[var(--maroon)]">
+                Trusted leadership.
+              </span>
+            </div>
 
-            <p className="text-lg md:text-xl leading-relaxed text-gray-700 italic font-light hover-lift">
-              {data.message}
-            </p>
+            <div className="rounded-[2rem] border border-gray-200 bg-white p-8 shadow-sm">
+              <p className="text-lg md:text-xl leading-relaxed text-gray-700 italic font-light tracking-wide">
+                {data.message}
+              </p>
+            </div>
 
-            <div className="mt-8 pt-8 border-t border-gray-200 flex items-center gap-5">
+            <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between border-t border-gray-200 pt-8">
               <div>
                 <p className="text-xl font-bold text-gray-900">
                   {data.name}
                 </p>
-                <p className="text-sm text-[var(--maroon)] font-semibold mt-0.5">
+                <p className="text-sm text-[var(--maroon)] font-semibold mt-1">
                   {data.designation || 'Chairman, Colombo Brokers\' Association'}
                 </p>
               </div>
 
-              <div className="ml-auto">
-                <Link
-                  href="/members#committee"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--maroon)] text-white text-sm font-semibold hover:opacity-90 transition-all duration-300 hover-scale group"
-                >
-                  Meet the Committee
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-x-1 transition-transform">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
+              <Link
+                href="/members#committee"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--maroon)] text-white text-sm font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+              >
+                Meet the Committee
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-hover:translate-x-1">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </Link>
             </div>
           </div>
         </div>

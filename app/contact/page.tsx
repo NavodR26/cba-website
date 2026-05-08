@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import TopBar from '@/components/TopBar'
+import PageHero from '@/components/PageHero'
 import ContactForm from '@/components/ContactForm'
 import { getEvents } from '@/lib/events'
 
@@ -16,30 +17,19 @@ export default async function ContactPage() {
   }))
 
   return (
-    <main className="cba-page-shell bg-white dark:bg-neutral-950 text-gray-800 dark:text-gray-200">
+    <main className="cba-page-shell bg-white text-gray-800">
       <TopBar events={safeEvents} />
       <Navbar />
 
-      {/* HERO */}
-      <section className="cba-hero-mesh relative bg-[var(--maroon)] text-white overflow-hidden">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_20%,white,transparent_60%)]"
-        />
-        <div className="relative max-w-[1400px] mx-auto px-6 py-16">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-            Contact Us
-          </h1>
-          <p className="mt-3 text-white/85">
-            We&rsquo;d love to hear from you — reach out for membership, media or general enquiries.
-          </p>
-          <nav className="mt-4 text-sm text-white/80">
-            <Link href="/" className="hover:text-white">Home</Link>
-            <span className="mx-2">›</span>
-            <span className="text-white">Contact</span>
-          </nav>
-        </div>
-      </section>
+      <PageHero
+        badge="Get in Touch"
+        title="Contact Us"
+        description="We'd love to hear from you — reach out for membership, media or general enquiries."
+        breadcrumb={[
+          { label: 'Home', href: '/' },
+          { label: 'Contact' },
+        ]}
+      />
 
       {/* INFO + FORM */}
       <section className="py-16 px-6">

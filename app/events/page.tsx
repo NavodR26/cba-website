@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
+import PageHero from '@/components/PageHero'
 import EventCalendarClient from '@/components/EventCalendarClient'
 import CalendarStats from '@/components/CalendarStats'
 import CalendarAgenda from '@/components/CalendarAgenda'
@@ -24,46 +25,15 @@ export default async function EventsPage() {
       <TopBar events={safeEvents} />
       <Navbar />
 
-      {/* HERO */}
-      <section className="cba-hero-mesh relative bg-[var(--maroon)] text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="/hero.png"
-            alt=""
-            className="w-full h-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--maroon)] via-[var(--maroon)]/95 to-[var(--maroon)]/70" />
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_20%,white,transparent_60%)]"
-          />
-        </div>
-        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-20 pb-24">
-          <Reveal>
-            <span className="cba-glass-panel inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-[0.2em] uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse" />
-              Live Schedule
-            </span>
-          </Reveal>
-          <Reveal delay={120}>
-            <h1 className="mt-6 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-3xl">
-              Auction &amp; Meeting{' '}
-              <span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">Calendar</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={220}>
-            <p className="mt-4 text-white/85 text-lg max-w-2xl leading-relaxed">
-              Live schedule of tea, rubber, coconut and spices auctions —
-              including catalogue closures and committee meetings.
-            </p>
-          </Reveal>
-          <nav className="mt-5 text-sm text-white/80">
-            <Link href="/" className="hover:text-white">Home</Link>
-            <span className="mx-2">›</span>
-            <span className="text-white">Calendar</span>
-          </nav>
-        </div>
-      </section>
+      <PageHero
+        badge="Live Schedule"
+        title="Auction & Meeting Calendar"
+        description="Live schedule of tea, rubber, coconut and spices auctions — including catalogue closures and committee meetings."
+        breadcrumb={[
+          { label: 'Home', href: '/' },
+          { label: 'Calendar' },
+        ]}
+      />
 
       {/* MONTHLY STATS — overlapping the hero */}
       <CalendarStats events={safeEvents} />

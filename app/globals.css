@@ -13,10 +13,22 @@ html {
   -ms-user-select: none;
   user-select: none;
   cursor: default;
+  color-scheme: light;
+  background-color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+    background-color: #ffffff;
+  }
 }
 
 body {
   font-feature-settings: 'cv11', 'ss01';
+  color-scheme: light;
+  background-color: #ffffff;
+  color: #111827;
 }
 
 body,

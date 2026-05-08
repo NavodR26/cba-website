@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
+import PageHero from '@/components/PageHero'
 import MembersSubNav from '@/components/MembersSubNav'
 import CommodityPillars from '@/components/CommodityPillars'
 import MembershipBenefits from '@/components/MembershipBenefits'
@@ -73,62 +74,15 @@ export default async function MembersPage() {
       <TopBar events={safeEvents} />
       <Navbar />
 
-      {/* HERO */}
-      <section className="cba-hero-mesh relative bg-[var(--maroon)] text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="/hero.png"
-            alt=""
-            className="w-full h-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--maroon)] via-[var(--maroon)]/95 to-[var(--maroon)]/70" />
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_20%,white,transparent_60%)]"
-          />
-        </div>
-        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-20">
-          <Reveal>
-            <span className="cba-glass-panel inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-[0.2em] uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-300" />
-              Leadership &amp; Membership
-            </span>
-          </Reveal>
-          <Reveal delay={120}>
-            <h1 className="mt-6 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-3xl">
-              Office Bearers, Board of Directors
-              <br />
-              &amp; <span className="text-amber-300">Member Firms</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={220}>
-            <p className="mt-4 text-white/85 max-w-2xl text-lg leading-relaxed">
-              Meet the leadership that guides The Colombo Brokers&rsquo;
-              Association and the broker firms that uphold its standards.
-            </p>
-          </Reveal>
-          <nav className="mt-5 text-sm text-white/80">
-            <Link href="/" className="hover:text-white">Home</Link>
-            <span className="mx-2">›</span>
-            <span className="text-white">Members</span>
-          </nav>
-        </div>
-      </section>
-
-      {/* STAT STRIP */}
-      <section className="bg-gray-50 border-b border-gray-100">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-8 grid grid-cols-3 gap-6 text-center">
-          <Reveal>
-            <Stat value={members.length || 0} label="Office Bearers & Directors" />
-          </Reveal>
-          <Reveal delay={100}>
-            <Stat value={brokers.length || 0} label="Member Firms" />
-          </Reveal>
-          <Reveal delay={200}>
-            <Stat value={120} suffix="+" label="Years of Excellence" />
-          </Reveal>
-        </div>
-      </section>
+      <PageHero
+        badge="Members & Directory"
+        title="Committee Members & Broker Directory"
+        description="Meet the leadership committee driving the Association forward and explore our member broking firms across Sri Lanka's commodity auction industries."
+        breadcrumb={[
+          { label: 'Home', href: '/' },
+          { label: 'Members' },
+        ]}
+      />
 
       <MembersSubNav />
 

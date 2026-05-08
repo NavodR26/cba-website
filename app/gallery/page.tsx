@@ -27,28 +27,33 @@ export default async function GalleryPage() {
   }))
 
   return (
-    <main className="cba-page-shell bg-white dark:bg-neutral-950 text-gray-800 dark:text-gray-200">
+    <main className="cba-page-shell bg-white text-gray-900">
       <TopBar events={safeEvents} />
       <Navbar />
 
       {/* HERO */}
-      <section className="cba-hero-mesh relative bg-[var(--maroon)] text-white overflow-hidden">
+      <section className="cba-hero-mesh relative overflow-hidden bg-white text-slate-900">
         <div
           aria-hidden
-          className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_20%,white,transparent_60%)]"
+          className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,rgba(250,204,21,0.18),transparent_40%)]"
         />
         <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-            Gallery
-          </h1>
-          <p className="mt-3 text-white/85">
-            Moments from our events, meetings, CSR activities and ceremonies.
-          </p>
-          <nav className="mt-4 text-sm text-white/80">
-            <Link href="/" className="hover:text-white">Home</Link>
-            <span className="mx-2">›</span>
-            <span className="text-white">Gallery</span>
-          </nav>
+          <div className="max-w-3xl rounded-[2rem] border border-gray-200 bg-white shadow-[0_20px_80px_rgba(122,31,42,0.08)] p-10">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs uppercase tracking-[0.3em] font-semibold">
+              Gallery
+            </span>
+            <h1 className="mt-5 text-4xl md:text-5xl font-bold leading-tight">
+              Captured moments of CBA excellence
+            </h1>
+            <p className="mt-4 text-gray-600 max-w-2xl leading-relaxed">
+              Discover the bright energy, community gatherings and memorable events that shape the Colombo Brokers' Association.
+            </p>
+            <nav className="mt-6 flex flex-wrap gap-2 text-sm text-slate-500">
+              <Link href="/" className="hover:text-slate-900 transition">Home</Link>
+              <span className="mx-2">›</span>
+              <span className="font-semibold text-slate-900">Gallery</span>
+            </nav>
+          </div>
         </div>
       </section>
 

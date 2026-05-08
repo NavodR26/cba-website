@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
+import PageHero from '@/components/PageHero'
 import { client } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
 
@@ -85,30 +86,19 @@ export default async function ResourcesPage() {
   }))
 
   return (
-    <main className="cba-page-shell bg-white dark:bg-neutral-950 text-gray-800 dark:text-gray-200">
+    <main className="cba-page-shell bg-white text-gray-800">
       <TopBar events={safeEvents} />
       <Navbar />
 
-      {/* HERO */}
-      <section className="cba-hero-mesh relative bg-[var(--maroon)] text-white overflow-hidden">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_20%,white,transparent_60%)]"
-        />
-        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight animate-fade-in-scale">
-            Resources &amp; Downloads
-          </h1>
-          <p className="mt-3 text-white/85 max-w-2xl animate-fade-in-scale" style={{ animationDelay: '120ms' }}>
-            Official circulars, downloadable PDFs, and important industry links.
-          </p>
-          <nav className="mt-4 text-sm text-white/80 animate-fade-in-scale" style={{ animationDelay: '240ms' }}>
-            <Link href="/" className="hover:text-white cba-link-grow">Home</Link>
-            <span className="mx-2">›</span>
-            <span className="text-white">Resources</span>
-          </nav>
-        </div>
-      </section>
+      <PageHero
+        badge="Resources & Downloads"
+        title="Resources & Downloads"
+        description="Official circulars, downloadable PDFs, and important industry links."
+        breadcrumb={[
+          { label: 'Home', href: '/' },
+          { label: 'Resources' },
+        ]}
+      />
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1400px] mx-auto grid lg:grid-cols-3 gap-10">

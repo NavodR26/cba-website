@@ -53,16 +53,16 @@ export default function GalleryClient({ albums }: { albums: GalleryDoc[] }) {
 
   if (!albums || albums.length === 0) {
     return (
-      <section className="py-20 px-6 bg-gray-50 dark:bg-neutral-900">
+      <section className="py-20 px-6 bg-white">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-[var(--maroon)]/10 text-[var(--maroon)] flex items-center justify-center">
+          <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-[var(--maroon)]/10 text-[var(--maroon)] flex items-center justify-center shadow-sm">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="3" width="18" height="18" rx="2" />
               <circle cx="9" cy="9" r="2" />
               <path d="M21 15l-5-5L5 21" />
             </svg>
           </div>
-          <p className="text-gray-500 dark:text-gray-400 italic">
+          <p className="text-gray-500 italic">
             No gallery items yet. Photos from upcoming events will appear here.
           </p>
         </div>
@@ -73,7 +73,7 @@ export default function GalleryClient({ albums }: { albums: GalleryDoc[] }) {
   return (
     <>
       {/* FILTERS */}
-      <section className="sticky top-[72px] z-20 bg-white/90 dark:bg-neutral-950/90 backdrop-blur border-b border-gray-100 dark:border-neutral-800">
+      <section className="sticky top-[72px] z-20 bg-white/95 backdrop-blur border-b border-gray-100">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 overflow-x-auto">
           {albumTitles.map((t, i) => (
             <button
@@ -82,7 +82,7 @@ export default function GalleryClient({ albums }: { albums: GalleryDoc[] }) {
               className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-transform duration-300 ${
                 active === t
                   ? 'bg-[var(--maroon)] text-white shadow-lg'
-                  : 'bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-700 hover:-translate-y-0.5'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:-translate-y-0.5'
               } animate-fade-in-scale`}
               style={{ animationDelay: `${i * 50}ms` }}
             >
@@ -92,27 +92,27 @@ export default function GalleryClient({ albums }: { albums: GalleryDoc[] }) {
         </div>
       </section>
 
-      <section className="py-14 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-neutral-900 min-h-[460px]">
+      <section className="py-14 px-4 sm:px-6 lg:px-8 bg-white min-h-[460px]">
         <div className="max-w-[1400px] mx-auto space-y-12">
           {filteredAlbums.map((album) => {
             const startIdx = flatImages.findIndex(
               (f) => f.album._id === album._id
             )
             return (
-              <div key={album._id}>
-                <div className="flex items-end justify-between mb-5">
+              <div key={album._id} className="rounded-[2rem] border border-gray-200 bg-white shadow-sm p-6">
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
                   <div>
-                    <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
                       {album.eventTitle || 'Untitled'}
                     </h2>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    <p className="text-xs text-gray-500 mt-1">
                       {formatDate(album.date)}
                       {album.images?.length
                         ? ` · ${album.images.length} photos`
                         : ''}
                     </p>
                     {album.description && (
-                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 max-w-2xl">
+                      <p className="text-sm text-gray-600 mt-3 max-w-2xl">
                         {album.description}
                       </p>
                     )}
@@ -124,7 +124,7 @@ export default function GalleryClient({ albums }: { albums: GalleryDoc[] }) {
                     <button
                       key={i}
                       onClick={() => setIndex(startIdx + i)}
-                      className="group relative overflow-hidden rounded-xl aspect-square bg-gray-200 dark:bg-neutral-800 shadow-sm hover:-translate-y-1 transition-transform duration-300 animate-fade-in-scale"
+                      className="group relative overflow-hidden rounded-[1.5rem] aspect-square bg-gray-100 shadow-sm hover:-translate-y-1 transition-transform duration-300 animate-fade-in-scale"
                       style={{ animationDelay: `${i * 40}ms` }}
                     >
                       <img
@@ -133,7 +133,7 @@ export default function GalleryClient({ albums }: { albums: GalleryDoc[] }) {
                         alt=""
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
-                      <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 text-[var(--maroon)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow">
+                      <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 text-[var(--maroon)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-sm">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M15 3h6v6" />
                           <path d="M9 21H3v-6" />

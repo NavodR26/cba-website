@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
+import PageHero from '@/components/PageHero'
 import Reveal from '@/components/Reveal'
 import { client } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
@@ -95,47 +96,16 @@ export default async function AboutPage() {
       <TopBar events={safeEvents} />
       <Navbar />
 
-      {/* HERO — premium image-overlay style */}
-      <section className="cba-hero-mesh relative bg-[var(--maroon)] text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="/hero1.png"
-            alt=""
-            className="w-full h-full object-cover opacity-25"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--maroon)] via-[var(--maroon)]/95 to-[var(--maroon)]/70" />
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_20%,white,transparent_60%)]"
-          />
-        </div>
-        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-20 md:py-24">
-          <Reveal>
-            <span className="cba-glass-panel inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-[0.2em] uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse" />
-              About the Association
-            </span>
-          </Reveal>
-          <Reveal delay={120}>
-            <h1 className="mt-6 text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight max-w-3xl animate-fade-in-scale">
-              A century of service to Sri Lanka&rsquo;s
-              <span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent text-gradient ml-2">Auction Trade</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={220}>
-            <p className="mt-5 text-white/85 max-w-2xl text-lg leading-relaxed">
-              Founded in 1904, The Colombo Brokers&rsquo; Association is the
-              apex body representing brokers in the tea, rubber, coconut and
-              spices auction industries of Sri Lanka.
-            </p>
-          </Reveal>
-          <nav className="mt-6 text-sm text-white/80">
-            <Link href="/" className="hover:text-white">Home</Link>
-            <span className="mx-2">›</span>
-            <span className="text-white">About CBA</span>
-          </nav>
-        </div>
-      </section>
+      <PageHero
+        badge="About the Association"
+        title="A century of service to Sri Lanka's"
+        subtitle="Auction Trade"
+        description="Founded in 1904, The Colombo Brokers' Association is the apex body representing brokers in the tea, rubber, coconut and spices auction industries of Sri Lanka."
+        breadcrumb={[
+          { label: 'Home', href: '/' },
+          { label: 'About CBA' },
+        ]}
+      />
 
       {/* INTRO — split with floating stat card */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
