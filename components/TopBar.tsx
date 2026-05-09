@@ -226,9 +226,9 @@ export default function TopBar({ events }: { events: EventLite[] }) {
   const sequence = upcoming.length ? [...upcoming, ...upcoming] : []
 
   return (
-    <div className="relative bg-gradient-to-r from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-white text-xs overflow-hidden group hover-glow transition-all duration-300 z-40">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-white text-xs overflow-hidden group hover-glow transition-all duration-300 shadow-lg">
       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_40%_50%,rgba(255,193,7,0.1),transparent_50%)]"></div>
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex items-stretch min-h-[40px] relative z-10">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center h-10 sm:h-11 relative z-10">
         <div className="flex-1 min-w-0 flex items-center gap-3">
           <span className="hidden md:flex items-center gap-2 shrink-0 pr-3 mr-3 border-r border-white/20 font-semibold uppercase tracking-wider animate-fade-in-scale">
             <span className="w-2 h-2 rounded-full bg-gradient-to-r from-amber-300 to-amber-400 animate-pulse shadow-lg shadow-amber-300/50" />

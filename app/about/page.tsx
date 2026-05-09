@@ -109,54 +109,57 @@ export default async function AboutPage() {
 
       {/* INTRO — split with floating stat card */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-[1400px] mx-auto grid lg:grid-cols-12 gap-12 items-center">
+        <div className="max-w-[1400px] mx-auto grid gap-12 lg:grid-cols-12 items-center">
           <div className="lg:col-span-5 relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl group hover-scale transition-transform duration-500">
+            <div className="relative overflow-hidden rounded-[32px] shadow-[0_30px_90px_rgba(122,31,42,0.12)] group hover:-translate-y-1 transition-transform duration-500">
               <img
                 src="/hero1.png"
                 alt="CBA building"
                 className="w-full h-[460px] object-cover transition duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--maroon)]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--maroon)]/45 to-transparent" />
             </div>
-            {/* Floating stat */}
-            <div className="absolute -bottom-6 -right-4 md:-right-8 bg-white rounded-2xl shadow-xl p-5 md:p-6 ring-1 ring-gray-100 max-w-[200px] animate-fade-in-scale hover-lift transition-transform duration-300">
+
+            <div className="absolute -bottom-6 -right-4 md:-right-8 bg-white rounded-3xl shadow-[0_20px_60px_rgba(15,23,42,0.12)] p-5 md:p-6 ring-1 ring-gray-100 max-w-[220px] animate-fade-in-scale hover:-translate-y-1 transition-transform duration-300">
               <p className="text-4xl md:text-5xl font-bold text-[var(--maroon)] leading-none">
                 120+
               </p>
-              <p className="text-xs uppercase tracking-wider text-gray-500 mt-2">
+              <p className="text-xs uppercase tracking-[0.26em] text-gray-500 mt-2">
                 Years of Excellence
               </p>
             </div>
+
             <div
               aria-hidden
-              className="absolute -top-6 -left-6 w-32 h-32 rounded-2xl bg-[var(--maroon)]/8 -z-10 hidden md:block"
+              className="absolute -top-8 -left-8 w-32 h-32 rounded-full bg-[var(--maroon)]/10 blur-[1px] -z-10 hidden md:block"
             />
           </div>
 
           <div className="lg:col-span-7">
-            <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
-              Who we are
-            </span>
-            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-              The apex body of the auction trade
-            </h2>
-            <p className="mt-5 text-gray-600 leading-relaxed text-lg">
-              Established in 1904, the Colombo Brokers&rsquo; Association (CBA)
-              serves as the apex body representing brokers in the tea, rubber,
-              coconut and spices auctions of Sri Lanka.
-            </p>
-            <p className="mt-4 text-gray-600 leading-relaxed">
-              The Association plays a vital role in upholding transparency,
-              efficiency and global competitiveness of the auction system,
-              while strengthening the wider industry that auctions support.
-            </p>
+            <div className="rounded-[32px] border border-gray-200 bg-white p-8 shadow-sm">
+              <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
+                Who we are
+              </span>
+              <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+                The apex body of the auction trade
+              </h2>
+              <p className="mt-6 text-gray-600 leading-relaxed text-lg">
+                Established in 1904, the Colombo Brokers&rsquo; Association (CBA)
+                serves as the apex body representing brokers in the tea, rubber,
+                coconut and spices auctions of Sri Lanka.
+              </p>
+              <p className="mt-4 text-gray-600 leading-relaxed">
+                The Association plays a vital role in upholding transparency,
+                efficiency and global competitiveness of the auction system,
+                while strengthening the wider industry that auctions support.
+              </p>
 
-            <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-gray-200">
-              <MiniStat value="1904" label="Founded" />
-              <MiniStat value="100+" label="Member Firms" />
-              <MiniStat value="4" label="Commodities" />
-              <MiniStat value="500+" label="Auctions / yr" />
+              <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <MiniStat value="1904" label="Founded" accent />
+                <MiniStat value="100+" label="Member Firms" />
+                <MiniStat value="4" label="Commodities" />
+                <MiniStat value="500+" label="Auctions / yr" />
+              </div>
             </div>
           </div>
         </div>
@@ -414,8 +417,7 @@ export default async function AboutPage() {
               Past Chairmen
             </h2>
             <p className="mt-3 text-gray-500 max-w-xl mx-auto">
-              Honouring the leaders who have shaped the Association across more
-              than a century.
+              A compact, professional record of the Association&rsquo;s leadership.
             </p>
           </div>
 
@@ -424,44 +426,51 @@ export default async function AboutPage() {
               Past chairmen will be listed here soon.
             </p>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {chairmen.map((item: any, i: number) => (
-                <article
-                  key={item._id}
-                  className="group relative bg-gradient-to-b from-white to-gray-50 rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-transform duration-300 overflow-hidden animate-fade-in-scale"
-                  style={{ animationDelay: `${i * 70}ms` }}
-                >
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--maroon)] via-[#a33a48] to-amber-300" />
-                  <div className="p-6">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="inline-block text-xs font-semibold tracking-wider text-[var(--maroon)] bg-[var(--maroon)]/10 px-2.5 py-1 rounded-full">
-                        Chairman
-                      </span>
-                      <span className="text-xs font-bold tracking-[0.2em] uppercase text-gray-500">
-                        {item.year}
-                      </span>
+            <div className="relative">
+              <div className="hidden md:block absolute left-10 top-8 bottom-8 w-px bg-gradient-to-b from-[var(--maroon)] to-amber-300/70" />
+              <div className="space-y-5 md:pl-20">
+                {chairmen.map((item: any, i: number) => (
+                  <article
+                    key={item._id}
+                    className="group relative rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-xl hover:-translate-y-1 duration-300 overflow-hidden animate-fade-in-scale"
+                    style={{ animationDelay: `${i * 60}ms` }}
+                  >
+                    <div className="md:absolute md:-left-5 md:top-6 md:flex md:items-center">
+                      <div className="hidden md:block w-3 h-3 rounded-full bg-[var(--maroon)] ring-8 ring-white shadow-lg" />
                     </div>
-                    <h3 className="mt-4 text-lg font-semibold text-gray-900">
-                      {item.chairmanName}
-                    </h3>
-                    {item.company && (
-                      <p className="mt-1 text-sm text-gray-500">
-                        {item.company}
-                      </p>
-                    )}
-                    {item.deputyChairman && (
-                      <div className="mt-4 pt-4 border-t border-gray-100">
-                        <p className="text-xs uppercase tracking-wider text-gray-400">
-                          Deputy Chairman
-                        </p>
-                        <p className="text-sm text-gray-700 mt-0.5">
-                          {item.deputyChairman}
-                        </p>
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <span className="inline-flex items-center rounded-full bg-[var(--maroon)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[var(--maroon)]">
+                            Chairman
+                          </span>
+                          <span className="text-xs font-bold uppercase tracking-[0.24em] text-gray-500">
+                            {item.year}
+                          </span>
+                        </div>
+                        <h3 className="mt-4 text-xl font-semibold text-gray-900">
+                          {item.chairmanName}
+                        </h3>
+                        {item.company && (
+                          <p className="mt-1 text-sm text-gray-500">
+                            {item.company}
+                          </p>
+                        )}
                       </div>
-                    )}
-                  </div>
-                </article>
-              ))}
+                      {item.deputyChairman && (
+                        <div className="rounded-3xl bg-gray-50 border border-gray-200 p-4 text-sm text-gray-700">
+                          <p className="text-xs uppercase tracking-[0.24em] text-gray-400">
+                            Deputy Chairman
+                          </p>
+                          <p className="mt-2 font-semibold text-gray-900">
+                            {item.deputyChairman}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -505,11 +514,13 @@ export default async function AboutPage() {
   )
 }
 
-function MiniStat({ value, label }: { value: string; label: string }) {
+function MiniStat({ value, label, accent }: { value: string; label: string; accent?: boolean }) {
   return (
-    <div className="animate-fade-in-scale hover-lift transition-transform duration-300">
-      <p className="text-2xl font-bold text-[var(--maroon)]">{value}</p>
-      <p className="text-xs uppercase tracking-wider text-gray-500 mt-1">
+    <div className={`rounded-3xl border ${accent ? 'border-[var(--maroon)]/15 bg-[var(--maroon)]/5' : 'border-gray-200 bg-gray-50'} p-5 transition hover:-translate-y-1 hover:shadow-lg duration-300 animate-fade-in-scale`}>
+      <p className={`text-3xl md:text-4xl font-bold ${accent ? 'text-[var(--maroon)]' : 'text-gray-900'}`}>
+        {value}
+      </p>
+      <p className="text-xs uppercase tracking-[0.26em] text-gray-500 mt-2">
         {label}
       </p>
     </div>

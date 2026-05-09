@@ -25,7 +25,7 @@ export default async function Home() {
   return (
     <main className="cba-page-shell bg-white text-gray-800">
       <TopBar events={safeEvents} />
-      <Navbar />
+      <Navbar topbarHeight={44} />
 
       {/* HERO */}
       <section className="cba-hero-mesh relative h-[88vh] min-h-[560px] flex items-center overflow-hidden">

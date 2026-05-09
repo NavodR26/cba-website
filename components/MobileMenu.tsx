@@ -293,9 +293,16 @@ const NAV = [
   { href: '/contact', label: 'Contact' },
 ]
 
-export default function MobileMenu() {
+type MobileMenuProps = {
+  topbarHeight?: number
+}
+
+const MOBILE_NAV_HEIGHT = 72
+
+export default function MobileMenu({ topbarHeight = 0 }: MobileMenuProps) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const menuTop = topbarHeight + MOBILE_NAV_HEIGHT
 
   // Close on route change
   useEffect(() => {
@@ -344,16 +351,20 @@ export default function MobileMenu() {
           {/* Backdrop with blur */}
           <div
             onClick={() => setOpen(false)}
-            className="fixed inset-0 top-[72px] z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+            className="fixed inset-x-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
             style={{
+              top: `${menuTop}px`,
+              bottom: 0,
               animation: 'fadeIn 0.25s ease-out',
             }}
           />
 
           {/* Drawer Menu */}
           <aside
-            className="fixed right-0 top-[72px] z-40 h-[calc(100vh-72px)] w-full max-w-sm bg-white shadow-2xl flex flex-col overflow-hidden"
+            className="fixed right-0 z-40 w-full max-w-sm bg-white shadow-2xl flex flex-col overflow-hidden"
             style={{
+              top: `${menuTop}px`,
+              height: `calc(100vh - ${menuTop}px)`,
               animation: 'slideInRight 0.3s cubic-bezier(0.32, 0.72, 0.3, 1)',
             }}
           >
