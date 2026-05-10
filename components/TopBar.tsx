@@ -233,11 +233,12 @@ export default function TopBar({ events }: { events: EventLite[] }) {
     async function fetchExchangeRate() {
       try {
         const response = await fetch(
-          'https://api.exchangerate.host/latest?base=USD&symbols=LKR',
+          'https://open.er-api.com/v6/latest/USD',
           { cache: 'no-store' }
         )
         if (!response.ok) return
         const data = await response.json()
+        if (data?.result !== 'success') return
         const rate = Number(data?.rates?.LKR)
         if (isMounted && Number.isFinite(rate)) {
           setExchangeRate(rate)
