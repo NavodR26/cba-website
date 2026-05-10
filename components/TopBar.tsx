@@ -213,6 +213,8 @@ function ColomboClock() {
 
 export default function TopBar({ events }: { events: EventLite[] }) {
   const today = new Date()
+  const [exchangeRate, setExchangeRate] = useState<number | null>(null)
+  const [rateTime, setRateTime] = useState<string>('')
 
   const upcoming = (events || [])
     .filter((e) => e?.start_date && new Date(e.start_date) >= today)
@@ -224,6 +226,40 @@ export default function TopBar({ events }: { events: EventLite[] }) {
     .slice(0, 6)
 
   const sequence = upcoming.length ? [...upcoming, ...upcoming] : []
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function fetchExchangeRate() {
+      try {
+        const response = await fetch(
+          'https://api.exchangerate.host/latest?base=USD&symbols=LKR',
+          { cache: 'no-store' }
+        )
+        if (!response.ok) return
+        const data = await response.json()
+        const rate = Number(data?.rates?.LKR)
+        if (isMounted && Number.isFinite(rate)) {
+          setExchangeRate(rate)
+          setRateTime(
+            new Date().toLocaleTimeString('en-GB', {
+              hour: '2-digit',
+              minute: '2-digit',
+            })
+          )
+        }
+      } catch (error) {
+        console.error('Unable to load USD/LKR rate', error)
+      }
+    }
+
+    fetchExchangeRate()
+    const intervalId = window.setInterval(fetchExchangeRate, 60 * 1000)
+    return () => {
+      isMounted = false
+      window.clearInterval(intervalId)
+    }
+  }, [])
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-white text-xs overflow-hidden group hover-glow transition-all duration-300 shadow-lg">
@@ -262,8 +298,17 @@ export default function TopBar({ events }: { events: EventLite[] }) {
           )}
         </div>
 
-        <div className="flex items-center pl-3 sm:pl-4 sm:ml-4 sm:border-l sm:border-white/20 shrink-0">
+        <div className="flex items-center pl-3 sm:pl-4 sm:ml-4 sm:border-l sm:border-white/20 shrink-0 gap-4">
           <ColomboClock />
+
+          <div className="text-right flex flex-col text-xs text-white/90 whitespace-nowrap">
+            <span className="font-semibold tracking-wide text-white">
+              USD/LKR {exchangeRate ? exchangeRate.toFixed(2) : '...'}
+            </span>
+            <span className="opacity-70">
+              {exchangeRate ? `updated ${rateTime}` : 'loading rate'}
+            </span>
+          </div>
         </div>
       </div>
     </div>
