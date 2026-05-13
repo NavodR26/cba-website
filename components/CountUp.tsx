@@ -31,17 +31,36 @@ export default function CountUp({
   useEffect(() => {
     if (!ref.current || started) return
     const node = ref.current
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setStarted(true)
+      return
+    }
+
+    const fallbackId = window.setTimeout(() => setStarted(true), 1200)
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          window.clearTimeout(fallbackId)
           setStarted(true)
           observer.disconnect()
         }
       },
-      { threshold: 0.35 }
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.12 }
     )
+
     observer.observe(node)
-    return () => observer.disconnect()
+    const rect = node.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      window.clearTimeout(fallbackId)
+      setStarted(true)
+      observer.disconnect()
+    }
+
+    return () => {
+      window.clearTimeout(fallbackId)
+      observer.disconnect()
+    }
   }, [started])
 
   useEffect(() => {

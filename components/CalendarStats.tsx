@@ -44,14 +44,14 @@ export default function CalendarStats({ events }: { events: Event[] }) {
   return (
     <section className="px-4 sm:px-6 lg:px-8 -mt-12 relative z-20 animate-fade-in-scale">
       <div className="max-w-[1400px] mx-auto bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden hover-glow transition-all duration-300">
-        <div className="px-6 py-5 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3">
+        <div className="px-5 py-5 border-b border-gray-100 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div>
             <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold">
               This Month
             </p>
             <p className="text-xl font-bold text-gray-900">{monthLabel}</p>
           </div>
-          <div className="text-right">
+          <div className="text-left sm:text-right">
             <p className="text-3xl font-bold text-[var(--maroon)] leading-none animate-fade-in-scale">{total}</p>
             <p className="text-xs text-gray-500 mt-1">
               Scheduled {total === 1 ? 'event' : 'events'}

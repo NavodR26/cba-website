@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
@@ -93,14 +92,14 @@ export default async function ResourcesPage() {
       <PageHero
         badge="Resources & Downloads"
         title="Resources & Downloads"
-        description="Official circulars, downloadable PDFs, and important industry links."
+        description="Official circulars, downloadable reports, and merchandise trade statistics in a compact institutional format."
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Resources' },
         ]}
       />
 
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1400px] mx-auto grid lg:grid-cols-3 gap-10">
           {/* DOWNLOADS */}
           <div className="lg:col-span-2">

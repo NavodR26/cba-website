@@ -80,10 +80,12 @@ export default function CommodityPillars() {
           <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
             Industries Served
           </span>
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
-            Four pillars of Sri Lanka&rsquo;s auction trade
+          <h2 className="mx-auto mt-3 max-w-[calc(100vw-2rem)] text-xl min-[420px]:text-2xl sm:max-w-3xl sm:text-3xl md:text-4xl font-bold text-gray-900">
+            <span>Four pillars of Sri Lanka&rsquo;s</span>
+            <br />
+            <span>auction trade</span>
           </h2>
-          <p className="mt-3 text-gray-500 max-w-2xl mx-auto">
+          <p className="mt-3 text-gray-500 max-w-[calc(100vw-2rem)] sm:max-w-2xl mx-auto">
             Our member firms operate across all four commodities the Association
             has championed for over a century.
           </p>

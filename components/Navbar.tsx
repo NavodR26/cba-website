@@ -210,7 +210,7 @@ type NavbarProps = {
   topbarHeight?: number
 }
 
-export default function Navbar({ topbarHeight = 0 }: NavbarProps) {
+export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
   const pathname = usePathname()
   const [hoverIdx, setHoverIdx] = useState<number | null>(null)
   const totalHeaderHeight = topbarHeight + NAV_HEIGHT
@@ -224,7 +224,7 @@ export default function Navbar({ topbarHeight = 0 }: NavbarProps) {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-3 flex justify-between items-center gap-4 animate-fade-in-scale">
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-3 shrink-0 group hover-scale transition-all duration-300">
-            <div className="relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 p-1 rounded-3xl bg-gradient-to-br from-[var(--maroon)]/15 to-amber-100/15 shadow-[0_18px_40px_rgba(122,31,42,0.12)] group-hover:scale-105 transition-transform duration-500">
+            <div className="relative w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 p-1 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[var(--maroon)]/15 to-amber-100/15 shadow-[0_18px_40px_rgba(122,31,42,0.12)] group-hover:scale-105 transition-transform duration-500">
               <Image
                 src="/logo.png"
                 alt="Colombo Brokers' Association"
@@ -235,12 +235,12 @@ export default function Navbar({ topbarHeight = 0 }: NavbarProps) {
               />
               <div className="pointer-events-none absolute inset-0 rounded-3xl border border-white/20" />
             </div>
-            <div className="leading-none">
-              <p className="font-semibold text-[var(--maroon)] text-2xl sm:text-3xl md:text-4xl tracking-[0.04em] transition-all duration-300 group-hover:text-amber-400">
+            <div className="leading-tight">
+              <p className="font-semibold text-[var(--maroon)] text-xl sm:text-2xl md:text-3xl tracking-[0.04em] transition-all duration-300 group-hover:text-amber-400">
                 CBA
               </p>
-              <p className="mt-1 text-xs sm:text-sm md:text-base text-gray-600 leading-snug transition-colors duration-300 group-hover:text-[var(--maroon)]/90">
-                Colombo Brokers' Association
+              <p className="hidden min-[380px]:block text-[9px] sm:text-[11px] md:text-xs text-gray-600 uppercase tracking-[0.12em] sm:tracking-[0.16em] transition-colors duration-300 group-hover:text-[var(--maroon)]/90">
+                Colombo Brokers&apos; Association
               </p>
             </div>
           </Link>

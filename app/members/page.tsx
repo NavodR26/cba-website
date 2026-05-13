@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
@@ -8,7 +7,6 @@ import CommodityPillars from '@/components/CommodityPillars'
 import MembershipBenefits from '@/components/MembershipBenefits'
 import BrokersDirectoryClient from '@/components/BrokersDirectoryClient'
 import Reveal from '@/components/Reveal'
-import CountUp from '@/components/CountUp'
 import { client, urlFor } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
 
@@ -17,8 +15,43 @@ async function getCommittee() {
 }
 async function getBrokers() {
   return await client.fetch(
-    `*[_type == "broker"] | order(companyName asc)`
+    `*[_type == "broker"]`
   )
+}
+
+const BROKER_ORDER = [
+  'John Keells PLC',
+  'Forbes & Walker Tea Brokers (Pvt) Ltd',
+  'Bartleet Produce Marketing (Pvt) Ltd',
+  'Ceylon Tea Brokers PLC',
+  'Eastern Brokers Ltd',
+  'Mercantile Produce Brokers (Pvt) Ltd',
+  'Asia Siyaka Commodities PLC',
+  'Lanka Commodity Brokers Ltd',
+]
+
+function normalizeCompanyName(name?: string) {
+  return (name || '')
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/\b(limited|ltd)\b/g, 'ltd')
+    .replace(/\b(private|pvt)\b/g, 'pvt')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+}
+
+function sortBrokers(arr: any[]) {
+  const rank = new Map(BROKER_ORDER.map((name, index) => [normalizeCompanyName(name), index]))
+
+  return [...arr].sort((a, b) => {
+    const aName = normalizeCompanyName(a.companyName)
+    const bName = normalizeCompanyName(b.companyName)
+    const aRank = rank.has(aName) ? rank.get(aName)! : 999
+    const bRank = rank.has(bName) ? rank.get(bName)! : 999
+
+    if (aRank !== bRank) return aRank - bRank
+    return (a.companyName || '').localeCompare(b.companyName || '')
+  })
 }
 
 // Office-bearer rank (lower = higher seniority).
@@ -56,11 +89,12 @@ function sortCommittee(arr: any[]) {
 }
 
 export default async function MembersPage() {
-  const [members, brokers, events] = await Promise.all([
+  const [members, brokerRows, events] = await Promise.all([
     getCommittee(),
     getBrokers(),
     getEvents(),
   ])
+  const brokers = sortBrokers(brokerRows)
   const safeEvents = events.map((e: any) => ({
     title: e.title,
     start_date: e.start_date ? new Date(e.start_date).toISOString() : null,
@@ -76,7 +110,8 @@ export default async function MembersPage() {
 
       <PageHero
         badge="Members & Directory"
-        title="Committee Members & Broker Directory"
+        title="Committee Members"
+        subtitle="Broker Directory"
         description="Meet the leadership committee driving the Association forward and explore our member broking firms across Sri Lanka's commodity auction industries."
         breadcrumb={[
           { label: 'Home', href: '/' },
@@ -203,27 +238,6 @@ export default async function MembersPage() {
 
       <Footer />
     </main>
-  )
-}
-
-function Stat({
-  value,
-  suffix = '',
-  label,
-}: {
-  value: number
-  suffix?: string
-  label: string
-}) {
-  return (
-    <div>
-      <p className="text-3xl md:text-5xl font-bold text-[var(--maroon)] leading-none">
-        <CountUp end={value} suffix={suffix} />
-      </p>
-      <p className="text-xs uppercase tracking-wider text-gray-500 mt-2">
-        {label}
-      </p>
-    </div>
   )
 }
 

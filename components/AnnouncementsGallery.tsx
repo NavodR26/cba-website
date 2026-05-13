@@ -147,17 +147,17 @@ export default async function AnnouncementsGallery() {
           {gallery?.images?.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {gallery.images.slice(0, 4).map((img: any, i: number) => (
-                <div
+                <figure
                   key={i}
-                  className="relative overflow-hidden rounded-xl aspect-[4/3] group"
+                  className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50 aspect-[4/3] group"
                 >
                   <img
-                    src={urlFor(img).width(600).url()}
-                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                    src={urlFor(img).width(800).url()}
+                    className="w-full h-full object-contain transition duration-500 group-hover:scale-[1.02]"
                     alt=""
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition" />
-                </div>
+                  <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/5" />
+                </figure>
               ))}
             </div>
           ) : (

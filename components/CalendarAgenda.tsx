@@ -185,24 +185,24 @@ export default function CalendarAgenda({ events }: { events: Event[] }) {
                 return (
                   <li
                     key={i}
-                    className="flex items-center gap-5 p-4 hover:bg-gray-50 transition"
+                    className="flex flex-col gap-4 p-4 hover:bg-gray-50 transition sm:flex-row sm:items-center sm:gap-5"
                   >
                     {/* date */}
-                    <div className="shrink-0 w-16 text-center">
+                    <div className="flex w-full shrink-0 items-center gap-3 sm:block sm:w-16 sm:text-center">
                       <p className="text-2xl font-bold text-gray-900 leading-none">
                         {day}
                       </p>
-                      <p className="text-[10px] tracking-widest text-gray-500 mt-1 font-bold">
+                      <p className="text-[10px] tracking-widest text-gray-500 font-bold sm:mt-1">
                         {month}
                       </p>
-                      <p className="text-[10px] text-gray-400 mt-0.5">
+                      <p className="text-[10px] text-gray-400 sm:mt-0.5">
                         {weekday.slice(0, 3)}
                       </p>
                     </div>
 
                     {/* color rail */}
                     <span
-                      className="self-stretch w-1 rounded-full"
+                      className="hidden self-stretch w-1 rounded-full sm:block"
                       style={{ background: color }}
                     />
 

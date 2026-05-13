@@ -47,13 +47,6 @@ function isSameDay(a: Date, b: Date) {
     a.getDate() === b.getDate()
   )
 }
-function inRange(day: Date, start: Date, end: Date | null) {
-  const d = day.setHours(0, 0, 0, 0)
-  const s = new Date(start).setHours(0, 0, 0, 0)
-  const e = end ? new Date(end).setHours(0, 0, 0, 0) : s
-  return d >= s && d <= e
-}
-
 function formatLong(d: any) {
   if (!d) return ''
   const date = d instanceof Date ? d : new Date(d)
@@ -158,20 +151,16 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
     })
   }
 
-  function matchesEnabled(e: EventType) {
-    const text = `${e.title || ''} ${e.category || ''} ${e.type || ''}`.toLowerCase()
-    for (const k of enabled) {
-      if (text.includes(k.toLowerCase())) return true
-    }
-    // Fallback: if event has no recognizable category, show it when ALL filters on
-    if (enabled.size === ALL_CATEGORIES.length) return true
-    return false
-  }
-
-  const visibleEvents = useMemo(
-    () => events.filter(matchesEnabled),
-    [events, enabled]
-  )
+  const visibleEvents = useMemo(() => {
+    const activeCategories = Array.from(enabled)
+    return events.filter((e) => {
+      const text = `${e.title || ''} ${e.category || ''} ${e.type || ''}`.toLowerCase()
+      for (const k of activeCategories) {
+        if (text.includes(k.toLowerCase())) return true
+      }
+      return activeCategories.length === ALL_CATEGORIES.length
+    })
+  }, [events, enabled])
 
   // Build a 6-week grid (Mon-first)
   const grid = useMemo(() => {
@@ -214,7 +203,7 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
       }
     }
     return map
-  }, [events])
+  }, [visibleEvents])
 
   const filterChips = [
     { label: 'Tea', color: CATEGORY_COLORS.Tea.bg },
@@ -228,8 +217,8 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
   return (
     <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-sm border border-gray-200 dark:border-neutral-800 overflow-hidden">
       {/* HEADER */}
-      <div className="px-5 md:px-7 py-5 flex flex-wrap items-center gap-4 justify-between border-b border-gray-100 dark:border-neutral-800">
-        <div className="flex items-center gap-3">
+      <div className="px-4 py-5 flex flex-col gap-4 border-b border-gray-100 dark:border-neutral-800 md:px-7 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex w-full items-center gap-2 sm:gap-3 lg:w-auto">
           <button
             aria-label="Previous month"
             onClick={() => setCursor(addMonths(cursor, -1))}
@@ -237,7 +226,7 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
           >
             ‹
           </button>
-          <h3 className="text-xl md:text-2xl font-bold text-[var(--maroon)] dark:text-amber-300 min-w-[180px] text-center">
+          <h3 className="min-w-0 flex-1 text-center text-lg font-bold text-[var(--maroon)] dark:text-amber-300 sm:text-xl md:text-2xl lg:min-w-[180px]">
             {monthLabel}
           </h3>
           <button
@@ -249,7 +238,7 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
           </button>
           <button
             onClick={() => setCursor(startOfMonth(new Date()))}
-            className="ml-2 px-3.5 py-1.5 text-xs font-semibold rounded-full border border-gray-200 dark:border-neutral-700 text-gray-700 dark:text-gray-300 hover:border-[var(--maroon)] hover:text-[var(--maroon)] dark:hover:text-amber-300 transition"
+            className="ml-1 hidden px-3 py-1.5 text-xs font-semibold rounded-full border border-gray-200 dark:border-neutral-700 text-gray-700 dark:text-gray-300 hover:border-[var(--maroon)] hover:text-[var(--maroon)] dark:hover:text-amber-300 transition sm:ml-2 sm:inline-flex sm:px-3.5"
           >
             Today
           </button>
@@ -294,64 +283,66 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
       </div>
 
       {/* GRID */}
-      <div className="grid grid-cols-7">
-        {grid.map((day, i) => {
-          const inMonth = day.getMonth() === cursor.getMonth()
-          const isToday = isSameDay(day, today)
-          const dayEvents = eventsByDay.get(day.toDateString()) || []
-          const visible = dayEvents.slice(0, 3)
-          const more = dayEvents.length - visible.length
+      <div className="overflow-hidden">
+        <div className="grid grid-cols-7">
+          {grid.map((day, i) => {
+            const inMonth = day.getMonth() === cursor.getMonth()
+            const isToday = isSameDay(day, today)
+            const dayEvents = eventsByDay.get(day.toDateString()) || []
+            const visible = dayEvents.slice(0, 3)
+            const more = dayEvents.length - visible.length
 
-          return (
-            <div
-              key={i}
-              className={`relative min-h-[110px] md:min-h-[120px] p-2 border-r border-b border-gray-100 dark:border-neutral-800 ${
-                inMonth
-                  ? 'bg-white dark:bg-neutral-900'
-                  : 'bg-gray-50/60 dark:bg-neutral-800/40'
-              } ${(i + 1) % 7 === 0 ? 'border-r-0' : ''}`}
-            >
-              <div className="flex items-center justify-between">
-                <span
-                  className={`inline-flex items-center justify-center text-xs font-semibold ${
-                    isToday
-                      ? 'w-6 h-6 rounded-full bg-[var(--maroon)] text-white'
-                      : inMonth
-                      ? 'text-gray-700 dark:text-gray-300'
-                      : 'text-gray-300 dark:text-gray-600'
-                  }`}
-                >
-                  {day.getDate()}
-                </span>
-              </div>
-
-              <div className="mt-1.5 space-y-1">
-                {visible.map((e, idx) => {
-                  const c = colorFor(e.title, e.category, e.type)
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => setSelected(e)}
-                      className="w-full text-left truncate rounded px-1.5 py-0.5 text-[10.5px] font-medium hover:opacity-90 transition"
-                      style={{ background: c.bg, color: c.text }}
-                      title={e.title}
-                    >
-                      {e.sale_no ? `${e.title} · S${e.sale_no}` : e.title}
-                    </button>
-                  )
-                })}
-                {more > 0 && (
-                  <button
-                    onClick={() => setSelected(dayEvents[0])}
-                    className="text-[10.5px] font-semibold text-[var(--maroon)] hover:underline"
+            return (
+              <div
+                key={i}
+                className={`relative min-h-[86px] p-1.5 border-r border-b border-gray-100 dark:border-neutral-800 sm:min-h-[110px] sm:p-2 md:min-h-[120px] ${
+                  inMonth
+                    ? 'bg-white dark:bg-neutral-900'
+                    : 'bg-gray-50/60 dark:bg-neutral-800/40'
+                } ${(i + 1) % 7 === 0 ? 'border-r-0' : ''}`}
+              >
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`inline-flex items-center justify-center text-xs font-semibold ${
+                      isToday
+                        ? 'w-6 h-6 rounded-full bg-[var(--maroon)] text-white'
+                        : inMonth
+                        ? 'text-gray-700 dark:text-gray-300'
+                        : 'text-gray-300 dark:text-gray-600'
+                    }`}
                   >
-                    +{more} more
-                  </button>
-                )}
+                    {day.getDate()}
+                  </span>
+                </div>
+
+                <div className="mt-1.5 space-y-1">
+                  {visible.map((e, idx) => {
+                    const c = colorFor(e.title, e.category, e.type)
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => setSelected(e)}
+                        className="w-full text-left truncate rounded px-1 py-0.5 text-[9px] font-medium hover:opacity-90 transition sm:px-1.5 sm:text-[10.5px]"
+                        style={{ background: c.bg, color: c.text }}
+                        title={e.title}
+                      >
+                        {e.sale_no ? `${e.title} · S${e.sale_no}` : e.title}
+                      </button>
+                    )
+                  })}
+                  {more > 0 && (
+                    <button
+                      onClick={() => setSelected(dayEvents[0])}
+                      className="text-[9px] font-semibold text-[var(--maroon)] hover:underline sm:text-[10.5px]"
+                    >
+                      +{more} more
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
 
       {/* MODAL */}

@@ -1,11 +1,45 @@
 import { client, urlFor } from '@/lib/sanity'
 
+const BROKER_ORDER = [
+  'John Keells PLC',
+  'Forbes & Walker Tea Brokers (Pvt) Ltd',
+  'Bartleet Produce Marketing (Pvt) Ltd',
+  'Ceylon Tea Brokers PLC',
+  'Eastern Brokers Ltd',
+  'Mercantile Produce Brokers (Pvt) Ltd',
+  'Asia Siyaka Commodities PLC',
+  'Lanka Commodity Brokers Ltd',
+]
+
+function normalizeCompanyName(name?: string) {
+  return (name || '')
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/\b(limited|ltd)\b/g, 'ltd')
+    .replace(/\b(private|pvt)\b/g, 'pvt')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+}
+
+function sortBrokers(arr: any[]) {
+  const rank = new Map(BROKER_ORDER.map((name, index) => [normalizeCompanyName(name), index]))
+  return [...arr].sort((a, b) => {
+    const aName = normalizeCompanyName(a.companyName)
+    const bName = normalizeCompanyName(b.companyName)
+    const aRank = rank.has(aName) ? rank.get(aName)! : 999
+    const bRank = rank.has(bName) ? rank.get(bName)! : 999
+
+    if (aRank !== bRank) return aRank - bRank
+    return (a.companyName || '').localeCompare(b.companyName || '')
+  })
+}
+
 async function getBrokers() {
   return await client.fetch(`*[_type == "broker"]`)
 }
 
 export default async function Brokers() {
-  const brokers = await getBrokers()
+  const brokers = sortBrokers(await getBrokers())
 
   return (
     <section className="py-12 px-6 bg-white">

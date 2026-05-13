@@ -214,7 +214,8 @@ function ColomboClock() {
 export default function TopBar({ events }: { events: EventLite[] }) {
   const today = new Date()
   const [exchangeRate, setExchangeRate] = useState<number | null>(null)
-  const [rateTime, setRateTime] = useState<string>('')
+  const [rateUpdatedAt, setRateUpdatedAt] = useState<number | null>(null)
+  const [rateLabel, setRateLabel] = useState<string>('loading rate')
 
   const upcoming = (events || [])
     .filter((e) => e?.start_date && new Date(e.start_date) >= today)
@@ -227,30 +228,43 @@ export default function TopBar({ events }: { events: EventLite[] }) {
 
   const sequence = upcoming.length ? [...upcoming, ...upcoming] : []
 
+  function formatRelativeTime(timestamp: number | null) {
+    if (!timestamp) return 'loading rate'
+    const diff = Date.now() - timestamp
+    if (diff < 5000) return 'just now'
+    if (diff < 60 * 1000) return `${Math.round(diff / 1000)}s ago`
+    if (diff < 60 * 60 * 1000) return `${Math.round(diff / (60 * 1000))}m ago`
+    return `${Math.round(diff / (60 * 60 * 1000))}h ago`
+  }
+
   useEffect(() => {
     let isMounted = true
 
     async function fetchExchangeRate() {
-      try {
-        const response = await fetch(
-          'https://open.er-api.com/v6/latest/USD',
-          { cache: 'no-store' }
-        )
-        if (!response.ok) return
-        const data = await response.json()
-        if (data?.result !== 'success') return
-        const rate = Number(data?.rates?.LKR)
-        if (isMounted && Number.isFinite(rate)) {
-          setExchangeRate(rate)
-          setRateTime(
-            new Date().toLocaleTimeString('en-GB', {
-              hour: '2-digit',
-              minute: '2-digit',
-            })
-          )
+      const endpoints = ['/api/exchange-rate']
+
+      for (const url of endpoints) {
+        try {
+          const response = await fetch(url, { cache: 'no-store' })
+          if (!response.ok) continue
+
+          const data = await response.json()
+          const rate = Number(data?.rate ?? data?.rates?.LKR)
+
+          if (!Number.isFinite(rate)) continue
+
+          if (isMounted) {
+            setExchangeRate(rate)
+            setRateUpdatedAt(Date.now())
+          }
+          return
+        } catch (error) {
+          console.error('Unable to load USD/LKR rate from', url, error)
         }
-      } catch (error) {
-        console.error('Unable to load USD/LKR rate', error)
+      }
+
+      if (isMounted) {
+        setRateLabel('temporarily unavailable')
       }
     }
 
@@ -262,10 +276,22 @@ export default function TopBar({ events }: { events: EventLite[] }) {
     }
   }, [])
 
+  useEffect(() => {
+    if (exchangeRate === null) return
+    if (!rateUpdatedAt) return
+
+    setRateLabel(formatRelativeTime(rateUpdatedAt))
+    const tick = window.setInterval(() => {
+      setRateLabel(formatRelativeTime(rateUpdatedAt))
+    }, 15 * 1000)
+
+    return () => window.clearInterval(tick)
+  }, [exchangeRate, rateUpdatedAt])
+
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-white text-xs overflow-hidden group hover-glow transition-all duration-300 shadow-lg">
+    <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-white text-xs overflow-hidden group transition-all duration-300 shadow-lg">
       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_40%_50%,rgba(255,193,7,0.1),transparent_50%)]"></div>
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center h-10 sm:h-11 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center h-11 relative z-10">
         <div className="flex-1 min-w-0 flex items-center gap-3">
           <span className="hidden md:flex items-center gap-2 shrink-0 pr-3 mr-3 border-r border-white/20 font-semibold uppercase tracking-wider animate-fade-in-scale">
             <span className="w-2 h-2 rounded-full bg-gradient-to-r from-amber-300 to-amber-400 animate-pulse shadow-lg shadow-amber-300/50" />
@@ -277,7 +303,7 @@ export default function TopBar({ events }: { events: EventLite[] }) {
               Welcome to the Colombo Brokers&rsquo; Association
             </span>
           ) : (
-            <div className="overflow-hidden flex-1">
+            <div className="min-w-0 overflow-hidden flex-1">
               <div className="ticker-track flex whitespace-nowrap py-3">
                 {sequence.map((e, i) => (
                   <span key={i} className="flex items-center gap-2 mx-6 group/item hover:opacity-100 transition-opacity duration-300">
@@ -297,17 +323,22 @@ export default function TopBar({ events }: { events: EventLite[] }) {
               </div>
             </div>
           )}
+          {sequence.length > 0 && (
+            <span className="min-w-0 truncate py-2.5 font-medium text-white/85 sm:hidden">
+              Auction updates
+            </span>
+          )}
         </div>
 
-        <div className="flex items-center pl-3 sm:pl-4 sm:ml-4 sm:border-l sm:border-white/20 shrink-0 gap-4">
+        <div className="flex items-center pl-3 sm:pl-4 sm:ml-4 sm:border-l sm:border-white/20 shrink-0 gap-3 sm:gap-4">
           <ColomboClock />
 
-          <div className="text-right flex flex-col text-xs text-white/90 whitespace-nowrap">
-            <span className="font-semibold tracking-wide text-white">
-              USD/LKR {exchangeRate ? exchangeRate.toFixed(2) : '...'}
+          <div className="text-right flex-col text-xs text-white/90 whitespace-nowrap">
+            <span className="font-semibold text-white">
+              USD/LKR {exchangeRate !== null ? exchangeRate.toFixed(2) : '--'}
             </span>
-            <span className="opacity-70">
-              {exchangeRate ? `updated ${rateTime}` : 'loading rate'}
+            <span className="opacity-70 text-[10px] leading-snug mt-0.5 block">
+              {exchangeRate !== null ? rateLabel || 'just now' : rateLabel}
             </span>
           </div>
         </div>

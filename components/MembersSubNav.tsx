@@ -6,7 +6,7 @@ const SECTIONS = [
   { id: 'pillars', label: 'Industries' },
   { id: 'committee', label: 'Leadership' },
   { id: 'benefits', label: 'Membership' },
-  { id: 'brokers', label: 'Member Firms' },
+  { id: 'brokers', label: 'Firms' },
 ]
 
 export default function MembersSubNav() {
