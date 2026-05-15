@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 const QUICK = [
   { href: '/', label: 'Home' },
@@ -49,10 +52,34 @@ function SocialIcon({ kind }: { kind: 'fb' | 'in' | 'yt' | 'mail' }) {
 }
 
 export default function Footer() {
+  const colVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: (i: number) => ({
+      opacity: 1, y: 0,
+      transition: {
+        delay: i * 0.12,
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1] as any,
+      },
+    }),
+  };
+
+  const logoVariants = {
+    hidden: { scale: 0.88 },
+    visible: {
+      scale: 1,
+      transition: {
+        delay: 0.2,
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1] as any,
+      },
+    },
+  };
+
   return (
-    <footer className="bg-[#1a0a0c] text-gray-300 relative overflow-hidden">
+    <footer className="bg-gradient-to-br from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-gray-300 relative overflow-hidden">
       {/* Top accent line with animation */}
-      <div className="h-1 bg-gradient-to-r from-[var(--maroon)] via-amber-500 to-[var(--maroon)] animate-shimmer" />
+      <div className="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 animate-shimmer" />
 
       {/* Animated background elements */}
       <div className="absolute inset-0">
@@ -62,33 +89,44 @@ export default function Footer() {
 
       <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-14 grid lg:grid-cols-12 gap-10">
         {/* BRAND */}
-        <div className="lg:col-span-4 animate-fade-in-scale">
-          <div className="flex items-center gap-3 mb-5 group">
-            <div className="relative w-14 h-14 shrink-0 bg-white rounded-full p-1 hover-scale">
+        <motion.div
+          custom={0}
+          variants={colVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="lg:col-span-4"
+        >
+          <motion.div
+            variants={logoVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="flex items-center gap-4 mb-5 group"
+          >
+            <div className="relative w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-2xl bg-white/10 border border-white/10 p-1.5 hover-scale">
               <Image
                 src="/logo.png"
                 alt="CBA"
                 fill
-                className="object-contain p-1 group-hover:rotate-12 transition-transform duration-300"
-                sizes="56px"
+                className="object-contain group-hover:rotate-12 transition-transform duration-300"
+                sizes="96px"
               />
             </div>
             <div>
-              <p className="font-bold text-white text-lg leading-tight transition-all duration-300 group-hover:text-amber-300">
+              <p className="font-bold text-white text-xl sm:text-2xl leading-tight transition-all duration-300 group-hover:text-amber-300">
                 The Colombo Brokers&rsquo;
                 <br />
                 Association
               </p>
-              <p className="text-[10px] tracking-[0.25em] uppercase text-amber-300/80 group-hover:text-amber-300 transition-colors duration-300">
+              <p className="text-[11px] sm:text-[12px] tracking-[0.25em] uppercase text-amber-300/80 group-hover:text-amber-300 transition-colors duration-300">
                 Established 1904
               </p>
             </div>
-          </div>
+          </motion.div>
 
           <p className="text-sm leading-relaxed text-gray-400 max-w-sm hover-lift">
-            The apex body representing brokers across Sri Lanka&rsquo;s tea,
-            rubber, coconut and spices auction industries — upholding
-            transparency, integrity and professional excellence.
+            The Colombo Brokers&rsquo; Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.
           </p>
 
           <div className="flex items-center gap-2 mt-6">
@@ -104,10 +142,17 @@ export default function Footer() {
               </a>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* QUICK LINKS */}
-        <div className="lg:col-span-2 animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
+        <motion.div
+          custom={1}
+          variants={colVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="lg:col-span-2"
+        >
           <h3 className="font-semibold text-white text-sm uppercase tracking-wider mb-4 hover:text-gradient transition-all duration-300">
             Explore
           </h3>
@@ -124,10 +169,17 @@ export default function Footer() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
         {/* RESOURCES */}
-        <div className="lg:col-span-3 animate-fade-in-scale" style={{ animationDelay: '0.4s' }}>
+        <motion.div
+          custom={2}
+          variants={colVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="lg:col-span-3"
+        >
           <h3 className="font-semibold text-white text-sm uppercase tracking-wider mb-4 hover:text-gradient transition-all duration-300">
             Resources
           </h3>
@@ -144,10 +196,17 @@ export default function Footer() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
         {/* CONTACT */}
-        <div className="lg:col-span-3 animate-fade-in-scale" style={{ animationDelay: '0.6s' }}>
+        <motion.div
+          custom={3}
+          variants={colVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="lg:col-span-3"
+        >
           <h3 className="font-semibold text-white text-sm uppercase tracking-wider mb-4 hover:text-gradient transition-all duration-300">
             Contact
           </h3>
@@ -182,7 +241,7 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-        </div>
+        </motion.div>
       </div>
 
       {/* BOTTOM */}

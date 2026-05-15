@@ -14,9 +14,10 @@ async function getCommittee() {
   return await client.fetch(`*[_type == "committee"]`)
 }
 async function getBrokers() {
-  return await client.fetch(
-    `*[_type == "broker"]`
-  )
+  return await client.fetch(`*[_type == "broker"]`)
+}
+async function getPartnerInstitutions() {
+  return await client.fetch(`*[_type == "partnerInstitution"]`)
 }
 
 const BROKER_ORDER = [
@@ -89,9 +90,10 @@ function sortCommittee(arr: any[]) {
 }
 
 export default async function MembersPage() {
-  const [members, brokerRows, events] = await Promise.all([
+  const [members, brokerRows, partnerInstitutions, events] = await Promise.all([
     getCommittee(),
     getBrokers(),
+    getPartnerInstitutions(),
     getEvents(),
   ])
   const brokers = sortBrokers(brokerRows)
@@ -110,7 +112,7 @@ export default async function MembersPage() {
 
       <PageHero
         badge="Members & Directory"
-        title="Committee Members"
+        title="Leadership & Members"
         subtitle="Broker Directory"
         description="Meet the leadership committee driving the Association forward and explore our member broking firms across Sri Lanka's commodity auction industries."
         breadcrumb={[
@@ -123,10 +125,9 @@ export default async function MembersPage() {
 
       <CommodityPillars />
 
-      {/* OFFICE BEARERS + BOARD OF DIRECTORS */}
+      {/* LEADERSHIP SECTIONS */}
       <section
-        id="committee"
-        className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 scroll-mt-32"
+        className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100"
       >
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
@@ -135,7 +136,7 @@ export default async function MembersPage() {
                 The Leadership
               </span>
               <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
-                Office Bearers &amp; Board of Directors
+                Board of Directors &amp; Office Bearers
               </h2>
               <p className="mt-2 text-sm text-gray-500 max-w-xl mx-auto">
                 Representing the leading broker firms that uphold the standards
@@ -154,12 +155,32 @@ export default async function MembersPage() {
               const officers = sorted.filter((m) => rankFor(m.role) < 999)
               const directors = sorted.filter((m) => rankFor(m.role) === 999)
               return (
-                <div className="space-y-14">
-                  {/* OFFICE BEARERS */}
-                  {officers.length > 0 && (
-                    <div>
+                <div className="space-y-16">
+                  {/* SECTION 1: BOARD OF DIRECTORS */}
+                  {directors.length > 0 && (
+                    <div id="directors" className="scroll-mt-32">
                       <Reveal>
-                        <SectionDivider label="Office Bearers" maroon />
+                        <SectionDivider label="Board of Directors" maroon />
+                      </Reveal>
+                      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {directors.map((item: any, i: number) => (
+                          <Reveal
+                            key={item._id}
+                            delay={i * 50}
+                            distance={20}
+                          >
+                            <PersonCard item={item} />
+                          </Reveal>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SECTION 2: OFFICE BEARERS */}
+                  {officers.length > 0 && (
+                    <div id="committee" className="scroll-mt-32 pt-4">
+                      <Reveal>
+                        <SectionDivider label="Office Bearers" />
                       </Reveal>
                       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {officers.map((item: any, i: number) => (
@@ -174,29 +195,49 @@ export default async function MembersPage() {
                       </div>
                     </div>
                   )}
-
-                  {/* BOARD OF DIRECTORS */}
-                  {directors.length > 0 && (
-                    <div>
-                      <Reveal>
-                        <SectionDivider label="Board of Directors" />
-                      </Reveal>
-                      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-                        {directors.map((item: any, i: number) => (
-                          <Reveal
-                            key={item._id}
-                            delay={i * 50}
-                            distance={20}
-                          >
-                            <PersonCard item={item} />
-                          </Reveal>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
               )
             })()
+          )}
+        </div>
+      </section>
+
+      {/* SECTION 3: SUPPORTING INSTITUTIONS */}
+      <section
+        id="partners"
+        className="py-16 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100 scroll-mt-32"
+      >
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <div className="text-center mb-10">
+              <span className="inline-block px-3 py-1 rounded-full bg-blue-100/50 text-blue-700 border border-blue-200 text-xs font-semibold uppercase tracking-wider">
+                Association Ecosystem
+              </span>
+              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
+                Supporting Institutions
+              </h2>
+              <p className="mt-2 text-sm text-gray-500 max-w-xl mx-auto">
+                Banks, audit firms, legal support, logistics, insurance, and other vital institutional partners driving our industry forward.
+              </p>
+            </div>
+          </Reveal>
+
+          {partnerInstitutions.length === 0 ? (
+            <p className="text-sm text-gray-400 italic text-center py-8">
+              Partner institutions will appear here soon.
+            </p>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+              {partnerInstitutions.map((item: any, i: number) => (
+                <Reveal key={item._id} delay={i * 50}>
+                  <PartnerCard 
+                    name={item.name} 
+                    category={item.category} 
+                    logo={item.logo ? urlFor(item.logo).url() : undefined}
+                  />
+                </Reveal>
+              ))}
+            </div>
           )}
         </div>
       </section>
@@ -206,7 +247,7 @@ export default async function MembersPage() {
       {/* MEMBER FIRMS (was "Brokers Directory") */}
       <section
         id="brokers"
-        className="py-16 px-4 sm:px-6 lg:px-8 bg-white scroll-mt-32"
+        className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100 scroll-mt-32"
       >
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
@@ -249,7 +290,7 @@ function SectionDivider({
   maroon?: boolean
 }) {
   return (
-    <div className="flex items-center gap-3 mb-7">
+    <div className="flex items-center gap-3 mb-8">
       <span
         className={`h-px flex-1 ${
           maroon
@@ -275,6 +316,25 @@ function SectionDivider({
   )
 }
 
+function PartnerCard({ name, category, logo }: { name: string; category: string; logo?: string }) {
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center text-center hover:shadow-lg transition-shadow duration-300 h-full">
+      {logo ? (
+        <img src={logo} alt={name} className="h-12 w-auto mb-4 object-contain grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition" />
+      ) : (
+        <div className="h-12 w-12 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 mb-4 shadow-sm">
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <path d="M9 3v18" />
+          </svg>
+        </div>
+      )}
+      <h3 className="text-sm font-bold text-gray-900 leading-tight">{name}</h3>
+      <p className="text-xs text-gray-500 mt-1">{category}</p>
+    </div>
+  )
+}
+
 function PersonCard({
   item,
   featured = false,
@@ -288,65 +348,41 @@ function PersonCard({
     !(item.role || '').toLowerCase().includes('vice')
 
   return (
-    <article
-      className={`group relative bg-white rounded-2xl border overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 ${
-        isChairman
-          ? 'border-[var(--maroon)] ring-2 ring-[var(--maroon)]/15'
-          : featured
-          ? 'border-[var(--maroon)]/20'
-          : 'border-gray-200'
-      }`}
-    >
-      <div className="aspect-[4/5] overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 relative">
+    <article className={`group relative bg-white rounded-xl border p-4 flex flex-col gap-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full ${
+      isChairman ? 'border-[var(--maroon)] ring-1 ring-[var(--maroon)]/20 shadow-md' : 'border-gray-200 hover:border-gray-300'
+    }`}>
+      <div className={`relative overflow-hidden rounded-lg bg-gray-50 shrink-0 ${featured ? 'aspect-[4/3]' : 'aspect-square'}`}>
         {item.photo ? (
           <img
-            src={urlFor(item.photo).width(featured ? 600 : 400).url()}
-            className="w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-out"
+            src={urlFor(item.photo).width(400).height(featured ? 300 : 400).url()}
+            className="w-full h-full object-cover group-hover:scale-105 transition duration-500 ease-out"
             alt={item.name}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-5xl text-gray-300 font-bold">
+          <div className="w-full h-full flex items-center justify-center text-4xl text-gray-200 font-bold bg-gradient-to-br from-gray-50 to-gray-100">
             {item.name?.charAt(0) || '?'}
           </div>
         )}
-
-        {/* Bottom gradient */}
-        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
-
-        {/* Subtle shine on hover */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/0 to-white/0 group-hover:via-white/10 transition-all duration-700"
-        />
-
-        {/* Role pill */}
         {item.role && (
-          <span
-            className={`absolute top-3 left-3 inline-block text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full shadow ${
-              isChairman
-                ? 'bg-[var(--maroon)] text-white'
-                : 'bg-white/95 text-[var(--maroon)]'
-            }`}
-          >
-            {item.role}
-          </span>
+          <div className="absolute top-2 left-2 z-10">
+            <span className={`inline-flex px-2 py-1 text-[10px] uppercase tracking-wider font-bold rounded-md shadow-sm ${
+              isChairman ? 'bg-[var(--maroon)] text-white' : 'bg-white/95 text-gray-700 border border-gray-100'
+            }`}>
+              {item.role}
+            </span>
+          </div>
         )}
+      </div>
 
-        {/* Name + company overlay */}
-        <div className="absolute inset-x-0 bottom-0 p-4">
-          <p
-            className={`text-white font-bold leading-tight ${
-              featured ? 'text-lg' : 'text-base'
-            }`}
-          >
-            {item.name}
+      <div className="flex flex-col flex-grow text-center px-1">
+        <h3 className={`font-bold text-gray-900 leading-tight ${featured ? 'text-lg' : 'text-base'}`}>
+          {item.name}
+        </h3>
+        {item.company && (
+          <p className="text-xs text-gray-500 mt-1.5 line-clamp-2">
+            {item.company}
           </p>
-          {item.company && (
-            <p className="text-white/85 text-xs mt-1 line-clamp-1">
-              {item.company}
-            </p>
-          )}
-        </div>
+        )}
       </div>
     </article>
   )

@@ -1,7 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { useMouseTilt } from '@/hooks/useMouseTilt'
+import { useIsDesktop } from '@/hooks/useIsDesktop'
 
 /**
  * "Tradition & Symbols" section.
@@ -9,8 +12,18 @@ import { useState } from 'react'
  * Otherwise a tasteful placeholder shows instead.
  */
 export default function TraditionSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+
+  // Gavel drifts UP as you scroll down (opposite direction)
+  const gavelY = useTransform(scrollYProgress, [0, 1], ['60px', '-60px']);
+  // Tie drifts DOWN — opposing motion = sense of depth
+  const tieY = useTransform(scrollYProgress, [0, 1], ['-40px', '40px']);
+
+  const isDesktop = useIsDesktop();
+
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50 dark:from-neutral-950 dark:to-neutral-900">
+    <section ref={ref} className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50 dark:from-neutral-950 dark:to-neutral-900 parallax-container">
       <div className="max-w-[1400px] mx-auto">
         <div className="text-center mb-14">
           <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] dark:text-amber-300 text-xs font-semibold uppercase tracking-wider">
@@ -26,20 +39,24 @@ export default function TraditionSection() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <ArtefactCard
-            src="/cba-gavel.png"
-            label="The Auction Gavel"
-            title="The Sound of a Fair Trade"
-            text="Encased in glass and engraved with the CBA crest, the gavel marks every sale closed under the watch of the Association — a symbol of authority that has carried the colombo auction floor for generations."
-            tone="light"
-          />
-          <ArtefactCard
-            src="/cba-tie.png"
-            label="CBA Regalia"
-            title="Worn at every official occasion"
-            text="The CBA necktie — maroon, woven with the gavel motif and the Association's 1904 crest — is presented to members and worn at committee meetings, AGMs and auction events as a mark of tradition."
-            tone="maroon"
-          />
+          <motion.div style={{ y: isDesktop ? gavelY : 0 }}>
+            <ArtefactCard
+              src="/cba-gavel.png"
+              label="The Auction Gavel"
+              title="The Sound of a Fair Trade"
+              text="Encased in glass and engraved with the CBA crest, the gavel marks every sale closed under the watch of the Association — a symbol of authority that has carried the colombo auction floor for generations."
+              tone="light"
+            />
+          </motion.div>
+          <motion.div style={{ y: isDesktop ? tieY : 0 }}>
+            <ArtefactCard
+              src="/cba-tie.png"
+              label="CBA Regalia"
+              title="Worn at every official occasion"
+              text="The CBA necktie — maroon, woven with the gavel motif and the Association's 1904 crest — is presented to members and worn at committee meetings, AGMs and auction events as a mark of tradition."
+              tone="maroon"
+            />
+          </motion.div>
         </div>
 
         <div className="mt-10 text-center">
@@ -72,6 +89,7 @@ function ArtefactCard({
   tone: 'light' | 'maroon'
 }) {
   const [errored, setErrored] = useState(false)
+  const { rotateX, rotateY, onMouseMove, onMouseLeave } = useMouseTilt(6);
 
   const bg =
     tone === 'maroon'
@@ -105,11 +123,17 @@ function ArtefactCard({
             </p>
           </div>
         ) : (
-          <img
+          <motion.img
             src={src}
             alt={title}
-            className="max-h-full max-w-full object-contain drop-shadow-2xl group-hover:scale-105 transition duration-500"
-            onError={() => setErrored(true)}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
+            style={{
+              rotateX, rotateY,
+              width: '100%',
+              filter: 'drop-shadow(0 24px 60px rgba(0,0,0,0.5))',
+            }}
+            className="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-500"
           />
         )}
       </div>

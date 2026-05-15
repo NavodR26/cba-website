@@ -22,7 +22,7 @@ export default function PageHero({
       <div aria-hidden className="absolute inset-0 bg-[linear-gradient(135deg,rgba(122,31,42,0.055),transparent_42%,rgba(245,158,11,0.08))]" />
       <div aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
 
-      <div className="relative mx-auto max-w-[1400px] px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+      <div className="relative mx-auto max-w-[1400px] px-4 py-10 sm:px-6 md:py-12 lg:px-8">
         {badge && (
           <div className={animated ? 'animate-fade-in-scale' : ''}>
             <span className="inline-flex items-center gap-2 rounded-full border border-[var(--maroon)]/10 bg-[var(--maroon)]/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--maroon)] shadow-sm">
@@ -32,7 +32,7 @@ export default function PageHero({
         )}
 
         <h1
-          className={`mt-6 max-w-[calc(100vw-2rem)] text-2xl font-semibold leading-tight text-gray-900 min-[420px]:text-3xl sm:max-w-4xl sm:text-4xl md:text-5xl lg:text-5xl ${
+          className={`mt-5 max-w-[calc(100vw-2rem)] text-2xl font-semibold leading-tight text-gray-900 min-[420px]:text-3xl sm:max-w-4xl sm:text-4xl md:text-5xl lg:text-5xl ${
             animated ? 'animate-fade-in-scale' : ''
           }`}
           style={{ animationDelay: animated ? '0.1s' : '0s', letterSpacing: 0 }}
@@ -50,7 +50,7 @@ export default function PageHero({
 
         {description && (
           <p
-            className={`mt-5 max-w-[calc(100vw-2rem)] text-base leading-relaxed text-gray-600 sm:max-w-3xl ${
+            className={`mt-4 max-w-[calc(100vw-2rem)] text-sm leading-relaxed text-gray-600 sm:max-w-3xl md:text-base ${
               animated ? 'animate-fade-in-scale' : ''
             }`}
             style={{ animationDelay: animated ? '0.2s' : '0s' }}

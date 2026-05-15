@@ -10,9 +10,9 @@ export default function AboutSection() {
         </h2>
 
         <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mt-4 leading-relaxed animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
-          The Colombo Brokers&rsquo; Association (CBA), established in 1904,
-          is the apex body representing broker firms engaged in the tea,
-          rubber, coconut and spices auction industries in Sri Lanka.
+          Since 1904, the Colombo Brokers&rsquo; Association has been the institutional pillar
+          connecting producers and buyers, maintaining the integrity and smooth
+          operation of Sri Lanka's vital commodity trades.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6 text-left mt-12 max-w-5xl mx-auto">

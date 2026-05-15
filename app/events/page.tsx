@@ -3,10 +3,22 @@ import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
 import PageHero from '@/components/PageHero'
+import SectionReveal from '@/components/SectionReveal'
 import EventCalendarClient from '@/components/EventCalendarClient'
 import CalendarStats from '@/components/CalendarStats'
 import CalendarAgenda from '@/components/CalendarAgenda'
 import { getEvents } from '@/lib/events'
+
+export const metadata = {
+  title: "Auction Calendar | The Colombo Brokers' Association",
+  description:
+    "Premium auction scheduling for tea, rubber, coconut, committee meetings and AGM events. A professional calendar for Sri Lanka's commodity market.",
+  openGraph: {
+    title: "Auction Calendar | The Colombo Brokers' Association",
+    description:
+      "Premium auction scheduling for tea, rubber, coconut, committee meetings and AGM events.",
+  },
+}
 
 export default async function EventsPage() {
   const events = await getEvents()
@@ -26,16 +38,19 @@ export default async function EventsPage() {
         badge="Auction Schedule"
         title="Auction & Meeting"
         subtitle="Calendar"
-        description="Schedule of tea, rubber, coconut and spices auctions, including catalogue closures and committee meetings."
+        description="Schedule of tea, rubber, coconut and AGM events with a refined institutional agenda."
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Calendar' },
         ]}
       />
 
-      <CalendarStats events={safeEvents} />
+      <SectionReveal>
+        <CalendarStats events={safeEvents} />
+      </SectionReveal>
 
-      <section className="py-14 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <SectionReveal>
+        <section className="py-14 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid gap-8 xl:grid-cols-[minmax(0,1.7fr)_minmax(300px,0.8fr)]">
             <div>
@@ -74,6 +89,10 @@ export default async function EventsPage() {
                     <span className="w-3 h-3 rounded-full bg-[#27548a]" />
                     <span className="text-sm text-gray-700">Committee Meetings</span>
                   </div>
+                  <div className="flex items-center gap-3">
+                    <span className="w-3 h-3 rounded-full bg-[#6d28d9]" />
+                    <span className="text-sm text-gray-700">AGM Events</span>
+                  </div>
                 </div>
               </div>
 
@@ -89,6 +108,7 @@ export default async function EventsPage() {
           </div>
         </div>
       </section>
+      </SectionReveal>
 
       <CalendarAgenda events={safeEvents} />
 

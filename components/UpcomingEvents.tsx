@@ -1,4 +1,8 @@
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { getEvents } from '@/lib/events'
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -56,16 +60,46 @@ function dayMonth(d: any) {
   }
 }
 
-export default async function UpcomingEvents() {
-  const events = await getEvents()
-  const today = new Date()
+export default function UpcomingEvents() {
+  const [upcoming, setUpcoming] = useState<any[]>([])
 
-  const upcoming = events
-    .filter((e: any) => e.start_date && e.start_date >= today)
-    .sort(
-      (a: any, b: any) => a.start_date.getTime() - b.start_date.getTime()
-    )
-    .slice(0, 6)
+  useEffect(() => {
+    async function fetchEvents() {
+      const events = await getEvents()
+      const today = new Date()
+      const filtered = events
+        .filter((e: any) => e.start_date && e.start_date >= today)
+        .sort((a: any, b: any) => a.start_date.getTime() - b.start_date.getTime())
+        .slice(0, 6)
+      setUpcoming(filtered)
+    }
+    fetchEvents()
+  }, [])
+
+  const cardVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: (i: number) => ({
+      opacity: 1, x: 0,
+      transition: {
+        delay: i * 0.08,
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1] as any,
+      },
+    }),
+  };
+
+  const dateVariants = {
+    hidden: { scale: 0.6, opacity: 0 },
+    visible: (i: number) => ({
+      scale: 1, opacity: 1,
+      transition: {
+        delay: i * 0.08 + 0.15,
+        type: 'spring' as const,
+        stiffness: 300,
+        damping: 18,
+      },
+    }),
+  };
 
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
@@ -92,22 +126,29 @@ export default async function UpcomingEvents() {
             No upcoming events at the moment.
           </p>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-40px' }}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
             {upcoming.map((event: any, i: number) => {
               const { day, month } = dayMonth(event.start_date)
               const color = colorFor(event.title, event.category, event.type)
               return (
-                <article
+                <motion.article
                   key={i}
+                  custom={i}
+                  variants={cardVariants}
                   className="group flex bg-white rounded-xl border border-gray-200 hover:border-[var(--maroon)]/40 hover:shadow-lg hover:-translate-y-0.5 transition overflow-hidden"
                 >
                   <div
                     className="flex flex-col items-center justify-center px-5 py-4 text-white shrink-0 w-[88px]"
                     style={{ background: color }}
                   >
-                    <span className="text-3xl font-bold leading-none">
+                    <motion.span custom={i} variants={dateVariants} className="text-3xl font-bold leading-none">
                       {day}
-                    </span>
+                    </motion.span>
                     <span className="text-[10px] tracking-widest mt-1 opacity-90">
                       {month}
                     </span>
@@ -144,10 +185,10 @@ export default async function UpcomingEvents() {
                       {event.category || event.type || 'Event'}
                     </span>
                   </div>
-                </article>
+                </motion.article>
               )
             })}
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

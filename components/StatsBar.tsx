@@ -1,4 +1,4 @@
-import CountUp from './CountUp'
+import CounterAnimation from './CounterAnimation'
 import Reveal from './Reveal'
 
 const stats = [
@@ -38,7 +38,7 @@ export default function StatsBar() {
                 </p>
                 <div className="mt-5 flex items-end gap-2">
                   <h3 className="text-4xl font-bold tracking-tight text-amber-300 md:text-5xl">
-                    <CountUp end={item.value} suffix={item.suffix} />
+                    <CounterAnimation end={item.value} suffix={item.suffix} duration={2000} />
                   </h3>
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-white/72">

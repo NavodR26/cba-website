@@ -31,9 +31,8 @@ export default function BecomeMemberCTA() {
                 <span className="text-amber-300">Colombo Brokers&rsquo; Association</span>
               </h2>
               <p className="mt-4 text-white/80 leading-relaxed max-w-xl">
-                Join the apex body of Sri Lanka&rsquo;s auction brokers. Get in
-                touch with the secretariat for application criteria and to
-                begin your registration.
+                Join the authority vested by the Sri Lanka Tea Board.
+                Contact the secretariat for membership criteria and registration.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">

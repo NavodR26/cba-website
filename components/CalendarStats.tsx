@@ -10,8 +10,8 @@ const CATEGORIES = [
   { key: 'Tea', color: '#7a1f2a' },
   { key: 'Rubber', color: '#1f6f43' },
   { key: 'Coconut', color: '#b67419' },
-  { key: 'Spices', color: '#854d0e' },
-  { key: 'Meeting', color: '#27548a' },
+  { key: 'Committee', color: '#27548a' },
+  { key: 'AGM', color: '#6d28d9' },
 ] as const
 
 function isThisMonth(d: string | null) {

@@ -2,16 +2,20 @@ import './globals.css'
 import type { Viewport } from 'next'
 import CursorDot from '@/components/CursorDot'
 import ProtectCopy from '@/components/ProtectCopy'
+import SmoothScroll from '@/components/SmoothScroll'
+import ScrollProgress from '@/components/ScrollProgress'
+import GavelLoader from '@/components/GavelLoader'
+import PageTransition from '@/components/PageTransition'
 
 export const metadata = {
   title: "The Colombo Brokers' Association",
   description:
-    "The apex body representing brokers across Sri Lanka's tea, rubber, coconut and spices auction industries since 1904.",
+    "The Colombo Brokers’ Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
   metadataBase: new URL('https://cba.lk'),
   openGraph: {
     title: "The Colombo Brokers' Association",
     description:
-      "Premium institutional representation for Sri Lanka's tea, rubber, coconut and spices auction brokers.",
+      "Institutional auction authority, licensed by the Sri Lanka Tea Board to conduct Sri Lanka's tea auctions.",
     type: 'website',
     url: 'https://cba.lk',
     images: [
@@ -48,6 +52,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body className="bg-white text-gray-800 font-sans antialiased overflow-x-hidden">
+        <ScrollProgress />
+        <GavelLoader />
         <CursorDot />
         <ProtectCopy />
         <script
@@ -64,7 +70,7 @@ export default function RootLayout({
                 'https://twitter.com/',
               ],
               description:
-                "Premium institutional representation for Sri Lanka's tea, rubber, coconut and spices auction brokers.",
+                "The Colombo Brokers' Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
               contactPoint: [
                 {
                   '@type': 'ContactPoint',
@@ -76,7 +82,11 @@ export default function RootLayout({
             }),
           }}
         />
-        {children}
+        <PageTransition>
+          <SmoothScroll>
+            {children}
+          </SmoothScroll>
+        </PageTransition>
       </body>
     </html>
   )

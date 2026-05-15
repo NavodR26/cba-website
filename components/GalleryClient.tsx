@@ -1,6 +1,9 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useIsDesktop } from '@/hooks/useIsDesktop'
+import { useMouseTilt } from '@/hooks/useMouseTilt'
 import { urlFor } from '@/lib/sanity'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
@@ -22,6 +25,55 @@ function formatDate(d?: string) {
     month: 'short',
     year: 'numeric',
   })
+}
+
+function GalleryImage({ src, index, onClick }: { src: string; index: number; onClick: () => void }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+
+  // Odd images go up, even go down
+  const direction = index % 2 === 0 ? 1 : -1;
+  const y = useTransform(scrollYProgress, [0, 1], [`${direction * 40}px`, `${direction * -40}px`]);
+
+  const { rotateX, rotateY, onMouseMove, onMouseLeave } = useMouseTilt(6);
+  const isDesktop = useIsDesktop();
+
+  return (
+    <motion.button
+      ref={ref}
+      style={{ y: isDesktop ? y : 0 }}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
+      className="group relative overflow-hidden rounded-[1.5rem] aspect-square bg-gray-100 shadow-sm hover:-translate-y-1 transition-transform duration-300 animate-fade-in-scale parallax-container"
+    >
+      <motion.img
+        src={src}
+        style={{
+          rotateX, rotateY,
+          width: '100%',
+          borderRadius: '1.5rem',
+          display: 'block',
+          transformStyle: 'preserve-3d',
+        }}
+        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+        alt=""
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
+      <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 text-[var(--maroon)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M15 3h6v6" />
+          <path d="M21 3l-7 7" />
+          <path d="M9 21H3v-6" />
+          <path d="M3 21l7-7" />
+        </svg>
+      </span>
+    </motion.button>
+  );
 }
 
 export default function GalleryClient({ albums }: { albums: GalleryDoc[] }) {
@@ -121,27 +173,12 @@ export default function GalleryClient({ albums }: { albums: GalleryDoc[] }) {
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   {(album.images || []).map((img: any, i: number) => (
-                    <button
+                    <GalleryImage
                       key={i}
+                      src={urlFor(img).width(600).url()}
+                      index={startIdx + i}
                       onClick={() => setIndex(startIdx + i)}
-                      className="group relative overflow-hidden rounded-[1.5rem] aspect-square bg-gray-100 shadow-sm hover:-translate-y-1 transition-transform duration-300 animate-fade-in-scale"
-                      style={{ animationDelay: `${i * 40}ms` }}
-                    >
-                      <img
-                        src={urlFor(img).width(600).url()}
-                        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                        alt=""
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
-                      <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 text-[var(--maroon)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-sm">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M15 3h6v6" />
-                          <path d="M9 21H3v-6" />
-                          <path d="M21 3l-7 7" />
-                          <path d="M3 21l7-7" />
-                        </svg>
-                      </span>
-                    </button>
+                    />
                   ))}
                 </div>
               </div>

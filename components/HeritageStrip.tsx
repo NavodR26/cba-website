@@ -19,8 +19,8 @@ export default function HeritageStrip() {
 
           <div className="lg:col-span-3 grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100 dark:divide-neutral-800">
             <Pillar
-              title="Authority"
-              text="The apex body for tea, rubber, coconut & spices auctions in Sri Lanka."
+              title="Market Operations"
+              text="Facilitating one of the world's largest single-origin commodity auctions with efficiency and trust."
               icon={
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 21h18M5 21V7l7-4 7 4v14" />

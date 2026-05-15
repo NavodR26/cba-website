@@ -76,17 +76,17 @@ export default async function TradeStatistics({ preview }: { preview?: boolean }
         <div className="grid gap-6 lg:grid-cols-[1.4fr_minmax(250px,1fr)] items-start">
           <div className="space-y-4">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs uppercase tracking-[0.28em] font-semibold">
-              Export performance
+              Market snapshot
             </span>
             <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 max-w-2xl leading-tight">
-              Summary of Merchandise Trade Statistics / Export Performance (USD mn)
+              Live trade statistics from the CBA market data feed
             </h2>
             <div className="max-w-2xl rounded-2xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-600">
               <p className="text-xs uppercase tracking-[0.24em] text-gray-500 font-semibold">
-                Data Source
+                Data source
               </p>
               <p className="mt-2 leading-relaxed">
-                Based on Central Bank of Sri Lanka Merchandise Trade Classification - USD Million.
+                Automatically updated from the Association's Google Sheets market report feed.
               </p>
             </div>
           </div>
@@ -142,8 +142,8 @@ export default async function TradeStatistics({ preview }: { preview?: boolean }
               <div className="rounded-[2rem] border border-gray-200 bg-gray-50 p-5 shadow-sm">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.28em] text-gray-500 font-semibold">Category summary</p>
-                    <p className="mt-3 text-2xl font-semibold text-gray-900">Merchandise export summary</p>
+                    <p className="text-xs uppercase tracking-[0.28em] text-gray-500 font-semibold">Commodity breakdown</p>
+                    <p className="mt-3 text-2xl font-semibold text-gray-900">Export values by category</p>
                   </div>
                 </div>
                 <div className="mt-5 space-y-4">

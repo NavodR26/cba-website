@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
+
 type Props = {
   children: React.ReactNode
   delay?: number // ms
@@ -8,11 +10,12 @@ type Props = {
   direction?: 'up' | 'down' | 'left' | 'right' | 'none'
   className?: string
   as?: keyof React.JSX.IntrinsicElements
+  threshold?: number // 0-1, percentage of element visible before triggering
 }
 
 /**
- * Lightweight CSS-based reveal animation.
- * Runs on mount — guaranteed to display content (no IntersectionObserver).
+ * CSS-based reveal animation with IntersectionObserver.
+ * Triggers when element comes into view during scroll.
  * Respects prefers-reduced-motion via globals.css.
  */
 export default function Reveal({
@@ -23,8 +26,32 @@ export default function Reveal({
   direction = 'up',
   className = '',
   as = 'div',
+  threshold = 0.1,
 }: Props) {
   const Tag = as as any
+  const ref = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.unobserve(element)
+        }
+      },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    )
+
+    observer.observe(element)
+
+    return () => {
+      if (element) observer.unobserve(element)
+    }
+  }, [threshold])
 
   const offset = (() => {
     if (direction === 'none') return '0,0,0'
@@ -35,14 +62,18 @@ export default function Reveal({
   })()
 
   const style: React.CSSProperties = {
-    animationDelay: `${delay}ms`,
+    animationDelay: isVisible ? `${delay}ms` : '0ms',
     // expose start offset to CSS via custom property
     ['--reveal-from' as any]: `translate3d(${offset})`,
     ...(duration ? { animationDuration: `${duration}ms` } : {}),
   }
 
   return (
-    <Tag className={`cba-reveal ${className}`} style={style}>
+    <Tag 
+      ref={ref} 
+      className={`cba-reveal ${isVisible ? 'cba-reveal-visible' : ''} ${className}`} 
+      style={style}
+    >
       {children}
     </Tag>
   )

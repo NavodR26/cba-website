@@ -19,15 +19,15 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; soft: string }
   Tea: { bg: '#7a1f2a', text: '#ffffff', soft: 'rgba(122,31,42,0.1)' },
   Rubber: { bg: '#1f6f43', text: '#ffffff', soft: 'rgba(31,111,67,0.1)' },
   Coconut: { bg: '#b67419', text: '#ffffff', soft: 'rgba(182,116,25,0.12)' },
-  Meeting: { bg: '#27548a', text: '#ffffff', soft: 'rgba(39,84,138,0.1)' },
+  Committee: { bg: '#27548a', text: '#ffffff', soft: 'rgba(39,84,138,0.1)' },
+  AGM: { bg: '#6d28d9', text: '#ffffff', soft: 'rgba(109,40,217,0.12)' },
   Default: { bg: '#555555', text: '#ffffff', soft: 'rgba(85,85,85,0.1)' },
 }
 
 function colorFor(...parts: (string | undefined)[]) {
   const text = parts.filter(Boolean).join(' ').toLowerCase()
   if (!text) return CATEGORY_COLORS.Default
-  // Order matters: check Meeting first so "CBA Committee Meeting" doesn't fall through
-  const order = ['Meeting', 'Tea', 'Rubber', 'Coconut'] as const
+  const order = ['AGM', 'Committee', 'Tea', 'Rubber', 'Coconut'] as const
   for (const k of order) {
     if (text.includes(k.toLowerCase())) return CATEGORY_COLORS[k]
   }
@@ -127,7 +127,7 @@ function downloadICS(e: EventType) {
   URL.revokeObjectURL(url)
 }
 
-const ALL_CATEGORIES = ['Tea', 'Rubber', 'Coconut', 'Meeting'] as const
+const ALL_CATEGORIES = ['Tea', 'Rubber', 'Coconut', 'Committee', 'AGM'] as const
 
 export default function MonthCalendar({ events }: { events: EventType[] }) {
   const today = useMemo(() => new Date(), [])
@@ -209,7 +209,8 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
     { label: 'Tea', color: CATEGORY_COLORS.Tea.bg },
     { label: 'Rubber', color: CATEGORY_COLORS.Rubber.bg },
     { label: 'Coconut', color: CATEGORY_COLORS.Coconut.bg },
-    { label: 'Meeting', color: CATEGORY_COLORS.Meeting.bg },
+    { label: 'Committee', color: CATEGORY_COLORS.Committee.bg },
+    { label: 'AGM', color: CATEGORY_COLORS.AGM.bg },
   ]
 
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']

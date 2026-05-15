@@ -14,14 +14,15 @@ const CATEGORY_COLORS: Record<string, string> = {
   Tea: '#7a1f2a',
   Rubber: '#1f6f43',
   Coconut: '#b67419',
+  Committee: '#27548a',
+  AGM: '#6d28d9',
   Spices: '#854d0e',
-  Meeting: '#27548a',
 }
 
 function colorFor(...parts: (string | undefined)[]) {
   const text = parts.filter(Boolean).join(' ').toLowerCase()
   if (!text) return '#555'
-  const order = ['Meeting', 'Tea', 'Rubber', 'Coconut', 'Spices']
+  const order = ['AGM', 'Committee', 'Meeting', 'Tea', 'Rubber', 'Coconut', 'Spices']
   for (const k of order) {
     if (text.includes(k.toLowerCase())) return CATEGORY_COLORS[k]
   }

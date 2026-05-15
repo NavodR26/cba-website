@@ -4,8 +4,20 @@ import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
 import PageHero from '@/components/PageHero'
 import Reveal from '@/components/Reveal'
+import SectionReveal from '@/components/SectionReveal'
 import { client } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
+
+export const metadata = {
+  title: "About CBA | The Colombo Brokers' Association",
+  description:
+    "The Colombo Brokers’ Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka. Learn about our heritage, mission and leadership.",
+  openGraph: {
+    title: "About CBA | The Colombo Brokers' Association",
+    description:
+      "The Colombo Brokers’ Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
+  },
+}
 
 async function getPastChairmen() {
   return await client.fetch(`*[_type == "pastChairman"] | order(year desc)`)
@@ -98,9 +110,9 @@ export default async function AboutPage() {
 
       <PageHero
         badge="About the Association"
-        title="A century of service to Sri Lanka's"
-        subtitle="Auction Trade"
-        description="Founded in 1904, The Colombo Brokers' Association is the apex body representing brokers in the tea, rubber, coconut and spices auction industries of Sri Lanka."
+        title="A century of steady auction leadership"
+        subtitle="Institutional Authority"
+        description="Authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka."
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'About CBA' },
@@ -108,7 +120,8 @@ export default async function AboutPage() {
       />
 
       {/* INTRO — split with floating stat card */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <SectionReveal>
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-[1400px] mx-auto grid gap-12 lg:grid-cols-12 items-center">
           <div className="lg:col-span-5 relative">
             <div className="relative overflow-hidden rounded-[32px] shadow-[0_30px_90px_rgba(122,31,42,0.12)] group hover:-translate-y-1 transition-transform duration-500">
@@ -141,17 +154,13 @@ export default async function AboutPage() {
                 Who we are
               </span>
               <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                The apex body of the auction trade
+                The institutional authority of Sri Lanka's auction market
               </h2>
-              <p className="mt-6 text-gray-600 leading-relaxed text-lg">
-                Established in 1904, the Colombo Brokers&rsquo; Association (CBA)
-                serves as the apex body representing brokers in the tea, rubber,
-                coconut and spices auctions of Sri Lanka.
+              <p className="mt-6 text-gray-600 leading-relaxed text-lg font-medium">
+                Established in 1904, the Colombo Brokers&rsquo; Association (CBA) serves as the institutional authority vested with the responsibility to conduct Sri Lanka&rsquo;s most critical commodity auctions.
               </p>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                The Association plays a vital role in upholding transparency,
-                efficiency and global competitiveness of the auction system,
-                while strengthening the wider industry that auctions support.
+                We maintain the highest standards of transparency, integrity and efficiency in the auction of tea, rubber, coconut and related commodities. The Association is recognised by government, industry and international stakeholders as the trusted custodian of Sri Lanka&rsquo;s auction market.
               </p>
 
               <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -164,9 +173,11 @@ export default async function AboutPage() {
           </div>
         </div>
       </section>
+      </SectionReveal>
 
       {/* CORE VALUES */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
+      <SectionReveal>
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-[1400px] mx-auto">
           <div className="text-center mb-12">
             <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
@@ -200,9 +211,54 @@ export default async function AboutPage() {
           </div>
         </div>
       </section>
+      </SectionReveal>
 
-      {/* VISION + MISSION — premium two-card */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      {/* AUTHORITY SECTION */}
+      <SectionReveal>
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[var(--maroon)]/95 to-[#5a1620] text-white relative overflow-hidden">
+          <div aria-hidden className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-amber-300/5 -translate-y-1/2" />
+          <div aria-hidden className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-white/5 translate-y-1/2" />
+          
+          <div className="max-w-[1400px] mx-auto relative z-10">
+            <div className="max-w-3xl">
+              <p className="text-xs uppercase tracking-[0.3em] text-amber-300 font-bold mb-4">
+                Official Authority
+              </p>
+              <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-8">
+                Authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka
+              </h2>
+              <p className="text-lg text-white/90 leading-relaxed font-medium">
+                This authority represents the formal mandate granted by the Sri Lanka Tea Board to the Colombo Brokers&rsquo; Association to oversee and conduct all licensed tea auctions in Sri Lanka. This responsibility is executed with utmost integrity, transparency and adherence to international best practices.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-4">
+                <div className="flex items-center gap-3 bg-white/10 backdrop-blur px-4 py-3 rounded-xl border border-white/20">
+                  <svg className="w-5 h-5 text-amber-300" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 17l-6.5 4 2-7.5L2 9h7z" />
+                  </svg>
+                  <span className="text-sm font-semibold">Regulatory mandate</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/10 backdrop-blur px-4 py-3 rounded-xl border border-white/20">
+                  <svg className="w-5 h-5 text-amber-300" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z" />
+                  </svg>
+                  <span className="text-sm font-semibold">Government recognised</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/10 backdrop-blur px-4 py-3 rounded-xl border border-white/20">
+                  <svg className="w-5 h-5 text-amber-300" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
+                    <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                  <span className="text-sm font-semibold">120+ years heritage</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </SectionReveal>
+
+      {/* VISION + MISSION */}
+      <SectionReveal>
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-[1400px] mx-auto grid md:grid-cols-2 gap-6">
           <article className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[var(--maroon)] via-[#5a1620] to-[#3d0f17] text-white p-10 md:p-12 hover-scale hover-glow animate-fade-in-scale transition-transform duration-300">
             <div
@@ -254,10 +310,12 @@ export default async function AboutPage() {
             </div>
           </article>
         </div>
-      </section>
+        </section>
+      </SectionReveal>
 
       {/* HISTORY — vertical timeline (premium) */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <SectionReveal>
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-[1100px] mx-auto">
           <div className="text-center mb-14">
             <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
@@ -312,9 +370,11 @@ export default async function AboutPage() {
           </ol>
         </div>
       </section>
+      </SectionReveal>
 
       {/* HERITAGE MILESTONE — 150 Years showcase */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-amber-50/30 to-white relative overflow-hidden">
+      <SectionReveal>
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-amber-50/30 to-white relative overflow-hidden">
         <div
           aria-hidden
           className="absolute top-0 right-0 w-96 h-96 rounded-full bg-amber-300/8 blur-3xl -translate-y-1/2 translate-x-1/4"
@@ -402,6 +462,7 @@ export default async function AboutPage() {
           </div>
         </div>
       </section>
+      </SectionReveal>
 
       {/* PAST CHAIRMEN */}
       <section

@@ -11,6 +11,24 @@ function formatDate(d: any) {
   })
 }
 
+function LiveDot() {
+  return (
+    <span style={{ position: 'relative', display: 'inline-flex', marginRight: 6 }}>
+      <span style={{
+        width: 8, height: 8, borderRadius: '50%',
+        background: '#22c55e', display: 'block',
+        animation: 'livePing 1.5s ease infinite',
+      }} />
+      <style>{`
+        @keyframes livePing {
+          0%,100% { transform: scale(1); opacity: 1; }
+          50%      { transform: scale(1.8); opacity: 0; }
+        }
+      `}</style>
+    </span>
+  );
+}
+
 export default function Ticker({ events }: any) {
   const today = new Date()
   const upcoming = (events || [])
@@ -23,6 +41,10 @@ export default function Ticker({ events }: any) {
 
   if (!upcoming.length) return null
 
+  // Check if there's an auction today
+  const todayStr = today.toDateString()
+  const hasAuctionToday = upcoming.some((e: any) => new Date(e.start_date).toDateString() === todayStr)
+
   // Render twice for seamless loop
   const sequence = [...upcoming, ...upcoming]
 
@@ -30,6 +52,7 @@ export default function Ticker({ events }: any) {
     <div className="bg-[var(--maroon)] text-white text-sm overflow-hidden border-y border-white/10">
       <div className="flex items-center">
         <div className="hidden sm:flex items-center gap-2 shrink-0 px-5 py-2.5 bg-black/15 font-semibold uppercase tracking-wider text-xs">
+          {hasAuctionToday && <LiveDot />}
           <span className="inline-block w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
           Live Updates
         </div>

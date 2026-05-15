@@ -6,7 +6,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -118,10 +117,9 @@ canvas {
   to   { transform: translateX(0); }
 }
 
-/* ===== REVEAL ANIMATION (CSS only, always finishes) =====
-   Uses CSS variables for the initial transform. Animation FROM transparent → visible
-   uses fill-mode `both` so the keyframes control state during the delay
-   and animation. If animation never runs (reduced motion, old browser),
+/* ===== REVEAL ANIMATION (CSS with IntersectionObserver) =====
+   Uses CSS variables for the initial transform. Animation triggers when
+   element comes into view. If animation never runs (reduced motion, old browser),
    the element stays at its natural opacity 1. */
 @keyframes cba-reveal-in {
   0% {
@@ -135,14 +133,19 @@ canvas {
 }
 
 .cba-reveal {
-  animation: cba-reveal-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  opacity: 0;
   will-change: opacity, transform;
   --reveal-from: translate3d(0, 24px, 0);
+}
+
+.cba-reveal.cba-reveal-visible {
+  animation: cba-reveal-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* Reduced motion: no animation, content visible immediately */
 @media (prefers-reduced-motion: reduce) {
   .cba-reveal {
+    opacity: 1 !important;
     animation: none !important;
   }
 }
@@ -471,6 +474,22 @@ canvas {
 }
 .float-particle { animation: float-particle 8s ease-in-out infinite; }
 
+/* Disable ALL parallax and motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Ensure parallax images don't create overflow issues */
+.parallax-container {
+  overflow: hidden;
+  will-change: transform;
+}
+
 /* Bounce in animation */
 @keyframes bounce-in {
   0% { opacity: 0; transform: scale(0.8) translateY(30px); }
@@ -588,6 +607,75 @@ canvas {
   color: var(--maroon);
 }
 
+/* Enhanced card hover effect */
+.card-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.card-hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(122, 31, 42, 0.05) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.card-hover:hover::before {
+  opacity: 1;
+}
+.card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(122, 31, 42, 0.15);
+}
+
+/* Button shine effect */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  transform: rotate(45deg) translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.btn-shine:hover::after {
+  transform: rotate(45deg) translateX(100%);
+}
+
+/* Ripple effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+.ripple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+.ripple:active::before {
+  width: 300px;
+  height: 300px;
+}
+
 /* Smooth transition for all interactive elements */
 .smooth-transition {
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -638,4 +726,21 @@ canvas {
     animation: none !important;
     transition: none !important;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.gold-rule {
+  width: 0;
+  height: 2px;
+  background: #C9A227;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gold-rule.in-view {
+  width: 80px;
 }

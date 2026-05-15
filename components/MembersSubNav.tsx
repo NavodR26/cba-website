@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 
 const SECTIONS = [
-  { id: 'pillars', label: 'Industries' },
-  { id: 'committee', label: 'Leadership' },
-  { id: 'benefits', label: 'Membership' },
+  { id: 'directors', label: 'Directors' },
+  { id: 'committee', label: 'Officers' },
+  { id: 'partners', label: 'Partners' },
   { id: 'brokers', label: 'Firms' },
 ]
 

@@ -2,8 +2,21 @@ import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
 import PageHero from '@/components/PageHero'
+import SectionReveal from '@/components/SectionReveal'
+import TradeStatistics from '@/components/TradeStatistics'
 import { client } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
+
+export const metadata = {
+  title: "Resources | The Colombo Brokers' Association",
+  description:
+    "Resources, circulars and live trade statistics from the Colombo Brokers’ Association. A professional dashboard for auction market information.",
+  openGraph: {
+    title: "Resources | The Colombo Brokers' Association",
+    description:
+      "Resources, circulars and live trade statistics from the Colombo Brokers’ Association.",
+  },
+}
 
 const IMPORTANT_LINKS = [
   {
@@ -99,7 +112,12 @@ export default async function ResourcesPage() {
         ]}
       />
 
-      <section className="py-14 px-4 sm:px-6 lg:px-8">
+      <SectionReveal>
+        <TradeStatistics />
+      </SectionReveal>
+
+      <SectionReveal>
+        <section className="py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1400px] mx-auto grid lg:grid-cols-3 gap-10">
           {/* DOWNLOADS */}
           <div className="lg:col-span-2">
@@ -200,6 +218,7 @@ export default async function ResourcesPage() {
           </aside>
         </div>
       </section>
+      </SectionReveal>
 
       <Footer />
     </main>

@@ -7,7 +7,7 @@ type Benefit = {
 const BENEFITS: Benefit[] = [
   {
     title: 'Industry Standing',
-    desc: 'Be recognised under the apex body of Sri Lankan auction brokers — backed by 120+ years of credibility.',
+    desc: 'Be recognised under the authority vested by the Sri Lanka Tea Board — backed by 120+ years of credibility.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="8" r="6" />
