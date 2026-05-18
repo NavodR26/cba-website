@@ -43,7 +43,7 @@ export default function Reveal({
           observer.unobserve(element)
         }
       },
-      { threshold, rootMargin: '0px 0px -50px 0px' }
+      { threshold: 0.05, rootMargin: '0px' }
     )
 
     observer.observe(element)

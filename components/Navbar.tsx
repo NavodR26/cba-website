@@ -167,7 +167,9 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
         </div>
       </header>
 
-      <div style={{ height: `${totalHeaderHeight}px` }} aria-hidden="true" />
+      {pathname !== '/' && (
+        <div style={{ height: `${totalHeaderHeight}px` }} aria-hidden="true" />
+      )}
     </>
   )
 }

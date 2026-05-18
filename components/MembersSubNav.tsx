@@ -21,7 +21,7 @@ export default function MembersSubNav() {
         ([entry]) => {
           if (entry.isIntersecting) setActive(id)
         },
-        { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+        { rootMargin: '0px', threshold: 0.05 }
       )
       obs.observe(el)
       observers.push(obs)

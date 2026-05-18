@@ -94,7 +94,17 @@ const VALUES = [
 ]
 
 export default async function AboutPage() {
-  const [chairmen, events] = await Promise.all([getPastChairmen(), getEvents()])
+  let chairmen: any[] = []
+  let events: any[] = []
+  
+  try {
+    const results = await Promise.allSettled([getPastChairmen(), getEvents()])
+    chairmen = results[0].status === 'fulfilled' ? results[0].value : []
+    events = results[1].status === 'fulfilled' ? results[1].value : []
+  } catch (error) {
+    console.error('Error fetching About page data:', error)
+  }
+
   const safeEvents = events.map((e: any) => ({
     title: e.title,
     start_date: e.start_date ? new Date(e.start_date).toISOString() : null,

@@ -289,7 +289,7 @@ export default function TopBar({ events }: { events: EventLite[] }) {
   }, [exchangeRate, rateUpdatedAt])
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-white text-xs overflow-hidden group transition-all duration-300 shadow-lg">
+    <div className="relative bg-gradient-to-r from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-white text-xs overflow-hidden group transition-all duration-300 shadow-lg">
       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_40%_50%,rgba(255,193,7,0.1),transparent_50%)]"></div>
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center h-11 relative z-10">
         <div className="flex-1 min-w-0 flex items-center gap-3">

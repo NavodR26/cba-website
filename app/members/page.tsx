@@ -80,6 +80,15 @@ function rankFor(role?: string) {
   return best
 }
 
+function isChairmanRole(role?: string) {
+  if (!role) return false
+  const normalized = role.toLowerCase()
+  return (
+    (normalized.includes('chairman') && !normalized.includes('deputy') && !normalized.includes('vice')) ||
+    normalized.includes('president')
+  )
+}
+
 function sortCommittee(arr: any[]) {
   return [...arr].sort((a, b) => {
     const ra = rankFor(a.role)
@@ -152,8 +161,12 @@ export default async function MembersPage() {
           ) : (
             (() => {
               const sorted = sortCommittee(members)
-              const officers = sorted.filter((m) => rankFor(m.role) < 999)
-              const directors = sorted.filter((m) => rankFor(m.role) === 999)
+              const directors = sorted.filter(
+                (m) => rankFor(m.role) === 999 || isChairmanRole(m.role)
+              )
+              const officers = sorted.filter(
+                (m) => rankFor(m.role) < 999 && !isChairmanRole(m.role)
+              )
               return (
                 <div className="space-y-16">
                   {/* SECTION 1: BOARD OF DIRECTORS */}

@@ -1,165 +1,311 @@
 'use client';
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { useEffect, useState, useRef } from 'react';
 
 export default function GavelLoader() {
-  const pathname = usePathname();
-  const previousPath = useRef(pathname);
-  const firstLoad = useRef(true);
+  const mounted = useRef(false);
   const [visible, setVisible] = useState(false);
-  const [phase, setPhase] = useState<'hidden' | 'enter' | 'exit'>('hidden');
-  const [isRouteChange, setIsRouteChange] = useState(false);
-  const audioCtx = useRef<AudioContext | null>(null);
-
-  // Synthesize wooden gavel strike using Web Audio API (no audio file needed)
-  const playGavelStrike = useCallback(() => {
-    try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      audioCtx.current = ctx;
-
-      // Low thud oscillator
-      const osc = ctx.createOscillator();
-      const gainNode = ctx.createGain();
-      osc.connect(gainNode);
-      gainNode.connect(ctx.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(120, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.15);
-      gainNode.gain.setValueAtTime(0.6, ctx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.35);
-
-      // High click layer
-      const bufferSize = ctx.sampleRate * 0.05;
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
-      const noise = ctx.createBufferSource();
-      noise.buffer = buffer;
-      const noiseGain = ctx.createGain();
-      noise.connect(noiseGain);
-      noiseGain.connect(ctx.destination);
-      noiseGain.gain.setValueAtTime(0.25, ctx.currentTime);
-      noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-      noise.start(ctx.currentTime);
-    } catch (e) {
-      // Audio not available — silent fallback, animation still plays
-    }
-  }, []);
-
-  const triggerAnimation = useCallback(() => {
-    setVisible(true);
-    setPhase('enter');
-
-    // Fire sound at gavel strike moment
-    const soundTimer = setTimeout(playGavelStrike, 1200);
-    // Begin overlay exit
-    const exitTimer = setTimeout(() => setPhase('exit'), 4200);
-    // Fully remove from DOM
-    const hideTimer = setTimeout(() => {
-      setVisible(false);
-      setPhase('hidden');
-      sessionStorage.setItem('cba-intro-seen', 'true');
-    }, 5200);
-
-    return () => {
-      clearTimeout(soundTimer);
-      clearTimeout(exitTimer);
-      clearTimeout(hideTimer);
-    };
-  }, [playGavelStrike]);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // Only show on first mount (hard load / page refresh)
+    // Next.js App Router layout doesn't remount on client-side navigation
+    if (mounted.current) return;
+    mounted.current = true;
+
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
 
-    // Show on first load
-    if (firstLoad.current) {
-      firstLoad.current = false;
-      setIsRouteChange(false);
-      const cleanup = triggerAnimation();
-      return cleanup;
-    }
+    setVisible(true);
 
-    // Don't show animation on route changes to prevent blocking content
-    if (previousPath.current !== pathname) {
-      previousPath.current = pathname;
-      setIsRouteChange(true);
-      // Just play sound without overlay for route changes
-      const soundTimer = setTimeout(playGavelStrike, 300);
-      return () => clearTimeout(soundTimer);
-    }
+    // Progress bar fills gradually over the entire loader sequence
+    const progressInterval = setInterval(() => {
+      setProgress((p) => {
+        if (p >= 95) return p;
+        return Math.min(p + Math.random() * 8, 95);
+      });
+    }, 120);
 
-    return undefined;
-  }, [triggerAnimation, pathname, playGavelStrike]);
+    // Advanced animation phases:
+    // Phase 1 (0-2.8s): Gavel drops from top (very small) to middle with 3D rotation and scaling
+    // Phase 2 (1.2s): Impact ripples appear
+    // Phase 3 (2.8-4.2s): Gavel does 360-degree spin with fade out
+    // Phase 4 (2.8-4.0s): Overlay fades out with blur effect
+    // At 4.2s: Unmount
+
+    // Complete progress bar to 100% at animation end
+    const completeTimer = setTimeout(() => {
+      setProgress(100);
+    }, 2800);
+
+    // Fade and unmount
+    const hideTimer = setTimeout(() => {
+      setVisible(false);
+    }, 4200);
+
+    return () => {
+      clearInterval(progressInterval);
+      clearTimeout(completeTimer);
+      clearTimeout(hideTimer);
+    };
+  }, []);
 
   if (!visible) return null;
 
   return (
     <>
       <style>{`
-        @keyframes gavelDrop {
-          0%   { transform: translateY(-420px) scale(0.08) rotateX(50deg) rotateY(-15deg); opacity: 0; }
-          6%   { opacity: 1; }
-          28%  { transform: translateY(14px) scale(1.12) rotateX(-6deg) rotateY(5deg); opacity: 1; }
-          36%  { transform: translateY(0) scale(1) rotateX(0deg) rotateY(0deg); }
-          42%  { transform: translateY(0) scale(1) rotateY(0deg); }
-          68%  { transform: translateY(0) scale(1) rotateY(360deg); }
-          76%  { transform: translateY(0) scale(1.03) rotateY(360deg); }
-          83%  { transform: translateY(0) scale(1) rotateY(360deg); }
-          100% { transform: translateY(500px) scale(0.1) rotateY(360deg); opacity: 0; }
+        @keyframes gavelDropAdvanced {
+          0% {
+            transform: translateY(-500px) scale(0.3) rotateX(90deg) rotateY(-45deg) rotateZ(-35deg);
+            opacity: 0;
+          }
+          8% {
+            opacity: 1;
+          }
+          25% {
+            transform: translateY(-300px) scale(0.5) rotateX(60deg) rotateY(-30deg) rotateZ(-25deg);
+            opacity: 1;
+          }
+          50% {
+            transform: translateY(-50px) scale(0.85) rotateX(25deg) rotateY(-10deg) rotateZ(-8deg);
+            opacity: 1;
+          }
+          72% {
+            transform: translateY(10px) scale(1.05) rotateX(-5deg) rotateY(5deg) rotateZ(2deg);
+            opacity: 1;
+          }
+          80% {
+            transform: translateY(0px) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(0px) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            opacity: 1;
+          }
         }
-        @keyframes overlayIn  { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes overlayOut { from { opacity: 1; } to { opacity: 0; } }
-        @keyframes labelPulse {
-          0%,10%  { opacity: 0; letter-spacing: 3px; }
-          25%,75% { opacity: 1; letter-spacing: 6px; }
-          90%,100%{ opacity: 0; }
+
+        @keyframes gavelRotate360 {
+          0% {
+            transform: scale(1) rotateY(0deg) rotateX(0deg) rotateZ(0deg);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1) rotateY(180deg) rotateX(15deg) rotateZ(10deg);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(0.8) rotateY(360deg) rotateX(20deg) rotateZ(0deg);
+            opacity: 0;
+          }
         }
-        .cba-overlay {
-          position: fixed; inset: 0; z-index: 9999;
-          display: flex; flex-direction: column;
-          align-items: center; justify-content: center;
-          background: rgba(80, 10, 18, 0.82);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+
+        @keyframes rippleOuter {
+          0% {
+            opacity: 0.6;
+            r: 5px;
+          }
+          100% {
+            opacity: 0;
+            r: 100px;
+          }
         }
-        .cba-overlay--enter { animation: overlayIn 0.35s ease forwards; }
-        .cba-overlay--exit  { animation: overlayOut 0.6s ease forwards; }
-        .cba-scene { perspective: 900px; }
-        .cba-gavel {
-          transform-style: preserve-3d;
-          animation: gavelDrop 4.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+        @keyframes rippleInner {
+          0% {
+            opacity: 0.4;
+            r: 0px;
+          }
+          100% {
+            opacity: 0;
+            r: 70px;
+          }
         }
-        .cba-gavel img {
-          width: 260px; height: auto; display: block;
-          filter: drop-shadow(0 16px 48px rgba(0,0,0,0.9))
-                  drop-shadow(0 0 28px rgba(212,160,23,0.2));
-          pointer-events: none; user-select: none;
+
+        @keyframes overlayFadeOut {
+          0% {
+            opacity: 1;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+          }
+          100% {
+            opacity: 0;
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+          }
         }
-        .cba-label {
-          margin-top: 36px;
-          font-size: 11px;
-          font-family: 'Georgia', serif;
-          letter-spacing: 6px;
+
+        .gavel-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 9999;
+          background: rgba(122, 31, 42, 0.25);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 40px;
+        }
+
+        .gavel-overlay.fade-out {
+          animation: overlayFadeOut 1.2s ease-out forwards;
+          animation-delay: 2.8s;
+        }
+
+        .gavel-container {
+          position: relative;
+          width: 280px;
+          height: 280px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          perspective: 1200px;
+        }
+
+        .gavel-image {
+          width: 240px;
+          height: 240px;
+          animation: gavelDropAdvanced 2.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+                     gavelRotate360 1.4s cubic-bezier(0.17, 0.67, 0.83, 0.67) 2.8s forwards;
+          filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 40px rgba(201, 169, 110, 0.2));
+          object-fit: contain;
+        }
+
+        .ripple-container {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 240px;
+          height: 240px;
+          pointer-events: none;
+        }
+
+        .ripple-container svg {
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+        }
+
+        .ripple-container.show svg {
+          opacity: 1;
+          animation: none;
+        }
+
+        .ripple-outer {
+          animation: rippleOuter 0.8s ease-out forwards;
+          animation-delay: 1.2s;
+        }
+
+        .ripple-inner {
+          animation: rippleInner 0.8s ease-out forwards;
+          animation-delay: 1.3s;
+        }
+
+        .gavel-text {
+          text-align: center;
+          animation: fadeInText 0.6s ease-out forwards;
+          animation-delay: 0.4s;
+          opacity: 0;
+        }
+
+        @keyframes fadeInText {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .gavel-text h2 {
+          color: #c9a96e;
+          font-size: 18px;
+          font-weight: 600;
+          letter-spacing: 1px;
+          margin: 0;
+          font-family: Georgia, serif;
+        }
+
+        .gavel-text p {
+          color: #c9a96e;
+          font-size: 12px;
+          letter-spacing: 2px;
+          margin: 8px 0 0;
           text-transform: uppercase;
-          color: rgba(245, 230, 200, 0.7);
-          animation: labelPulse 3.5s ease forwards;
+          font-family: Georgia, serif;
+          opacity: 0.9;
+        }
+
+        .progress-bar-container {
+          position: absolute;
+          bottom: 30px;
+          width: 200px;
+          height: 2px;
+          background: rgba(201, 169, 110, 0.2);
+          border-radius: 1px;
+          overflow: hidden;
+        }
+
+        .progress-bar-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #c9a96e 0%, #e8d4a2 50%, #c9a96e 100%);
+          width: 0%;
+          border-radius: 1px;
+          transition: width 0.12s ease-out;
+          box-shadow: 0 0 10px rgba(201, 169, 110, 0.4);
         }
       `}</style>
 
-      <div
-        className={`cba-overlay cba-overlay--${phase === 'exit' ? 'exit' : 'enter'}`}
-        role="status"
-        aria-label="Loading Colombo Brokers Association"
-      >
-        <div className="cba-scene">
-          <div className="cba-gavel">
-            <img src="/cba-gavel.png" alt="" draggable={false} />
+      <div className={`gavel-overlay ${visible && progress >= 100 ? 'fade-out' : ''}`}>
+        <div className="gavel-container">
+          {/* Real Gavel Image */}
+          <img
+            src="/cba-gavel.png"
+            alt="CBA Gavel"
+            className="gavel-image"
+            draggable={false}
+          />
+
+          {/* Ripple rings (appear on impact at ~800ms) */}
+          <div className="ripple-container show">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <circle
+                cx="100"
+                cy="100"
+                r="8"
+                fill="none"
+                stroke="#c9a96e"
+                strokeWidth="2"
+                className="ripple-outer"
+              />
+              <circle
+                cx="100"
+                cy="100"
+                r="0"
+                fill="none"
+                stroke="#c9a96e"
+                strokeWidth="2"
+                className="ripple-inner"
+              />
+            </svg>
           </div>
         </div>
-        <p className="cba-label">The Colombo Brokers' Association</p>
+
+        <div className="gavel-text">
+          <h2>Colombo Brokers' Association</h2>
+          <p>Established 1904</p>
+        </div>
+
+        <div className="progress-bar-container">
+          <div
+            className="progress-bar-fill"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
     </>
   );
