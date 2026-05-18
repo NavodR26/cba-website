@@ -20,7 +20,7 @@ export default function StatsBar() {
             <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.28em] text-amber-100">
               Association impact
             </span>
-            <h2 className="mt-5 text-3xl font-semibold leading-tight md:text-4xl">
+            <h2 className="mt-5 text-2xl font-semibold leading-tight md:text-3xl">
               CBA at a glance
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-white/75 md:text-base">

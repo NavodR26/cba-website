@@ -104,12 +104,12 @@ export default function UpcomingEvents() {
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-[1400px] mx-auto">
-        <div className="flex items-end justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
             <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
               Schedule
             </span>
-            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
+            <h2 className="mt-3 text-2xl md:text-3xl font-bold text-gray-900">
               Upcoming Auctions &amp; Meetings
             </h2>
           </div>

@@ -47,15 +47,15 @@ export function HeroParallax() {
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-10 font-serif font-black text-white leading-tight"
-              style={{ fontSize: 'clamp(2.4rem, 5vw, 5rem)' }}
+              className="mt-10 font-serif font-black text-white leading-tight max-w-3xl"
+              style={{ fontSize: 'clamp(2.1rem, 3.8vw, 4.2rem)' }}
             >
               The Colombo Brokers'
               <br />
               <motion.span
                 className="text-[#C9A227]"
                 animate={{
-                  textShadow: ['0 0 18px rgba(201, 162, 39, 0.18)', '0 0 42px rgba(201, 162, 39, 0.45)', '0 0 18px rgba(201, 162, 39, 0.18)'],
+                  textShadow: ['0 0 18px rgba(201, 162, 39, 0.18)', '0 0 34px rgba(201, 162, 39, 0.45)', '0 0 18px rgba(201, 162, 39, 0.18)'],
                 }}
                 transition={{ duration: 3.5, repeat: Infinity }}
               >
@@ -67,7 +67,7 @@ export function HeroParallax() {
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-6 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg"
+              className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg"
             >
               Representing the highest standard of brokerage excellence across Sri Lanka's tea, rubber, coconut and spices auction industries.
             </motion.p>
@@ -98,16 +98,16 @@ export function HeroParallax() {
             </motion.div>
           </div>
 
-          <div className="lg:col-span-4 flex items-end justify-end relative">
-            <div className="w-full h-full rounded-[2rem] border border-white/15 bg-white/5 backdrop-blur-xl shadow-[0_40px_120px_rgba(0,0,0,0.22)] overflow-hidden">
+          <div className="lg:col-span-4 flex items-center justify-end relative">
+            <div className="w-full max-w-[32rem] rounded-[2rem] border border-white/15 bg-white/5 backdrop-blur-xl shadow-[0_40px_120px_rgba(0,0,0,0.22)] overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.1),transparent_18%),radial-gradient(circle_at_bottom_right,rgba(201,169,110,0.14),transparent_20%)] pointer-events-none" />
-              <div className="relative h-full w-full p-6 sm:p-8">
+              <div className="relative w-full p-6 sm:p-8">
                 <div className="absolute -left-16 top-8 h-24 w-24 rounded-full border border-white/20 bg-white/10 blur-2xl" />
                 <div className="absolute -right-12 bottom-10 h-24 w-24 rounded-full border border-amber-300/20 bg-amber-300/5 blur-2xl" />
                 <div className="relative pt-10">
                   <div className="h-2 w-16 rounded-full bg-gradient-to-r from-amber-300 via-transparent to-transparent mb-6" />
                   <p className="font-medium text-white/80 uppercase tracking-[0.28em] text-xs mb-3">Premium Auction Insights</p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold text-white leading-tight">Modern brokerage, delivered with authority.</h2>
+                  <h2 className="text-2xl sm:text-3xl font-semibold text-white leading-tight">Modern brokerage, delivered with authority.</h2>
                   <p className="mt-4 max-w-xs text-sm text-white/70">Quick access to market updates, sales schedules, and member resources for institutional trading professionals.</p>
                 </div>
               </div>

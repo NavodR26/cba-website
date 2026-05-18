@@ -48,10 +48,10 @@ export default async function Chairman() {
           <span className="inline-flex items-center rounded-full border border-[var(--maroon)]/15 bg-[var(--maroon)]/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-[var(--maroon)] shadow-sm">
             Chairman's Message
           </span>
-          <h2 className="mt-6 text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
+          <h2 className="mt-6 text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
             A measured, premium voice for every auction.
           </h2>
-          <p className="mt-6 text-gray-600 text-lg leading-8">
+          <p className="mt-6 text-gray-600 text-base md:text-lg leading-8 max-w-2xl">
             {data.message}
           </p>
           <div className="mt-8 rounded-[2rem] border border-gray-200 bg-white p-7 shadow-sm">
