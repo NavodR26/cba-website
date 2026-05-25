@@ -18,10 +18,14 @@ async function getAnnouncements() {
 
 async function getGallery() {
   try {
-    return await client.fetch(`*[_type == "gallery"][0]`)
+    return await client.fetch(
+      `*[_type == "gallery"] | order(date desc)[0...4]{
+        _id, eventTitle, date, description, images
+      }`
+    )
   } catch (error) {
     console.warn('Failed to fetch gallery:', error)
-    return null
+    return []
   }
 }
 
@@ -58,7 +62,10 @@ function DownloadIcon() {
 
 export default async function AnnouncementsGallery() {
   const announcements = await getAnnouncements()
-  const gallery = await getGallery()
+  const galleries = await getGallery()
+
+  // Flatten all images from all gallery albums
+  const allImages = galleries.flatMap((gallery: any) => gallery.images || []).slice(0, 4)
 
   return (
     <section
@@ -144,9 +151,9 @@ export default async function AnnouncementsGallery() {
             </Link>
           </div>
 
-          {gallery?.images?.length ? (
+          {allImages.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {gallery.images.slice(0, 4).map((img: any, i: number) => (
+              {allImages.map((img: any, i: number) => (
                 <figure
                   key={i}
                   className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50 aspect-[4/3] group"

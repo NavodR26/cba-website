@@ -1,16 +1,23 @@
 import { NextResponse } from 'next/server'
 
+// Multiple reliable sources with fallback
 const SOURCES = [
+  'https://api.exchangerate-api.com/v4/latest/USD',
   'https://open.er-api.com/v6/latest/USD',
   'https://api.frankfurter.app/latest?from=USD&to=LKR',
 ]
 
-export const revalidate = 300
+export const revalidate = 60 // Update every minute for more accuracy
 
 export async function GET() {
   for (const url of SOURCES) {
     try {
-      const response = await fetch(url, { next: { revalidate } })
+      const response = await fetch(url, { 
+        next: { revalidate },
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        },
+      })
       if (!response.ok) continue
 
       const data = await response.json()
