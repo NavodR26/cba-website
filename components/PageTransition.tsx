@@ -33,14 +33,12 @@ export default function PageTransition({ children }: { children: React.ReactNode
   return (
     <>
       <style>{`
-        @keyframes fadeInUp {
+        @keyframes fadeInPage {
           from {
             opacity: 0;
-            transform: translateY(10px);
           }
           to {
             opacity: 1;
-            transform: translateY(0);
           }
         }
 
@@ -49,7 +47,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
         }
 
         [data-page-transition].page-transitioning {
-          animation: fadeInUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          animation: fadeInPage 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
       `}</style>
 

@@ -260,12 +260,12 @@ export default function Footer() {
             <p className="text-[11px] text-gray-500 hover:text-gray-400 transition-colors duration-300">
               Powered by{' '}
               <a
-                href="https://ndxdigital.com"
+                href="https://cenq.com"
                 target="_blank"
                 rel="noreferrer"
                 className="font-semibold text-gray-400 hover:text-amber-300 transition-colors duration-300 hover-scale"
               >
-                NDX Digital Solutions
+                CENQ TECHNOLOGIES
               </a>
             </p>
           </div>

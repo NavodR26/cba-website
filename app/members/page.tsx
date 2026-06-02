@@ -91,6 +91,10 @@ function isChairmanRole(role?: string) {
 
 function sortCommittee(arr: any[]) {
   return [...arr].sort((a, b) => {
+    const aOrder = typeof a.displayOrder === 'number' ? a.displayOrder : Number.MAX_SAFE_INTEGER
+    const bOrder = typeof b.displayOrder === 'number' ? b.displayOrder : Number.MAX_SAFE_INTEGER
+    if (aOrder !== bOrder) return aOrder - bOrder
+
     const ra = rankFor(a.role)
     const rb = rankFor(b.role)
     if (ra !== rb) return ra - rb

@@ -57,8 +57,10 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
   return (
     <>
       <header
-        className="fixed left-0 right-0 z-50 backdrop-blur-[18px] bg-white/95 border-b border-white/20 shadow-lg hover-glow transition-all duration-300"
-        style={{ top: `${topbarHeight}px` }}
+        className="cba-site-navbar fixed left-0 right-0 z-50 backdrop-blur-[18px] bg-white/95 border-b border-white/20 shadow-lg hover-glow"
+        style={{
+          top: `${topbarHeight}px`,
+        }}
       >
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-3 flex justify-between items-center gap-4 animate-fade-in-scale">
           {/* LOGO */}

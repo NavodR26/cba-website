@@ -11,9 +11,11 @@ export default function ScrollProgress() {
   })
 
   return (
-    <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--maroon)] via-amber-400 to-[var(--maroon)] origin-left z-[9999]"
-      style={{ scaleX }}
-    />
+    <div className="cba-scroll-progress fixed top-0 left-0 right-0 z-[9999] pointer-events-none overflow-hidden">
+      <motion.div
+        className="cba-scroll-progress__fill h-full w-full origin-left"
+        style={{ scaleX }}
+      />
+    </div>
   )
 }

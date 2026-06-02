@@ -4,6 +4,7 @@ import CursorDot from '@/components/CursorDot'
 import ProtectCopy from '@/components/ProtectCopy'
 import SmoothScroll from '@/components/SmoothScroll'
 import ScrollProgress from '@/components/ScrollProgress'
+import HeaderScrollController from '@/components/HeaderScrollController'
 import GavelLoader from '@/components/GavelLoader'
 import PageTransition from '@/components/PageTransition'
 
@@ -53,6 +54,7 @@ export default function RootLayout({
     <html lang="en" className="light">
       <body className="bg-white text-gray-800 font-sans antialiased overflow-x-hidden">
         <ScrollProgress />
+        <HeaderScrollController />
         <GavelLoader />
         <CursorDot />
         <ProtectCopy />
