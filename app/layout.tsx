@@ -7,6 +7,8 @@ import ScrollProgress from '@/components/ScrollProgress'
 import HeaderScrollController from '@/components/HeaderScrollController'
 import GavelLoader from '@/components/GavelLoader'
 import PageTransition from '@/components/PageTransition'
+import BackToTop from '@/components/BackToTop'
+import FloatingQuickDock from '@/components/FloatingQuickDock'
 
 export const metadata = {
   title: "The Colombo Brokers' Association",
@@ -87,6 +89,8 @@ export default function RootLayout({
         <PageTransition>
           <SmoothScroll>
             {children}
+            <BackToTop />
+            <FloatingQuickDock />
           </SmoothScroll>
         </PageTransition>
       </body>

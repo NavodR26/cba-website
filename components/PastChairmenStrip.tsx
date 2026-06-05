@@ -27,7 +27,7 @@ export default async function PastChairmenStrip() {
             </p>
           </div>
           <Link
-            href="/about#past"
+            href="/members"
             className="text-sm font-semibold text-[var(--maroon)] hover:underline"
           >
             View full history →

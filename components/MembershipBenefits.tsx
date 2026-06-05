@@ -52,10 +52,10 @@ export default function MembershipBenefits() {
   return (
     <section
       id="benefits"
-      className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 scroll-mt-32"
+      className="py-10 px-4 sm:px-6 lg:px-8 bg-gray-50 scroll-mt-32"
     >
       <div className="max-w-[1400px] mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
             Why Join
           </span>

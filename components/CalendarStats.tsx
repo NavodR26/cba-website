@@ -42,18 +42,18 @@ export default function CalendarStats({ events }: { events: Event[] }) {
   })
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 -mt-12 relative z-20 animate-fade-in-scale">
+    <section className="px-4 sm:px-6 lg:px-8 -mt-8 relative z-20 animate-fade-in-scale">
       <div className="max-w-[1400px] mx-auto bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden hover-glow transition-all duration-300">
-        <div className="px-5 py-5 border-b border-gray-100 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="px-5 py-4 border-b border-gray-100 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div>
             <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold">
               This Month
             </p>
-            <p className="text-xl font-bold text-gray-900">{monthLabel}</p>
+            <p className="text-lg font-bold text-gray-900">{monthLabel}</p>
           </div>
           <div className="text-left sm:text-right">
-            <p className="text-3xl font-bold text-[var(--maroon)] leading-none animate-fade-in-scale">{total}</p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-2xl font-bold text-[var(--maroon)] leading-none animate-fade-in-scale">{total}</p>
+            <p className="text-xs text-gray-500 mt-0.5">
               Scheduled {total === 1 ? 'event' : 'events'}
             </p>
           </div>
@@ -61,16 +61,16 @@ export default function CalendarStats({ events }: { events: Event[] }) {
 
         <div className="grid grid-cols-2 md:grid-cols-5 divide-x divide-y md:divide-y-0 divide-gray-100">
           {breakdown.map((b, i) => (
-            <div key={b.key} className="px-5 py-4 flex items-center gap-3 hover-lift transition-transform duration-300 animate-fade-in-scale" style={{ animationDelay: `${i * 60}ms` }}>
+            <div key={b.key} className="px-4 py-3 flex items-center gap-2 hover-lift transition-transform duration-300 animate-fade-in-scale" style={{ animationDelay: `${i * 60}ms` }}>
               <span
-                className="w-3 h-3 rounded-full shrink-0"
+                className="w-2.5 h-2.5 rounded-full shrink-0"
                 style={{ background: b.color }}
               />
               <div className="min-w-0">
-                <p className="text-2xl font-bold text-gray-900 leading-none">
+                <p className="text-xl font-bold text-gray-900 leading-none">
                   {b.count}
                 </p>
-                <p className="text-xs text-gray-500 mt-1 truncate">{b.key}</p>
+                <p className="text-xs text-gray-500 mt-0.5 truncate">{b.key}</p>
               </div>
             </div>
           ))}

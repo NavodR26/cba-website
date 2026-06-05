@@ -34,30 +34,39 @@ export default async function Home() {
       <SectionReveal>
         <HeritageStrip />
       </SectionReveal>
+      
       <SectionReveal>
         <AboutSection />
       </SectionReveal>
+      
       <SectionReveal>
         <TradeStatistics preview />
       </SectionReveal>
+      
       <SectionReveal>
         <Chairman />
       </SectionReveal>
+      
       <SectionReveal>
         <UpcomingEvents />
       </SectionReveal>
+      
       <SectionReveal>
         <TraditionSection />
       </SectionReveal>
+      
       <SectionReveal>
         <StatsBar />
       </SectionReveal>
+      
       <SectionReveal>
         <AnnouncementsGallery />
       </SectionReveal>
+      
       <SectionReveal>
         <Newsletter />
       </SectionReveal>
+      
       <FooterAnimated />
     </main>
   )

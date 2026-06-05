@@ -4,17 +4,21 @@ import Footer from '@/components/Footer'
 import PageHero from '@/components/PageHero'
 import SectionReveal from '@/components/SectionReveal'
 import TradeStatistics from '@/components/TradeStatistics'
+import CalendarStats from '@/components/CalendarStats'
+import EventCalendarClient from '@/components/EventCalendarClient'
+import AddToCalendarLink from '@/components/AddToCalendarLink'
+import DownloadsPanel from '@/components/DownloadsPanel'
 import { client } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
 
 export const metadata = {
-  title: "Resources | The Colombo Brokers' Association",
+  title: "Resources & Calendar | The Colombo Brokers' Association",
   description:
-    "Resources, circulars and live trade statistics from the Colombo Brokers’ Association. A professional dashboard for auction market information.",
+    "Resources, circulars and live trade statistics from the Colombo Brokers' Association in one modern dashboard.",
   openGraph: {
-    title: "Resources | The Colombo Brokers' Association",
+    title: "Resources & Calendar | The Colombo Brokers' Association",
     description:
-      "Resources, circulars and live trade statistics from the Colombo Brokers’ Association.",
+      "Resources, circulars and live trade statistics from the Colombo Brokers' Association.",
   },
 }
 
@@ -25,13 +29,13 @@ const IMPORTANT_LINKS = [
     href: 'https://www.pureceylontea.com/',
   },
   {
-    title: 'Colombo Tea Traders’ Association',
-    desc: 'CTTA — Colombo tea traders representation',
+    title: "Colombo Tea Traders' Association",
+    desc: 'CTTA - Colombo tea traders representation',
     href: 'https://ctta.lk/',
   },
   {
     title: 'Tea Exporters Association',
-    desc: 'TEA — exporter representation',
+    desc: 'TEA - exporter representation',
     href: 'https://www.teasrilanka.org/',
   },
   {
@@ -46,7 +50,7 @@ const IMPORTANT_LINKS = [
   },
   {
     title: 'Department of Commerce',
-    desc: 'Trade & exports of Sri Lanka',
+    desc: 'Trade and exports of Sri Lanka',
     href: 'https://www.doc.gov.lk/',
   },
   {
@@ -69,32 +73,17 @@ async function getDownloads() {
   )
 }
 
-function formatDate(d: any) {
-  if (!d) return ''
-  const date = new Date(d)
-  if (Number.isNaN(date.getTime())) return ''
-  return date.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  })
-}
-
-function formatSize(bytes?: number) {
-  if (!bytes) return ''
-  if (bytes < 1024) return `${bytes} B`
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`
-  return `${(bytes / 1024 / 1024).toFixed(1)} MB`
-}
-
 export default async function ResourcesPage() {
   const [downloads, events] = await Promise.all([getDownloads(), getEvents()])
   const safeEvents = events.map((e: any) => ({
     title: e.title,
     start_date: e.start_date ? new Date(e.start_date).toISOString() : null,
+    end_date: e.end_date ? new Date(e.end_date).toISOString() : null,
     category: e.category,
     type: e.type,
     sale_no: e.sale_no,
+    location: e.location,
+    notes: e.notes,
   }))
 
   return (
@@ -103,9 +92,9 @@ export default async function ResourcesPage() {
       <Navbar />
 
       <PageHero
-        badge="Resources & Downloads"
-        title="Resources & Downloads"
-        description="Official circulars, downloadable reports, and merchandise trade statistics in a compact institutional format."
+        badge="Resources & Calendar"
+        title="Resources, Circulars & Auction Schedule"
+        description="Official circulars, auction schedule and market analytics in one modern institutional dashboard."
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Resources' },
@@ -117,107 +106,122 @@ export default async function ResourcesPage() {
       </SectionReveal>
 
       <SectionReveal>
-        <section className="py-14 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-[1400px] mx-auto grid lg:grid-cols-3 gap-10">
-          {/* DOWNLOADS */}
-          <div className="lg:col-span-2">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Downloads
-            </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-              Latest circulars, notices and reports — published by the Association.
-            </p>
-
-            {downloads.length === 0 ? (
-              <p className="text-sm text-gray-400 italic">
-                Documents will appear here once published.
+        <section id="auction-calendar" className="scroll-mt-32 bg-white px-4 py-8 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1400px]">
+            <div className="mb-6">
+              <span className="inline-block rounded-full bg-[var(--maroon)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[var(--maroon)]">
+                Live Calendar
+              </span>
+              <h2 className="mt-2 text-3xl font-bold text-gray-900 md:text-4xl">
+                Auction Schedule & Events
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Official calendar with scheduled auctions and committee meetings.
               </p>
-            ) : (
-              <ul className="space-y-3">
-                {downloads.map((item: any, i: number) => (
-                  <li
-                    key={item._id}
-                    className="group flex items-start gap-4 p-4 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl hover:border-[var(--maroon)]/40 hover:shadow-xl hover:-translate-y-1 transition-transform duration-300 animate-fade-in-scale"
-                    style={{ animationDelay: `${i * 80}ms` }}
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-[var(--maroon)]/10 text-[var(--maroon)] flex items-center justify-center shrink-0">
-                      <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-                        <path d="M14 2v6h6" />
-                      </svg>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-gray-900 dark:text-white">
-                        {item.title}
-                      </p>
-                      {item.description && (
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
-                          {item.description}
-                        </p>
-                      )}
-                      <p className="text-xs text-gray-400 mt-1">
-                        {formatDate(item.date)}
-                        {item.fileSize ? ` · ${formatSize(item.fileSize)}` : ''}
-                      </p>
-                    </div>
-                    <a
-                      href={item.fileUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      download={item.fileName || true}
-                      className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--maroon)] text-white hover:opacity-90 transition hover-scale"
-                    >
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M12 3v12" />
-                        <path d="M7 10l5 5 5-5" />
-                        <path d="M5 21h14" />
-                      </svg>
-                      Download
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+              <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
+                <div className="overflow-hidden rounded-lg border border-gray-200">
+                  <EventCalendarClient events={safeEvents} />
+                </div>
+              </div>
+
+              <div className="flex flex-col space-y-4">
+                <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                  <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--maroon)]">
+                    Event Categories
+                  </p>
+                  <CalendarStats events={safeEvents} />
+                </div>
+
+                <div className="flex-1 overflow-hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                  <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--maroon)]">
+                    Upcoming
+                  </p>
+                  <div className="max-h-72 space-y-3 overflow-y-auto pr-1">
+                    {safeEvents.slice(0, 6).map((e, i) => (
+                      <div key={`${e.title}-${i}`} className="border-b border-gray-100 pb-3 last:border-b-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="text-xs">
+                            {e.start_date && (
+                              <p className="font-semibold text-gray-900">
+                                {new Date(e.start_date).toLocaleDateString('en-GB', {
+                                  day: '2-digit',
+                                  month: 'short',
+                                })}
+                              </p>
+                            )}
+                            <p className="line-clamp-1 text-gray-600">{e.title}</p>
+                          </div>
+                          <span className="inline-flex shrink-0 items-center rounded bg-[var(--maroon)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                            {e.category || e.type || 'Event'}
+                          </span>
+                        </div>
+                        <div className="mt-2">
+                          <AddToCalendarLink event={e} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+        </section>
+      </SectionReveal>
 
-          {/* IMPORTANT LINKS */}
-          <aside className="lg:col-span-1">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Important Links
-            </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-              Government and industry references.
-            </p>
+      <SectionReveal>
+        <section id="downloads" className="scroll-mt-32 bg-gray-50 px-4 py-8 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1400px]">
+            <div className="mb-6">
+              <span className="inline-block rounded-full bg-[var(--maroon)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[var(--maroon)]">
+                Publications
+              </span>
+              <h2 className="mt-2 text-3xl font-bold text-gray-900 md:text-4xl">
+                Circulars & Downloads
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Search the latest official circulars and documents from the Association.
+              </p>
+            </div>
 
-            <ul className="space-y-2">
-              {IMPORTANT_LINKS.map((l, i) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block p-4 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl hover:border-[var(--maroon)]/40 hover:shadow-xl hover:-translate-y-1 transition-transform duration-300 hover-scale animate-fade-in-scale"
-                    style={{ animationDelay: `${i * 70}ms` }}
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="font-semibold text-gray-900 dark:text-white text-sm">
-                        {l.title}
-                      </p>
-                      <svg className="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M7 17L17 7" />
-                        <path d="M7 7h10v10" />
-                      </svg>
-                    </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      {l.desc}
-                    </p>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </aside>
-        </div>
-      </section>
+            <div className="grid gap-6 lg:grid-cols-[2.5fr_1fr]">
+              <DownloadsPanel downloads={downloads} />
+
+              <aside id="industry-links" className="scroll-mt-32">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--maroon)]">
+                    Industry Links
+                  </p>
+                  <h3 className="mt-1 text-lg font-bold text-gray-900">Resources</h3>
+                </div>
+
+                <ul className="space-y-2">
+                  {IMPORTANT_LINKS.map((l, i) => (
+                    <li key={`${l.href}-${i}`}>
+                      <a
+                        href={l.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group block rounded-lg border border-gray-200 bg-white p-3 transition-transform duration-300 hover:-translate-y-0.5 hover:border-[var(--maroon)]/40 hover:shadow-md"
+                      >
+                        <div className="mb-1 flex items-start justify-between gap-2">
+                          <p className="text-xs font-semibold leading-snug text-gray-900">{l.title}</p>
+                          <svg className="h-2.5 w-2.5 shrink-0 text-gray-400 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M7 17L17 7" />
+                            <path d="M7 7h10v10" />
+                          </svg>
+                        </div>
+                        <p className="line-clamp-2 text-[11px] text-gray-500">{l.desc}</p>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+            </div>
+          </div>
+        </section>
       </SectionReveal>
 
       <Footer />

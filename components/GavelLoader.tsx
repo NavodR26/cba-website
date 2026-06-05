@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState, useRef } from 'react';
+import Image from 'next/image';
 
 export default function GavelLoader() {
   const mounted = useRef(false);
@@ -262,10 +263,13 @@ export default function GavelLoader() {
 
       <div className={`gavel-overlay ${visible && progress >= 100 ? 'fade-out' : ''}`}>
         <div className="gavel-container">
-          {/* Real Gavel Image */}
-          <img
-            src="/cba-gavel.png"
+          {/* Real Gavel Image (switched to new public asset) */}
+          <Image
+            src="/gavel-loader.png"
             alt="CBA Gavel"
+            width={240}
+            height={240}
+            priority
             className="gavel-image"
             draggable={false}
           />
@@ -296,7 +300,7 @@ export default function GavelLoader() {
         </div>
 
         <div className="gavel-text">
-          <h2>Colombo Brokers' Association</h2>
+          <h2>Colombo Brokers&apos; Association</h2>
           <p>Established 1904</p>
         </div>
 

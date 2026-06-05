@@ -1,5 +1,6 @@
 ﻿'use client';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useScrollParallax } from '@/hooks/useParallax';
 import Link from 'next/link';
 import MagneticButton from './MagneticButton';
@@ -16,11 +17,7 @@ export function HeroParallax() {
         animate={{ scale: [1, 1.02, 1] }}
         transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <img
-          src="/hero.png"
-          alt="Colombo skyline"
-          className="w-full h-full object-cover object-center"
-        />
+        <Image src="/hero.png" alt="Colombo skyline" fill className="object-cover object-center" priority />
       </motion.div>
 
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/10 via-slate-950/30 to-slate-950/70" />
@@ -50,7 +47,7 @@ export function HeroParallax() {
               className="mt-10 font-serif font-black text-white leading-tight max-w-3xl"
               style={{ fontSize: 'clamp(2.1rem, 3.8vw, 4.2rem)' }}
             >
-              The Colombo Brokers'
+              The Colombo Brokers&apos;
               <br />
               <motion.span
                 className="text-[#C9A227]"
@@ -69,7 +66,7 @@ export function HeroParallax() {
               transition={{ delay: 0.45, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg"
             >
-              Representing the highest standard of brokerage excellence across Sri Lanka's tea, rubber, coconut and spices auction industries.
+              Representing the highest standard of brokerage excellence across Sri Lanka&apos;s tea, rubber, coconut and spices auction industries.
             </motion.p>
 
             <motion.div
@@ -80,7 +77,7 @@ export function HeroParallax() {
             >
               <MagneticButton strength={15}>
                 <Link
-                  href="/events"
+                  href="/resources"
                   className="relative inline-flex items-center justify-center rounded-full bg-[var(--maroon)] px-7 py-3 text-sm font-semibold text-white transition duration-300 shadow-lg shadow-[0_18px_70px_rgba(122,31,42,0.35)] hover:-translate-y-0.5 hover:bg-[#6d1624] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
                 >
                   View Calendar

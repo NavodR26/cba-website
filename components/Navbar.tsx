@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import MobileMenu from './MobileMenu'
+import SiteSearch from './SiteSearch'
 
 type NavChild = { href: string; label: string; desc?: string }
 type NavItem = { href: string; label: string; children?: NavChild[] }
@@ -16,7 +17,6 @@ const NAV: NavItem[] = [
     label: 'About',
     children: [
       { href: '/about', label: 'About CBA', desc: 'Vision, mission & history' },
-      { href: '/about#past', label: 'Past Chairmen', desc: 'Honouring our leaders' },
     ],
   },
   {
@@ -29,7 +29,6 @@ const NAV: NavItem[] = [
       { href: '/members#brokers', label: 'Brokers Directory', desc: 'Member firms' },
     ],
   },
-  { href: '/events', label: 'Calendar' },
   {
     href: '/resources',
     label: 'Resources',
@@ -95,7 +94,7 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
                   : pathname?.startsWith(item.href)
               return (
                 <div
-                  key={item.href}
+                  key={`${item.href}-${i}`}
                   className="relative"
                   onMouseEnter={() => setHoverIdx(i)}
                   onMouseLeave={() => setHoverIdx(null)}
@@ -162,8 +161,24 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
             })}
           </nav>
 
-          {/* MOBILE — only shown below lg */}
-          <div className="lg:hidden">
+          <div className="hidden lg:block">
+            <SiteSearch />
+          </div>
+
+          {/* MOBILE */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))}
+              className="relative flex h-11 w-11 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 transition hover:border-[var(--maroon)]/30 hover:text-[var(--maroon)]"
+              aria-label="Open site search"
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-3.5-3.5" />
+              </svg>
+            </button>
+            <SiteSearch />
             <MobileMenu topbarHeight={topbarHeight} />
           </div>
         </div>

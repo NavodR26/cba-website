@@ -86,7 +86,7 @@ export default async function TradeStatistics({ preview }: { preview?: boolean }
                 Data source
               </p>
               <p className="mt-2 leading-relaxed">
-                Automatically updated from the Association's Google Sheets market report feed.
+                Automatically updated from the Association&apos;s Google Sheets market report feed.
               </p>
             </div>
           </div>

@@ -1,26 +1,21 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
 import PageHero from '@/components/PageHero'
-import Reveal from '@/components/Reveal'
 import SectionReveal from '@/components/SectionReveal'
-import { client } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
 
 export const metadata = {
   title: "About CBA | The Colombo Brokers' Association",
   description:
-    "The Colombo Brokers’ Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka. Learn about our heritage, mission and leadership.",
+    "The Colombo Brokers' Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka. Learn about our heritage, mission and leadership.",
   openGraph: {
     title: "About CBA | The Colombo Brokers' Association",
     description:
-      "The Colombo Brokers’ Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
+      "The Colombo Brokers' Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
   },
-}
-
-async function getPastChairmen() {
-  return await client.fetch(`*[_type == "pastChairman"] | order(year desc)`)
 }
 
 const HISTORY = [
@@ -64,7 +59,7 @@ const VALUES = [
   },
   {
     title: 'Heritage',
-    desc: 'Over a century of unbroken service to Sri Lanka’s commodity export trade.',
+    desc: 'Over a century of unbroken service to Sri Lanka&rsquo;s commodity export trade.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="8" r="6" />
@@ -94,13 +89,10 @@ const VALUES = [
 ]
 
 export default async function AboutPage() {
-  let chairmen: any[] = []
   let events: any[] = []
-  
+
   try {
-    const results = await Promise.allSettled([getPastChairmen(), getEvents()])
-    chairmen = results[0].status === 'fulfilled' ? results[0].value : []
-    events = results[1].status === 'fulfilled' ? results[1].value : []
+    events = await getEvents()
   } catch (error) {
     console.error('Error fetching About page data:', error)
   }
@@ -129,15 +121,16 @@ export default async function AboutPage() {
         ]}
       />
 
-      {/* INTRO — split with floating stat card */}
-      <SectionReveal>
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-[1400px] mx-auto grid gap-12 lg:grid-cols-12 items-center">
+          <SectionReveal>
+        <section className="py-10 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-[1400px] mx-auto grid gap-10 lg:grid-cols-12 items-center">
           <div className="lg:col-span-5 relative">
             <div className="relative overflow-hidden rounded-[32px] shadow-[0_30px_90px_rgba(122,31,42,0.12)] group hover:-translate-y-1 transition-transform duration-500">
-              <img
+              <Image
                 src="/hero1.png"
                 alt="CBA building"
+                width={1200}
+                height={460}
                 className="w-full h-[460px] object-cover transition duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--maroon)]/45 to-transparent" />
@@ -164,7 +157,7 @@ export default async function AboutPage() {
                 Who we are
               </span>
               <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                The institutional authority of Sri Lanka's auction market
+                The institutional authority of Sri Lanka&apos;s auction market
               </h2>
               <p className="mt-6 text-gray-600 leading-relaxed text-lg font-medium">
                 Established in 1904, the Colombo Brokers&rsquo; Association (CBA) serves as the institutional authority vested with the responsibility to conduct Sri Lanka&rsquo;s most critical commodity auctions.
@@ -187,15 +180,15 @@ export default async function AboutPage() {
 
       {/* CORE VALUES */}
       <SectionReveal>
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
+        <section className="py-10 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-[1400px] mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10">
             <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
               What we stand for
             </span>
-            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
-              Our Core Values
-            </h2>
+              <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900">
+                The institutional authority of Sri Lanka&apos;s auction market
+              </h2>
             <p className="mt-3 text-gray-500 max-w-2xl mx-auto">
               The principles that guide every decision the Association makes —
               from auction floor rules to industry advocacy.
@@ -225,7 +218,7 @@ export default async function AboutPage() {
 
       {/* AUTHORITY SECTION */}
       <SectionReveal>
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[var(--maroon)]/95 to-[#5a1620] text-white relative overflow-hidden">
+        <section className="py-10 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[var(--maroon)]/95 to-[#5a1620] text-white relative overflow-hidden">
           <div aria-hidden className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-amber-300/5 -translate-y-1/2" />
           <div aria-hidden className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-white/5 translate-y-1/2" />
           
@@ -268,7 +261,7 @@ export default async function AboutPage() {
 
       {/* VISION + MISSION */}
       <SectionReveal>
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <section className="py-10 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-[1400px] mx-auto grid md:grid-cols-2 gap-6">
           <article className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[var(--maroon)] via-[#5a1620] to-[#3d0f17] text-white p-10 md:p-12 hover-scale hover-glow animate-fade-in-scale transition-transform duration-300">
             <div
@@ -325,9 +318,9 @@ export default async function AboutPage() {
 
       {/* HISTORY — vertical timeline (premium) */}
       <SectionReveal>
-        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-[1100px] mx-auto">
-          <div className="text-center mb-14">
+          <div className="text-center mb-10">
             <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
               The Journey
             </span>
@@ -384,7 +377,7 @@ export default async function AboutPage() {
 
       {/* HERITAGE MILESTONE — 150 Years showcase */}
       <SectionReveal>
-        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-amber-50/30 to-white relative overflow-hidden">
+        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-amber-50/30 to-white relative overflow-hidden">
         <div
           aria-hidden
           className="absolute top-0 right-0 w-96 h-96 rounded-full bg-amber-300/8 blur-3xl -translate-y-1/2 translate-x-1/4"
@@ -413,9 +406,11 @@ export default async function AboutPage() {
                 {/* Image container */}
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white p-4 md:p-6 border border-amber-100/50 group-hover:border-amber-200 transition-all duration-300">
                   <div className="relative rounded-lg overflow-hidden bg-gray-100">
-                    <img
+                    <Image
                       src="/img01.png"
                       alt="150 Years of Ceylon Brokers' Association"
+                      width={1200}
+                      height={720}
                       className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -474,82 +469,9 @@ export default async function AboutPage() {
       </section>
       </SectionReveal>
 
-      {/* PAST CHAIRMEN */}
-      <section
-        id="past"
-        className="py-24 px-4 sm:px-6 lg:px-8 bg-white scroll-mt-24"
-      >
-        <div className="max-w-[1400px] mx-auto">
-          <div className="text-center mb-12">
-            <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
-              Heritage
-            </span>
-            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
-              Past Chairmen
-            </h2>
-            <p className="mt-3 text-gray-500 max-w-xl mx-auto">
-              A compact, professional record of the Association&rsquo;s leadership.
-            </p>
-          </div>
-
-          {chairmen.length === 0 ? (
-            <p className="text-center text-gray-400 text-sm italic">
-              Past chairmen will be listed here soon.
-            </p>
-          ) : (
-            <div className="relative">
-              <div className="hidden md:block absolute left-10 top-8 bottom-8 w-px bg-gradient-to-b from-[var(--maroon)] to-amber-300/70" />
-              <div className="space-y-5 md:pl-20">
-                {chairmen.map((item: any, i: number) => (
-                  <article
-                    key={item._id}
-                    className="group relative rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-xl hover:-translate-y-1 duration-300 overflow-hidden animate-fade-in-scale"
-                    style={{ animationDelay: `${i * 60}ms` }}
-                  >
-                    <div className="md:absolute md:-left-5 md:top-6 md:flex md:items-center">
-                      <div className="hidden md:block w-3 h-3 rounded-full bg-[var(--maroon)] ring-8 ring-white shadow-lg" />
-                    </div>
-                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                      <div>
-                        <div className="flex flex-wrap items-center gap-3">
-                          <span className="inline-flex items-center rounded-full bg-[var(--maroon)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[var(--maroon)]">
-                            Chairman
-                          </span>
-                          <span className="text-xs font-bold uppercase tracking-[0.24em] text-gray-500">
-                            {item.year}
-                          </span>
-                        </div>
-                        <h3 className="mt-4 text-xl font-semibold text-gray-900">
-                          {item.chairmanName}
-                        </h3>
-                        {item.company && (
-                          <p className="mt-1 text-sm text-gray-500">
-                            {item.company}
-                          </p>
-                        )}
-                      </div>
-                      {item.deputyChairman && (
-                        <div className="rounded-3xl bg-gray-50 border border-gray-200 p-4 text-sm text-gray-700">
-                          <p className="text-xs uppercase tracking-[0.24em] text-gray-400">
-                            Deputy Chairman
-                          </p>
-                          <p className="mt-2 font-semibold text-gray-900">
-                            {item.deputyChairman}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="max-w-[1400px] mx-auto rounded-2xl bg-gradient-to-br from-[var(--maroon)] to-[#3d0f17] text-white p-10 md:p-14 text-center relative overflow-hidden">
+      <section className="px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="max-w-[1400px] mx-auto rounded-2xl bg-gradient-to-br from-[var(--maroon)] to-[#3d0f17] text-white p-8 md:p-10 text-center relative overflow-hidden">
           <div
             aria-hidden
             className="absolute top-0 left-0 w-72 h-72 rounded-full bg-amber-300/10 -translate-x-1/3 -translate-y-1/2"
@@ -570,7 +492,7 @@ export default async function AboutPage() {
                 Explore Members
               </Link>
               <Link
-                href="/events"
+                href="/resources"
                 className="px-7 py-3 bg-white/10 backdrop-blur border border-white/20 hover:bg-white/15 font-semibold rounded-lg transition"
               >
                 View Calendar

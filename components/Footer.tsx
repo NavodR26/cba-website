@@ -9,12 +9,12 @@ const QUICK = [
   { href: '/about', label: 'About CBA' },
   { href: '/members#committee', label: 'Committee' },
   { href: '/members#brokers', label: 'Brokers' },
-  { href: '/events', label: 'Calendar' },
+  { href: '/resources', label: 'Resources' },
   { href: '/gallery', label: 'Gallery' },
 ]
 
 const RESOURCES = [
-  { href: '/events', label: 'Auction Calendar' },
+  { href: '/resources', label: 'Auction Calendar' },
   { href: '/#announcements', label: 'Circulars & Notices' },
   { href: '/#announcements', label: 'Downloads' },
   { href: '/contact', label: 'Important Links' },
@@ -77,14 +77,12 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-br from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-gray-300 relative overflow-hidden">
-      {/* Top accent line with animation */}
+    <footer className="bg-gradient-to-br from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-gray-300 relative overflow-hidden pb-24 md:pb-20">
       <div className="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 animate-shimmer" />
 
-      {/* Animated background elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-amber-300/5 rounded-full blur-3xl animate-float-particle"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[var(--maroon)]/10 rounded-full blur-3xl animate-float-particle" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute inset-x-0 top-0 h-px bg-white/15" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.06)_0%,transparent_34%,rgba(255,255,255,0.04)_100%)]" />
       </div>
 
       <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-14 grid lg:grid-cols-12 gap-10">
@@ -211,34 +209,22 @@ export default function Footer() {
             Contact
           </h3>
           <ul className="space-y-3 text-sm text-gray-400">
-            <li className="flex items-start gap-2 hover-lift group">
-              <svg className="w-4 h-4 mt-0.5 text-amber-300/80 shrink-0 group-hover:text-amber-300 transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              <span className="group-hover:text-gray-300 transition-colors duration-300">
-                No. 52, 2nd Floor,
-                <br />
-                Navam Mawatha,
-                <br />
-                Colombo 02, Sri Lanka
-              </span>
-            </li>
-            <li className="flex items-center gap-2 hover-lift group">
-              <svg className="w-4 h-4 text-amber-300/80 group-hover:text-amber-300 transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" />
-              </svg>
-              <a href="tel:+94112241387" className="hover:text-amber-300 transition-colors duration-300 hover-scale">
-                +94 11 224 1387
-              </a>
-            </li>
-            <li className="flex items-center gap-2 hover-lift group">
-              <div className="hover-scale">
+            <li className="flex items-start gap-3 hover-lift group">
+              <div className="w-10 h-10 rounded-full bg-[var(--maroon)]/10 text-amber-300 flex items-center justify-center shrink-0">
                 <SocialIcon kind="mail" />
               </div>
-              <a href="mailto:info@cba.lk" className="hover:text-amber-300 transition-colors duration-300 hover-scale">
-                info@cba.lk
-              </a>
+
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.24em] font-semibold text-amber-300/90">
+                  Official Email
+                </p>
+                <a href="mailto:info@cba.lk" className="block mt-1 text-gray-300 font-medium hover:text-amber-300 transition-colors duration-300">
+                  info@cba.lk
+                </a>
+                <p className="mt-3 text-xs text-gray-400 max-w-xs">
+                  Official inquiries and communications may be directed via email.
+                </p>
+              </div>
             </li>
           </ul>
         </motion.div>
@@ -246,7 +232,7 @@ export default function Footer() {
 
       {/* BOTTOM */}
       <div className="border-t border-white/10 animate-fade-in-scale" style={{ animationDelay: '0.8s' }}>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
           <p className="text-center md:text-left hover:text-gray-400 transition-colors duration-300">
             © {new Date().getFullYear()} The Colombo Brokers&rsquo; Association. All Rights Reserved.
           </p>

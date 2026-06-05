@@ -6,9 +6,21 @@ import MembersSubNav from '@/components/MembersSubNav'
 import CommodityPillars from '@/components/CommodityPillars'
 import MembershipBenefits from '@/components/MembershipBenefits'
 import BrokersDirectoryClient from '@/components/BrokersDirectoryClient'
+import PastChairmenGrid from '@/components/PastChairmenGrid'
 import Reveal from '@/components/Reveal'
 import { client, urlFor } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
+
+export const metadata = {
+  title: "Members | The Colombo Brokers' Association",
+  description:
+    "Explore CBA member firms, board directors, office bearers, partner institutions and past chairmen.",
+  openGraph: {
+    title: "Members | The Colombo Brokers' Association",
+    description:
+      "Explore CBA member firms, board directors, office bearers, partner institutions and past chairmen.",
+  },
+}
 
 async function getCommittee() {
   return await client.fetch(`*[_type == "committee"]`)
@@ -140,11 +152,11 @@ export default async function MembersPage() {
 
       {/* LEADERSHIP SECTIONS */}
       <section
-        className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100"
       >
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
-            <div className="text-center mb-10">
+            <div className="text-center mb-8">
               <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
                 The Leadership
               </span>
@@ -222,11 +234,11 @@ export default async function MembersPage() {
       {/* SECTION 3: SUPPORTING INSTITUTIONS */}
       <section
         id="partners"
-        className="py-16 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100 scroll-mt-32"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100 scroll-mt-32"
       >
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
-            <div className="text-center mb-10">
+            <div className="text-center mb-8">
               <span className="inline-block px-3 py-1 rounded-full bg-blue-100/50 text-blue-700 border border-blue-200 text-xs font-semibold uppercase tracking-wider">
                 Association Ecosystem
               </span>
@@ -264,11 +276,11 @@ export default async function MembersPage() {
       {/* MEMBER FIRMS (was "Brokers Directory") */}
       <section
         id="brokers"
-        className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100 scroll-mt-32"
+        className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-gray-100 scroll-mt-32"
       >
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
-            <div className="text-center mb-10">
+            <div className="text-center mb-8">
               <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
                 Member Firms
               </span>
@@ -293,6 +305,9 @@ export default async function MembersPage() {
           )}
         </div>
       </section>
+
+    {/* PAST CHAIRMEN GRID */}
+    <PastChairmenGrid />
 
       <Footer />
     </main>

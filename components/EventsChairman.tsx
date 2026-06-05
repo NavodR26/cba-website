@@ -85,7 +85,7 @@ export default async function EventsChairman() {
               Upcoming Events
             </h2>
             <a
-              href="/events"
+              href="/resources"
               className="text-sm font-semibold text-[var(--maroon)] hover:underline"
             >
               View all →

@@ -17,11 +17,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
     },
     {
+      url: `${BASE_URL}/resources`,
+      lastModified: new Date(),
+    },
+    {
       url: `${BASE_URL}/events`,
       lastModified: new Date(),
     },
     {
-      url: `${BASE_URL}/resources`,
+      url: `${BASE_URL}/brokers`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${BASE_URL}/committee`,
       lastModified: new Date(),
     },
     {

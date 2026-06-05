@@ -19,7 +19,14 @@ html {
   margin: 0;
   padding: 0;
   padding-top: 0;
+  position: relative;
 }
+
+/* Ensure root scroll container is non-static for framer-motion useScroll target measurements */
+#__next { position: relative; }
+
+/* Lenis creates a scroll container with class .lenis — ensure it's non-static */
+.lenis { position: relative; }
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -534,6 +541,7 @@ canvas {
 
 /* Ensure parallax images don't create overflow issues */
 .parallax-container {
+  position: relative;
   overflow: hidden;
   will-change: transform;
 }

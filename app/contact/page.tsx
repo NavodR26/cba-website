@@ -1,10 +1,21 @@
-import Link from 'next/link'
+// Link intentionally unused in this file
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import TopBar from '@/components/TopBar'
 import PageHero from '@/components/PageHero'
 import ContactForm from '@/components/ContactForm'
 import { getEvents } from '@/lib/events'
+
+export const metadata = {
+  title: "Contact | The Colombo Brokers' Association",
+  description:
+    "Contact the Colombo Brokers' Association for membership, media, official correspondence and general enquiries.",
+  openGraph: {
+    title: "Contact | The Colombo Brokers' Association",
+    description:
+      "Contact the Colombo Brokers' Association for membership, media, official correspondence and general enquiries.",
+  },
+}
 
 export default async function ContactPage() {
   const events = await getEvents()

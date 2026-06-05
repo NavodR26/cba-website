@@ -1,5 +1,5 @@
-'use client';
-import { useMotionValue, useSpring } from 'framer-motion';
+"use client";
+import { useSpring } from 'framer-motion';
 import { useCallback } from 'react';
 
 /**

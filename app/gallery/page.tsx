@@ -6,6 +6,17 @@ import PageHero from '@/components/PageHero'
 import { client } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
 
+export const metadata = {
+  title: "Gallery | The Colombo Brokers' Association",
+  description:
+    "View event highlights, association moments and gallery albums from the Colombo Brokers' Association.",
+  openGraph: {
+    title: "Gallery | The Colombo Brokers' Association",
+    description:
+      "View event highlights, association moments and gallery albums from the Colombo Brokers' Association.",
+  },
+}
+
 async function getAlbums() {
   return await client.fetch(
     `*[_type == "gallery"] | order(date desc){

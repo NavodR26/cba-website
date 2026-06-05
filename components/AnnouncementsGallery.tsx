@@ -80,7 +80,7 @@ export default async function AnnouncementsGallery() {
               Latest Announcements
             </h2>
             <Link
-              href="#announcements"
+              href="/resources"
               className="text-sm font-semibold text-[var(--maroon)] hover:underline"
             >
               View all →

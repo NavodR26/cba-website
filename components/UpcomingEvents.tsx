@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { getEvents } from '@/lib/events'
+import AddToCalendarLink from '@/components/AddToCalendarLink'
 
 const CATEGORY_COLORS: Record<string, string> = {
   Tea: '#7a1f2a',
@@ -102,22 +103,29 @@ export default function UpcomingEvents() {
   };
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-      <div className="max-w-[1400px] mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+      <div className="absolute -left-32 top-0 w-72 h-72 rounded-full bg-[var(--maroon)]/5 blur-3xl" />
+      <div className="absolute -right-40 bottom-0 w-96 h-96 rounded-full bg-amber-300/5 blur-3xl" />
+      
+      <div className="max-w-[1400px] mx-auto relative z-10">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
-              Schedule
+            <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-bold uppercase tracking-widest">
+              Live Events
             </span>
-            <h2 className="mt-3 text-2xl md:text-3xl font-bold text-gray-900">
-              Upcoming Auctions &amp; Meetings
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
+              Upcoming Auctions & Meetings
             </h2>
+            <p className="mt-1 text-sm text-gray-500">Next 6 scheduled events in the official calendar</p>
           </div>
           <Link
-            href="/events"
-            className="text-sm font-semibold text-[var(--maroon)] hover:underline shrink-0"
+            href="/resources"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-[var(--maroon)] hover:bg-[var(--maroon)]/90 px-4 py-2 rounded-full transition shrink-0"
           >
-            View full calendar →
+            View Calendar
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </Link>
         </div>
 
@@ -140,50 +148,53 @@ export default function UpcomingEvents() {
                   key={i}
                   custom={i}
                   variants={cardVariants}
-                  className="group flex bg-white rounded-xl border border-gray-200 hover:border-[var(--maroon)]/40 hover:shadow-lg hover:-translate-y-0.5 transition overflow-hidden"
+                  className="group flex bg-white rounded-2xl border border-gray-200/80 hover:border-[var(--maroon)]/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
                 >
                   <div
-                    className="flex flex-col items-center justify-center px-5 py-4 text-white shrink-0 w-[88px]"
-                    style={{ background: color }}
+                    className="flex flex-col items-center justify-center px-5 py-4 text-white shrink-0 w-[92px] bg-gradient-to-br"
+                    style={{ background: `linear-gradient(135deg, ${color}, ${color}dd)` }}
                   >
                     <motion.span custom={i} variants={dateVariants} className="text-3xl font-bold leading-none">
                       {day}
                     </motion.span>
-                    <span className="text-[10px] tracking-widest mt-1 opacity-90">
+                    <span className="text-[10px] tracking-widest mt-1 opacity-95 font-semibold">
                       {month}
                     </span>
                   </div>
 
-                  <div className="flex-1 p-4 min-w-0">
-                    <h3 className="font-semibold text-gray-900 truncate">
+                  <div className="flex-1 p-5 min-w-0">
+                    <h3 className="font-bold text-gray-900 truncate text-sm">
                       {event.title}
                     </h3>
                     {event.sale_no && (
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 mt-1">
                         Sale {event.sale_no}
                       </p>
                     )}
 
-                    <div className="mt-2 space-y-0.5 text-xs text-gray-500">
-                      <p>{formatDate(event.start_date)}</p>
+                    <div className="mt-3 space-y-0.5 text-xs text-gray-600">
+                      <p className="font-medium">{formatDate(event.start_date)}</p>
                       {event.end_date && (
-                        <p>Day 2: {formatDate(event.end_date)}</p>
+                        <p className="text-gray-500">Day 2: {formatDate(event.end_date)}</p>
                       )}
                       {event.time && <p>{formatTime(event.time)}</p>}
                     </div>
 
                     {event.catalogue_close && (
-                      <p className="mt-2 text-xs text-red-600 font-medium">
-                        Cat. close: {formatDate(event.catalogue_close)}
+                      <p className="mt-2 text-xs text-amber-600 font-semibold">
+                        📋 Cat. close: {formatDate(event.catalogue_close)}
                       </p>
                     )}
 
-                    <span
-                      className="inline-block mt-3 text-[10px] uppercase tracking-wider font-semibold px-2 py-1 rounded-full text-white"
-                      style={{ background: color }}
-                    >
-                      {event.category || event.type || 'Event'}
-                    </span>
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                      <span
+                        className="inline-block text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full text-white"
+                        style={{ background: color }}
+                      >
+                        {event.category || event.type || 'Event'}
+                      </span>
+                      <AddToCalendarLink event={event} />
+                    </div>
                   </div>
                 </motion.article>
               )
