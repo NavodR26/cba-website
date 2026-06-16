@@ -9,7 +9,7 @@ export default function AboutSection() {
           Institution
         </span>
         <h2 className="mt-3 text-4xl md:text-5xl font-bold text-gray-900 animate-fade-in-scale" style={{ animationDelay: '0.1s' }}>
-          Leading Sri Lanka&apos;s Auction Market
+          Leading Sri Lanka&apos;s Tea Auctions
         </h2>
 
         <p className="text-gray-600 max-w-3xl mx-auto mt-4 text-lg leading-relaxed animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
