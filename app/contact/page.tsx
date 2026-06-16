@@ -2,7 +2,7 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import TopBar from '@/components/TopBar'
-import PageHero from '@/components/PageHero'
+import PageHeroPremium from '@/components/PageHeroPremium'
 import ContactForm from '@/components/ContactForm'
 import { getEvents } from '@/lib/events'
 
@@ -28,14 +28,15 @@ export default async function ContactPage() {
   }))
 
   return (
-    <main className="cba-page-shell bg-white text-gray-800">
+    <main id="main-content" className="cba-page-shell bg-white text-gray-800">
       <TopBar events={safeEvents} />
       <Navbar />
 
-      <PageHero
+      <PageHeroPremium
         badge="Get in Touch"
-        title="Contact Us"
-        description="We'd love to hear from you — reach out for membership, media or general enquiries."
+        title="Contact the Association"
+        subtitle="Reach our Secretariat for membership, administration and general enquiries."
+        backgroundImage="/contact_hero.png"
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Contact' },

@@ -216,30 +216,30 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
   return (
-    <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-sm border border-gray-200 dark:border-neutral-800 overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
       {/* HEADER */}
-      <div className="px-4 py-5 flex flex-col gap-4 border-b border-gray-100 dark:border-neutral-800 md:px-7 lg:flex-row lg:items-center lg:justify-between">
+      <div className="px-4 py-5 flex flex-col gap-4 border-b border-gray-100 md:px-7 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex w-full items-center gap-2 sm:gap-3 lg:w-auto">
           <button
             aria-label="Previous month"
             onClick={() => setCursor(addMonths(cursor, -1))}
-            className="w-9 h-9 rounded-full border border-gray-200 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 hover:border-[var(--maroon)] transition flex items-center justify-center text-gray-600 dark:text-gray-300"
+            className="w-9 h-9 rounded-full border border-gray-200 hover:bg-gray-50 hover:border-[var(--maroon)] transition flex items-center justify-center text-gray-600"
           >
             ‹
           </button>
-          <h3 className="min-w-0 flex-1 text-center text-lg font-bold text-[var(--maroon)] dark:text-amber-300 sm:text-xl md:text-2xl lg:min-w-[180px]">
+          <h3 className="min-w-0 flex-1 text-center text-lg font-bold text-[var(--maroon)] sm:text-xl md:text-2xl lg:min-w-[180px]">
             {monthLabel}
           </h3>
           <button
             aria-label="Next month"
             onClick={() => setCursor(addMonths(cursor, 1))}
-            className="w-9 h-9 rounded-full border border-gray-200 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 hover:border-[var(--maroon)] transition flex items-center justify-center text-gray-600 dark:text-gray-300"
+            className="w-9 h-9 rounded-full border border-gray-200 hover:bg-gray-50 hover:border-[var(--maroon)] transition flex items-center justify-center text-gray-600"
           >
             ›
           </button>
           <button
             onClick={() => setCursor(startOfMonth(new Date()))}
-            className="ml-1 hidden px-3 py-1.5 text-xs font-semibold rounded-full border border-gray-200 dark:border-neutral-700 text-gray-700 dark:text-gray-300 hover:border-[var(--maroon)] hover:text-[var(--maroon)] dark:hover:text-amber-300 transition sm:ml-2 sm:inline-flex sm:px-3.5"
+            className="ml-1 hidden px-3 py-1.5 text-xs font-semibold rounded-full border border-gray-200 text-gray-700 hover:border-[var(--maroon)] hover:text-[var(--maroon)] transition sm:ml-2 sm:inline-flex sm:px-3.5"
           >
             Today
           </button>
@@ -256,7 +256,7 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
                 className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition ${
                   on
                     ? 'border-transparent text-white'
-                    : 'border-gray-200 dark:border-neutral-700 text-gray-500 dark:text-gray-400 hover:border-gray-300'
+                    : 'border-gray-200 text-gray-500 hover:border-gray-300'
                 }`}
                 style={on ? { background: l.color } : undefined}
               >
@@ -272,11 +272,11 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
       </div>
 
       {/* WEEKDAYS */}
-      <div className="grid grid-cols-7 bg-gray-50 dark:bg-neutral-800/50 border-b border-gray-100 dark:border-neutral-800">
+      <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-100">
         {weekdays.map((w) => (
           <div
             key={w}
-            className="py-3 text-center text-[11px] font-semibold tracking-wider uppercase text-gray-500 dark:text-gray-400"
+            className="py-3 text-center text-[11px] font-semibold tracking-wider uppercase text-gray-500"
           >
             {w}
           </div>
@@ -296,10 +296,10 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
             return (
               <div
                 key={i}
-                className={`relative min-h-[86px] p-1.5 border-r border-b border-gray-100 dark:border-neutral-800 sm:min-h-[110px] sm:p-2 md:min-h-[120px] ${
+                className={`relative min-h-[86px] p-1.5 border-r border-b border-gray-100 sm:min-h-[110px] sm:p-2 md:min-h-[120px] ${
                   inMonth
-                    ? 'bg-white dark:bg-neutral-900'
-                    : 'bg-gray-50/60 dark:bg-neutral-800/40'
+                    ? 'bg-white'
+                    : 'bg-gray-50/60'
                 } ${(i + 1) % 7 === 0 ? 'border-r-0' : ''}`}
               >
                 <div className="flex items-center justify-between">
@@ -308,8 +308,8 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
                       isToday
                         ? 'w-6 h-6 rounded-full bg-[var(--maroon)] text-white'
                         : inMonth
-                        ? 'text-gray-700 dark:text-gray-300'
-                        : 'text-gray-300 dark:text-gray-600'
+                        ? 'text-gray-700'
+                        : 'text-gray-300'
                     }`}
                   >
                     {day.getDate()}
@@ -353,7 +353,7 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
           onClick={() => setSelected(null)}
         >
           <div
-            className="bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div
@@ -386,7 +386,7 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
               )}
             </div>
 
-            <div className="px-6 py-5 space-y-3 text-sm text-gray-700 dark:text-gray-200">
+            <div className="px-6 py-5 space-y-3 text-sm text-gray-700">
               <div className="flex items-start gap-2">
                 <span className="font-medium text-gray-900 w-28 shrink-0">Date</span>
                 <span>{formatLong(selected.start_date)}</span>
@@ -429,10 +429,10 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
               )}
             </div>
 
-            <div className="px-6 py-3 bg-gray-50 dark:bg-neutral-800/50 flex items-center justify-between gap-3">
+            <div className="px-6 py-3 bg-gray-50 flex items-center justify-between gap-3">
               <button
                 onClick={() => downloadICS(selected)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md border border-gray-200 dark:border-neutral-700 text-gray-700 dark:text-gray-200 hover:border-[var(--maroon)] hover:text-[var(--maroon)] dark:hover:text-amber-300 transition"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md border border-gray-200 text-gray-700 hover:border-[var(--maroon)] hover:text-[var(--maroon)] transition"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M12 3v12" />

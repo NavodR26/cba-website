@@ -2,7 +2,7 @@ import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
 import GalleryClient from '@/components/GalleryClient'
-import PageHero from '@/components/PageHero'
+import PageHeroPremium from '@/components/PageHeroPremium'
 import { client } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
 
@@ -38,15 +38,15 @@ export default async function GalleryPage() {
   }))
 
   return (
-    <main className="cba-page-shell bg-white text-gray-900">
+    <main id="main-content" className="cba-page-shell bg-white text-gray-900">
       <TopBar events={safeEvents} />
       <Navbar />
 
-      <PageHero
+      <PageHeroPremium
         badge="Gallery"
-        title="Captured moments of CBA"
-        subtitle="Excellence"
-        description="Discover the bright energy, community gatherings and memorable events that shape the Colombo Brokers' Association."
+        title="Moments from the Association"
+        subtitle="Events, meetings and milestones from the Colombo Brokers' Association."
+        backgroundImage="/gallery_hero.png"
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Gallery' },

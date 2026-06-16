@@ -13,11 +13,11 @@ import { useState } from 'react'
 export default function HeritageStrip() {
   return (
     <section className="px-4 sm:px-6 lg:px-8 -mt-16 relative z-20">
-      <div className="max-w-[1400px] mx-auto bg-white dark:bg-neutral-900 rounded-2xl shadow-xl ring-1 ring-gray-200 dark:ring-neutral-800 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
         <div className="grid lg:grid-cols-5 items-stretch">
           <GavelPanel />
 
-          <div className="lg:col-span-3 grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100 dark:divide-neutral-800">
+          <div className="lg:col-span-3 grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
             <Pillar
               title="Market Operations"
               text="Facilitating one of the world's largest single-origin commodity auctions with efficiency and trust."
@@ -138,17 +138,17 @@ function Pillar({
 }) {
   return (
     <div className="p-7 flex flex-col">
-      <div className="w-10 h-10 rounded-lg bg-[var(--maroon)]/10 text-[var(--maroon)] dark:text-amber-300 flex items-center justify-center mb-3">
+      <div className="w-10 h-10 rounded-lg bg-[var(--maroon)]/10 text-[var(--maroon)] flex items-center justify-center mb-3">
         <div className="w-5 h-5">{icon}</div>
       </div>
-      <h3 className="font-semibold text-gray-900 dark:text-white">{title}</h3>
-      <p className="mt-1.5 text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-1">
+      <h3 className="font-semibold text-gray-900">{title}</h3>
+      <p className="mt-1.5 text-sm text-gray-600 leading-relaxed flex-1">
         {text}
       </p>
       {cta && (
         <Link
           href={cta.href}
-          className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[var(--maroon)] dark:text-amber-300 hover:underline"
+          className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[var(--maroon)] hover:underline"
         >
           {cta.label} →
         </Link>

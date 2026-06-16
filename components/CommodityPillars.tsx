@@ -83,7 +83,7 @@ export default function CommodityPillars() {
           <h2 className="mx-auto mt-3 max-w-[calc(100vw-2rem)] text-xl min-[420px]:text-2xl sm:max-w-3xl sm:text-3xl md:text-4xl font-bold text-gray-900">
             <span>Four pillars of Sri Lanka&rsquo;s</span>
             <br />
-            <span>auction trade</span>
+            <span>auction activity</span>
           </h2>
           <p className="mt-3 text-gray-500 max-w-[calc(100vw-2rem)] sm:max-w-2xl mx-auto">
             Our member firms operate across all four commodities the Association

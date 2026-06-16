@@ -1,9 +1,8 @@
 import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
-import PageHero from '@/components/PageHero'
+import PageHeroPremium from '@/components/PageHeroPremium'
 import SectionReveal from '@/components/SectionReveal'
-import TradeStatistics from '@/components/TradeStatistics'
 import CalendarStats from '@/components/CalendarStats'
 import EventCalendarClient from '@/components/EventCalendarClient'
 import AddToCalendarLink from '@/components/AddToCalendarLink'
@@ -87,23 +86,20 @@ export default async function ResourcesPage() {
   }))
 
   return (
-    <main className="cba-page-shell bg-white text-gray-800">
+    <main id="main-content" className="cba-page-shell bg-white text-gray-800">
       <TopBar events={safeEvents} />
       <Navbar />
 
-      <PageHero
+      <PageHeroPremium
         badge="Resources & Calendar"
-        title="Resources, Circulars & Auction Schedule"
-        description="Official circulars, auction schedule and market analytics in one modern institutional dashboard."
+        title="Resources, Circulars & Market Information"
+        subtitle="Access official circulars, schedules, reports and market intelligence resources."
+        backgroundImage="/resources_hero.png"
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Resources' },
         ]}
       />
-
-      <SectionReveal>
-        <TradeStatistics />
-      </SectionReveal>
 
       <SectionReveal>
         <section id="auction-calendar" className="scroll-mt-32 bg-white px-4 py-8 sm:px-6 lg:px-8">

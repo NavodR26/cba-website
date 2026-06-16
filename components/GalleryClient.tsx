@@ -49,7 +49,7 @@ function GalleryImage({ src, index, onClick }: { src: string; index: number; onC
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
-      className="group relative overflow-hidden rounded-[1.5rem] aspect-square bg-gray-100 shadow-sm hover:-translate-y-1 transition-transform duration-300 animate-fade-in-scale parallax-container"
+      className="group relative overflow-hidden rounded-[1.5rem] aspect-square bg-gray-100 shadow-sm hover:-translate-y-1 transition-transform duration-300 animate-fade-in-scale parallax-container cba-gallery-protected"
     >
       <motion.img
         src={src}

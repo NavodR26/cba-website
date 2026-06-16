@@ -1,3 +1,17 @@
+# TradeStatistics Component - REMOVED
+
+This file contains the TradeStatistics component code that was removed from the homepage and resources page.
+Saved on: June 11, 2026
+
+## Component Location
+`d:\CBA-Website-Project\cba-frontend\cba-website\components\TradeStatistics.tsx`
+
+## Usage Locations (Before Removal)
+1. Homepage: `app/page.tsx` - Line 43: `<TradeStatistics preview />`
+2. Resources Page: `app/resources/page.tsx` - Line 106: `<TradeStatistics />`
+
+## Component Code
+```tsx
 import Link from 'next/link'
 
 const API_URL = 'https://script.google.com/macros/s/AKfycbziOK6ckEQ5i2KqVI9mUqocsMVbkRw9ED5ZO2PaNtAyiY6cHLX-E8TZpcpxDl6g_miH/exec'
@@ -368,3 +382,10 @@ export default async function TradeStatistics({ preview }: { preview?: boolean }
     </section>
   )
 }
+```
+
+## Removal Instructions
+To restore this component:
+1. Copy the component code above to `components/TradeStatistics.tsx`
+2. Add `import TradeStatistics from '@/components/TradeStatistics'` to the desired page
+3. Add `<TradeStatistics />` or `<TradeStatistics preview />` to the page JSX

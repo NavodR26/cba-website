@@ -41,7 +41,7 @@ export default function NewsCard({ item, config }: NewsCardProps) {
           <img
             src={item.thumbnail}
             alt={item.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
         </div>
@@ -51,13 +51,13 @@ export default function NewsCard({ item, config }: NewsCardProps) {
       <div className="p-5 flex flex-col h-full">
         {/* Category Badge */}
         {config && (
-          <div className={`inline-flex w-fit px-3 py-1 rounded-full text-xs uppercase tracking-wider font-semibold border ${config.color} mb-3`}>
+          <div className={`inline-flex w-fit px-3 py-1 rounded-full text-xs uppercase tracking-wider font-semibold border ${config.color} mb-3 badge-modern`}>
             {config.icon} {config.label}
           </div>
         )}
 
         {/* Title */}
-        <h3 className="text-base md:text-lg font-bold text-gray-900 line-clamp-3 mb-3 group-hover:text-[var(--maroon)] transition-colors">
+        <h3 className="text-base md:text-lg font-bold text-gray-900 line-clamp-3 mb-3 group-hover:text-[var(--maroon)] transition-colors duration-300">
           {item.title}
         </h3>
 
@@ -74,7 +74,7 @@ export default function NewsCard({ item, config }: NewsCardProps) {
 
         {/* External link indicator */}
         {hasLink && (
-          <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/95 flex items-center justify-center group-hover:bg-[var(--maroon)] group-hover:text-white transition-all">
+          <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/95 flex items-center justify-center group-hover:bg-[var(--maroon)] group-hover:text-white transition-all duration-300 shadow-md group-hover:shadow-lg">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M7 17L17 7" />
               <path d="M7 7h10v10" />
@@ -85,7 +85,7 @@ export default function NewsCard({ item, config }: NewsCardProps) {
     </>
   )
 
-  const classes = "group relative h-full rounded-2xl border border-gray-200 bg-white overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
+  const classes = "group relative h-full rounded-2xl border border-gray-200 bg-white overflow-hidden transition-all duration-500 card-modern hover:shadow-2xl"
 
   if (hasLink && item.externalUrl) {
     return (

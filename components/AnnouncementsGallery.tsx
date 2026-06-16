@@ -70,13 +70,13 @@ export default async function AnnouncementsGallery() {
   return (
     <section
       id="announcements"
-      className="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-950 scroll-mt-24"
+      className="py-16 px-4 sm:px-6 lg:px-8 bg-white scroll-mt-24"
     >
       <div className="max-w-[1400px] mx-auto grid gap-10 lg:grid-cols-2">
         {/* ANNOUNCEMENTS */}
         <div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end justify-between mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
               Latest Announcements
             </h2>
             <Link
@@ -96,18 +96,18 @@ export default async function AnnouncementsGallery() {
               {announcements.map((item: any) => (
                 <li
                   key={item._id}
-                  className="group grid grid-cols-[auto_1fr_auto] items-start gap-4 p-4 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl hover:border-[var(--maroon)]/40 hover:shadow-md transition min-w-0"
+                  className="group grid grid-cols-[auto_1fr_auto] items-start gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-[var(--maroon)]/40 hover:shadow-md transition min-w-0"
                 >
                   <div className="w-11 h-11 rounded-xl bg-[var(--maroon)]/10 text-[var(--maroon)] flex items-center justify-center shrink-0">
                     <DocIcon />
                   </div>
 
                   <div className="min-w-0">
-                    <p className="font-semibold text-gray-900 dark:text-white text-sm md:text-base truncate">
+                    <p className="font-semibold text-gray-900 text-sm md:text-base truncate">
                       {item.title}
                     </p>
                     {item.description && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
+                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">
                         {item.description}
                       </p>
                     )}
@@ -140,7 +140,7 @@ export default async function AnnouncementsGallery() {
         {/* GALLERY */}
         <div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end justify-between mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
               Gallery Highlights
             </h2>
             <Link

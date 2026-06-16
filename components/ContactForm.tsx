@@ -1,11 +1,11 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 
-type Status = 'idle' | 'sending' | 'sent' | 'error'
+const OFFICIAL_EMAIL = 'info@cba.lk'
 
 export default function ContactForm() {
-  const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -13,26 +13,33 @@ export default function ContactForm() {
     setError('')
 
     const form = new FormData(e.currentTarget)
+    const name = String(form.get('name') || '').trim()
     const email = String(form.get('email') || '').trim()
+    const phone = String(form.get('phone') || '').trim()
+    const subject = String(form.get('subject') || '').trim()
     const message = String(form.get('message') || '').trim()
 
+    if (!name) {
+      setError('Please enter your full name.')
+      return
+    }
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setStatus('error')
       setError('Please enter a valid email address.')
       return
     }
 
     if (message.length < 10) {
-      setStatus('error')
       setError('Please add a little more detail to your message.')
       return
     }
 
-    setStatus('sending')
-    window.setTimeout(() => {
-      setStatus('sent')
-      e.currentTarget.reset()
-    }, 700)
+    const mailSubject = encodeURIComponent(subject || 'CBA Website Enquiry')
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\n\n${message}\n\n---\nSent via cba.lk contact form`
+    )
+
+    window.location.href = `mailto:${OFFICIAL_EMAIL}?subject=${mailSubject}&body=${body}`
   }
 
   return (
@@ -55,35 +62,33 @@ export default function ContactForm() {
         />
       </div>
 
-      {(status === 'sent' || status === 'error') && (
+      {error && (
         <div
-          className={`sm:col-span-2 rounded-lg border px-4 py-3 text-sm ${
-            status === 'sent'
-              ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
-              : 'border-amber-200 bg-amber-50 text-amber-800'
-          }`}
-          role="status"
+          className="sm:col-span-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+          role="alert"
         >
-          {status === 'sent'
-            ? 'Message prepared successfully. For live delivery, connect this form to your email/API service.'
-            : error}
+          {error}
         </div>
       )}
 
       <div className="sm:col-span-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs leading-5 text-gray-500">
-          Your details are used only to respond to this enquiry.
+        <p className="text-xs leading-5 text-gray-500 max-w-md">
+          Your enquiry opens in your email app addressed to{' '}
+          <a href={`mailto:${OFFICIAL_EMAIL}`} className="font-medium text-[var(--maroon)] hover:underline">
+            {OFFICIAL_EMAIL}
+          </a>
+          . Automated delivery will be enabled once our official email service is configured. Your details are used only
+          to respond to this enquiry.
         </p>
 
         <button
           type="submit"
-          disabled={status === 'sending'}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--maroon)] px-7 py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--maroon)] px-7 py-3 text-sm font-semibold text-white transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
         >
-          {status === 'sending' && (
-            <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-          )}
-          {status === 'sending' ? 'Preparing...' : 'Send Message'}
+          Email the Secretariat
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
         </button>
       </div>
     </form>

@@ -23,19 +23,19 @@ export default function TraditionSection() {
   const isDesktop = useIsDesktop();
 
   return (
-    <section ref={ref} className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-gray-50 to-white dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-950 parallax-container relative overflow-hidden">
+    <section ref={ref} className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-gray-50 to-white parallax-container relative overflow-hidden">
       <div className="absolute -right-40 top-20 w-80 h-80 rounded-full bg-amber-300/5 blur-3xl" />
       <div className="absolute -left-32 bottom-0 w-72 h-72 rounded-full bg-[var(--maroon)]/5 blur-3xl" />
-      
+
       <div className="max-w-[1400px] mx-auto relative z-10">
         <div className="text-center mb-10">
-          <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] dark:text-amber-300 text-xs font-bold uppercase tracking-widest">
+          <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-bold uppercase tracking-widest">
             Heritage
           </span>
-          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
+          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
             Tradition Defined by the Gavel
           </h2>
-          <p className="mt-4 text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
             Over a century of fair, transparent auctions. Every symbol carries the weight of institutional integrity.
           </p>
         </div>
@@ -95,14 +95,14 @@ function ArtefactCard({
 
   const bg =
     tone === 'maroon'
-      ? 'bg-gradient-to-br from-[var(--maroon)]/5 to-white dark:from-[var(--maroon)]/20 dark:to-neutral-900'
-      : 'bg-gradient-to-br from-gray-50 to-white dark:from-neutral-800 dark:to-neutral-900'
+      ? 'bg-gradient-to-br from-[var(--maroon)]/5 to-white'
+      : 'bg-gradient-to-br from-gray-50 to-white'
 
   return (
-    <article className="group relative overflow-hidden rounded-3xl border border-gray-200/60 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-md hover:shadow-lg transition-shadow duration-300">
+    <article className="group relative overflow-hidden rounded-3xl border border-gray-200/60 bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
       <div className={`aspect-[4/3] flex items-center justify-center p-8 ${bg}`}>
         {errored ? (
-          <div className="text-center text-gray-400 dark:text-gray-500">
+          <div className="text-center text-gray-400">
             <svg
               width="56"
               height="56"
@@ -118,7 +118,7 @@ function ArtefactCard({
             </svg>
             <p className="mt-3 text-xs italic">
               Save{' '}
-              <code className="px-1.5 py-0.5 bg-gray-100 dark:bg-neutral-800 rounded text-[10px]">
+              <code className="px-1.5 py-0.5 bg-gray-100 rounded text-[10px]">
                 public{src}
               </code>{' '}
               to display
@@ -140,14 +140,14 @@ function ArtefactCard({
           />
         )}
       </div>
-        <div className="p-7 border-t border-gray-100 dark:border-neutral-800/60">
-          <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--maroon)] dark:text-amber-300 font-bold">
+        <div className="p-7 border-t border-gray-100">
+          <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--maroon)] font-bold">
             {label}
           </span>
-          <h3 className="mt-3 text-xl font-bold text-gray-900 dark:text-white">
+          <h3 className="mt-3 text-xl font-bold text-gray-900">
             {title}
           </h3>
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          <p className="mt-2 text-sm text-gray-600 leading-relaxed">
             {text}
           </p>
         </div>

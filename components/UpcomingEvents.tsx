@@ -2,9 +2,27 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { getEvents } from '@/lib/events'
+import { useMemo } from 'react'
 import AddToCalendarLink from '@/components/AddToCalendarLink'
+
+export type SerializedEvent = {
+  id?: string
+  type?: string
+  category?: string
+  title?: string
+  sale_no?: string
+  start_date: string | null
+  end_date?: string | null
+  catalogue_close?: string
+  time?: string
+  location?: string
+  notes?: string
+}
+
+type ParsedEvent = Omit<SerializedEvent, 'start_date' | 'end_date'> & {
+  start_date: Date | null
+  end_date?: Date | null
+}
 
 const CATEGORY_COLORS: Record<string, string> = {
   Tea: '#7a1f2a',
@@ -12,6 +30,15 @@ const CATEGORY_COLORS: Record<string, string> = {
   Coconut: '#b67419',
   Spices: '#854d0e',
   Meeting: '#27548a',
+}
+
+function parseEvent(raw: SerializedEvent): ParsedEvent {
+  const { start_date, end_date, ...rest } = raw
+  return {
+    ...rest,
+    start_date: start_date ? new Date(start_date) : null,
+    end_date: end_date ? new Date(end_date) : null,
+  }
 }
 
 function colorFor(...parts: (string | undefined)[]) {
@@ -24,11 +51,10 @@ function colorFor(...parts: (string | undefined)[]) {
   return '#555'
 }
 
-function formatDate(d: any) {
+function formatDate(d: Date | null | undefined) {
   if (!d) return ''
-  const date = d instanceof Date ? d : new Date(d)
-  if (Number.isNaN(date.getTime())) return ''
-  return date.toLocaleDateString('en-GB', {
+  if (Number.isNaN(d.getTime())) return ''
+  return d.toLocaleDateString('en-GB', {
     weekday: 'short',
     day: '2-digit',
     month: 'short',
@@ -36,9 +62,8 @@ function formatDate(d: any) {
   })
 }
 
-function formatTime(t: any) {
+function formatTime(t: string | undefined) {
   if (!t) return ''
-  if (typeof t !== 'string') return String(t)
   if (/^\d{4}-\d{2}-\d{2}T/.test(t)) {
     const d = new Date(t)
     if (Number.isNaN(d.getTime())) return ''
@@ -51,48 +76,44 @@ function formatTime(t: any) {
   return t
 }
 
-function dayMonth(d: any) {
-  if (!d) return { day: '', month: '' }
-  const date = d instanceof Date ? d : new Date(d)
-  if (Number.isNaN(date.getTime())) return { day: '', month: '' }
+function dayMonth(d: Date | null | undefined) {
+  if (!d || Number.isNaN(d.getTime())) return { day: '', month: '' }
   return {
-    day: date.toLocaleDateString('en-GB', { day: '2-digit' }),
-    month: date.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase(),
+    day: d.toLocaleDateString('en-GB', { day: '2-digit' }),
+    month: d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase(),
   }
 }
 
-export default function UpcomingEvents() {
-  const [upcoming, setUpcoming] = useState<any[]>([])
+export default function UpcomingEvents({ initialEvents = [] }: { initialEvents?: SerializedEvent[] }) {
+  const upcoming = useMemo(() => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
 
-  useEffect(() => {
-    async function fetchEvents() {
-      const events = await getEvents()
-      const today = new Date()
-      const filtered = events
-        .filter((e: any) => e.start_date && e.start_date >= today)
-        .sort((a: any, b: any) => a.start_date.getTime() - b.start_date.getTime())
-        .slice(0, 6)
-      setUpcoming(filtered)
-    }
-    fetchEvents()
-  }, [])
+    return initialEvents
+      .map(parseEvent)
+      .filter((e) => e.start_date && !Number.isNaN(e.start_date.getTime()) && e.start_date >= today)
+      .sort((a, b) => (a.start_date!.getTime() - b.start_date!.getTime()))
+      .slice(0, 6)
+  }, [initialEvents])
 
   const cardVariants = {
     hidden: { opacity: 0, x: -30 },
     visible: (i: number) => ({
-      opacity: 1, x: 0,
+      opacity: 1,
+      x: 0,
       transition: {
         delay: i * 0.08,
         duration: 0.5,
         ease: [0.22, 1, 0.36, 1] as any,
       },
     }),
-  };
+  }
 
   const dateVariants = {
     hidden: { scale: 0.6, opacity: 0 },
     visible: (i: number) => ({
-      scale: 1, opacity: 1,
+      scale: 1,
+      opacity: 1,
       transition: {
         delay: i * 0.08 + 0.15,
         type: 'spring' as const,
@@ -100,13 +121,13 @@ export default function UpcomingEvents() {
         damping: 18,
       },
     }),
-  };
+  }
 
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
       <div className="absolute -left-32 top-0 w-72 h-72 rounded-full bg-[var(--maroon)]/5 blur-3xl" />
       <div className="absolute -right-40 bottom-0 w-96 h-96 rounded-full bg-amber-300/5 blur-3xl" />
-      
+
       <div className="max-w-[1400px] mx-auto relative z-10">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
@@ -120,7 +141,7 @@ export default function UpcomingEvents() {
           </div>
           <Link
             href="/resources"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-[var(--maroon)] hover:bg-[var(--maroon)]/90 px-4 py-2 rounded-full transition shrink-0"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-[var(--maroon)] hover:bg-[var(--maroon)]/90 px-4 py-2 rounded-full transition shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
           >
             View Calendar
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,12 +161,14 @@ export default function UpcomingEvents() {
             viewport={{ once: true, margin: '-40px' }}
             className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
           >
-            {upcoming.map((event: any, i: number) => {
+            {upcoming.map((event, i) => {
               const { day, month } = dayMonth(event.start_date)
               const color = colorFor(event.title, event.category, event.type)
+              const eventKey = event.id || `${event.title}-${event.start_date?.toISOString()}-${i}`
+
               return (
                 <motion.article
-                  key={i}
+                  key={eventKey}
                   custom={i}
                   variants={cardVariants}
                   className="group flex bg-white rounded-2xl border border-gray-200/80 hover:border-[var(--maroon)]/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
@@ -182,7 +205,8 @@ export default function UpcomingEvents() {
 
                     {event.catalogue_close && (
                       <p className="mt-2 text-xs text-amber-600 font-semibold">
-                        📋 Cat. close: {formatDate(event.catalogue_close)}
+                        Cat. close:{' '}
+                        {formatDate(new Date(event.catalogue_close)) || event.catalogue_close}
                       </p>
                     )}
 
@@ -193,7 +217,15 @@ export default function UpcomingEvents() {
                       >
                         {event.category || event.type || 'Event'}
                       </span>
-                      <AddToCalendarLink event={event} />
+                      <AddToCalendarLink
+                        event={{
+                          title: event.title || 'CBA Event',
+                          start_date: event.start_date,
+                          end_date: event.end_date,
+                          location: event.location,
+                          notes: event.notes,
+                        }}
+                      />
                     </div>
                   </div>
                 </motion.article>

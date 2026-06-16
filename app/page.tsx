@@ -8,7 +8,6 @@ import StatsBar from '@/components/StatsBar'
 import AnnouncementsGallery from '@/components/AnnouncementsGallery'
 import AboutSection from '@/components/AboutSection'
 import SectionReveal from '@/components/SectionReveal'
-import TradeStatistics from '@/components/TradeStatistics'
 import FooterAnimated from '@/components/FooterAnimated'
 import Newsletter from '@/components/Newsletter'
 import { HeroParallax } from '@/components/HeroParallax'
@@ -24,7 +23,7 @@ export default async function Home() {
   }))
 
   return (
-    <main className="cba-page-shell bg-white text-gray-800">
+    <main id="main-content" className="cba-page-shell bg-white text-gray-800">
       <TopBar events={safeEvents} />
       <Navbar topbarHeight={44} />
 
@@ -40,15 +39,11 @@ export default async function Home() {
       </SectionReveal>
       
       <SectionReveal>
-        <TradeStatistics preview />
-      </SectionReveal>
-      
-      <SectionReveal>
         <Chairman />
       </SectionReveal>
       
       <SectionReveal>
-        <UpcomingEvents />
+        <UpcomingEvents initialEvents={safeEvents} />
       </SectionReveal>
       
       <SectionReveal>

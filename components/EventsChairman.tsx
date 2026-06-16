@@ -76,12 +76,12 @@ export default async function EventsChairman() {
     )
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-neutral-900">
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-10">
         {/* LEFT - EVENTS */}
         <div>
           <div className="flex items-end justify-between mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
               Upcoming Events
             </h2>
             <a
@@ -99,7 +99,7 @@ export default async function EventsChairman() {
               return (
                 <div
                   key={i}
-                  className="group flex bg-white dark:bg-neutral-800 rounded-xl border border-gray-200 dark:border-neutral-700 hover:border-[var(--maroon)]/40 hover:shadow-md transition overflow-hidden"
+                  className="group flex bg-white rounded-xl border border-gray-200 hover:border-[var(--maroon)]/40 hover:shadow-md transition overflow-hidden"
                 >
                   {/* Date block */}
                   <div
@@ -115,7 +115,7 @@ export default async function EventsChairman() {
                   {/* Content */}
                   <div className="flex-1 p-4 flex items-center justify-between gap-4">
                     <div className="min-w-0">
-                      <h3 className="font-semibold text-gray-900 dark:text-white truncate">
+                      <h3 className="font-semibold text-gray-900 truncate">
                         {event.title}
                         {event.sale_no && (
                           <span className="ml-2 text-xs font-normal text-gray-500">
@@ -161,21 +161,21 @@ export default async function EventsChairman() {
         </div>
 
         {/* RIGHT - CHAIRMAN */}
-        <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-sm border border-gray-200 dark:border-neutral-700 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="p-7 md:p-8">
-            <div className="flex items-center gap-2 text-[var(--maroon)] dark:text-amber-300 mb-3">
+            <div className="flex items-center gap-2 text-[var(--maroon)] mb-3">
               <span className="text-3xl leading-none font-serif">&ldquo;</span>
               <span className="text-xs font-bold uppercase tracking-[0.2em]">
                 Chairman&rsquo;s Message
               </span>
             </div>
 
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed line-clamp-6">
+            <p className="text-gray-700 leading-relaxed line-clamp-6">
               {chairman?.message ||
                 'A message from our Chairman will appear here once published in the CMS.'}
             </p>
 
-            <div className="mt-6 pt-6 border-t border-gray-100 dark:border-neutral-700 flex items-center gap-4">
+            <div className="mt-6 pt-6 border-t border-gray-100 flex items-center gap-4">
               {chairman?.photo && (
                 <img
                   src={urlFor(chairman.photo).width(120).url()}
@@ -184,10 +184,10 @@ export default async function EventsChairman() {
                 />
               )}
               <div>
-                <p className="font-semibold text-gray-900 dark:text-white">
+                <p className="font-semibold text-gray-900">
                   {chairman?.name || 'Chairman'}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-500">
                   {chairman?.designation || 'Chairman, CBA'}
                 </p>
               </div>

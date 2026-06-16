@@ -43,7 +43,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
         }
 
         [data-page-transition] {
-          min-height: 100vh;
+          min-height: 100dvh;
         }
 
         [data-page-transition].page-transitioning {
@@ -55,7 +55,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
         ref={containerRef}
         data-page-transition
         className="page-transitioning"
-        style={{ minHeight: '100vh', margin: 0, padding: 0 }}
+        style={{ minHeight: '100dvh', margin: 0, padding: 0 }}
       >
         {children}
       </div>

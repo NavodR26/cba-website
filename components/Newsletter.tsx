@@ -1,22 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import Link from 'next/link'
 
 export default function Newsletter() {
-  const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
-  const [email, setEmail] = useState('')
-
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!email) return
-    setStatus('sending')
-    // Placeholder — connect to mailing service later
-    setTimeout(() => {
-      setStatus('done')
-      setEmail('')
-    }, 700)
-  }
-
   return (
     <section className="px-4 sm:px-6 lg:px-8 py-16 bg-gradient-to-br from-[var(--maroon)] to-[#4a1119] text-white">
       <div className="max-w-[1400px] mx-auto grid md:grid-cols-2 gap-10 items-center">
@@ -29,35 +15,42 @@ export default function Newsletter() {
             Get new circulars &amp; auction updates straight to your inbox.
           </h2>
           <p className="mt-3 text-white/80 text-sm leading-relaxed max-w-md">
-            Subscribe to receive official announcements, downloadable PDFs and
-            calendar alerts the moment they&rsquo;re published.
+            Email alerts for official announcements and calendar updates are coming soon. In the meantime, browse the
+            latest circulars and auction schedule on the Resources page.
           </p>
         </div>
 
-        <form
-          onSubmit={onSubmit}
-          className="bg-white/10 backdrop-blur border border-white/15 rounded-2xl p-3 md:p-2 flex flex-col sm:flex-row gap-3 sm:gap-2"
-        >
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="your@email.com"
-            className="flex-1 px-4 py-3 rounded-xl bg-white/95 text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
-          />
-          <button
-            type="submit"
-            disabled={status === 'sending' || status === 'done'}
-            className="px-6 py-3 rounded-xl bg-amber-400 text-[#3b0f15] font-semibold text-sm hover:bg-amber-300 disabled:opacity-70 transition"
-          >
-            {status === 'done'
-              ? 'Subscribed ✓'
-              : status === 'sending'
-              ? 'Subscribing…'
-              : 'Subscribe'}
-          </button>
-        </form>
+        <div className="bg-white/10 backdrop-blur border border-white/15 rounded-2xl p-6 md:p-8">
+          <div className="flex items-start gap-3">
+            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-300/20 text-amber-200">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="M3 7l9 6 9-6" />
+              </svg>
+            </span>
+            <div>
+              <p className="text-sm font-semibold text-white">Newsletter subscription — coming soon</p>
+              <p className="mt-2 text-sm text-white/75 leading-relaxed">
+                We are preparing our official mailing service. Until then, check Resources for new circulars and PDF
+                downloads as they are published.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link
+                  href="/resources#downloads"
+                  className="inline-flex items-center gap-2 rounded-xl bg-amber-400 px-5 py-2.5 text-sm font-semibold text-[#3b0f15] transition hover:bg-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  Browse Circulars
+                </Link>
+                <Link
+                  href="/resources#auction-calendar"
+                  className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  View Calendar
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )

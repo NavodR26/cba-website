@@ -1,5 +1,6 @@
 import './globals.css'
 import type { Viewport } from 'next'
+import { Playfair_Display, Inter, JetBrains_Mono } from 'next/font/google'
 import CursorDot from '@/components/CursorDot'
 import ProtectCopy from '@/components/ProtectCopy'
 import SmoothScroll from '@/components/SmoothScroll'
@@ -10,10 +11,28 @@ import PageTransition from '@/components/PageTransition'
 import BackToTop from '@/components/BackToTop'
 import FloatingQuickDock from '@/components/FloatingQuickDock'
 
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains',
+  display: 'swap',
+})
+
 export const metadata = {
   title: "The Colombo Brokers' Association",
   description:
-    "The Colombo Brokers’ Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
+    "The Colombo Brokers' Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
   metadataBase: new URL('https://cba.lk'),
   openGraph: {
     title: "The Colombo Brokers' Association",
@@ -54,7 +73,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="light">
-      <body className="bg-white text-gray-800 font-sans antialiased overflow-x-hidden">
+      <body className={`${playfair.variable} ${inter.variable} ${jetbrains.variable} bg-white text-gray-800 font-sans antialiased overflow-x-hidden`}>
+        <a href="#main-content" className="cba-skip-link">
+          Skip to main content
+        </a>
         <ScrollProgress />
         <HeaderScrollController />
         <GavelLoader />
@@ -69,16 +91,13 @@ export default function RootLayout({
               name: "The Colombo Brokers' Association",
               url: 'https://cba.lk',
               logo: 'https://cba.lk/logo.png',
-              sameAs: [
-                'https://www.facebook.com/',
-                'https://twitter.com/',
-              ],
               description:
                 "The Colombo Brokers' Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
               contactPoint: [
                 {
                   '@type': 'ContactPoint',
                   contactType: 'Customer Service',
+                  email: 'info@cba.lk',
                   areaServed: 'LK',
                   availableLanguage: ['English'],
                 },

@@ -77,7 +77,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-br from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-gray-300 relative overflow-hidden pb-24 md:pb-20">
+    <footer className="bg-gradient-to-br from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-gray-300 relative overflow-hidden pb-16 md:pb-14">
       <div className="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 animate-shimmer" />
 
       <div className="absolute inset-0">
@@ -85,7 +85,7 @@ export default function Footer() {
         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.06)_0%,transparent_34%,rgba(255,255,255,0.04)_100%)]" />
       </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-14 grid lg:grid-cols-12 gap-10">
+      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-12 gap-10">
         {/* BRAND */}
         <motion.div
           custom={0}
@@ -127,18 +127,43 @@ export default function Footer() {
             The Colombo Brokers&rsquo; Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.
           </p>
 
-          <div className="flex items-center gap-2 mt-6">
-            {(['fb', 'in', 'yt', 'mail'] as const).map((k, i) => (
+          <div className="mt-6">
+            <a
+              href="mailto:info@cba.lk"
+              className="inline-flex items-center gap-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2.5 text-sm text-gray-300 hover:text-white transition-all duration-300"
+            >
+              <span className="w-8 h-8 rounded-full bg-[var(--maroon)]/20 text-amber-300 flex items-center justify-center shrink-0">
+                <SocialIcon kind="mail" />
+              </span>
+              info@cba.lk
+            </a>
+          </div>
+
+          <div className="mt-6">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Follow Us</h4>
+            <div className="flex items-center gap-3">
               <a
-                key={k}
                 href="#"
-                className="w-9 h-9 rounded-full bg-white/5 hover:bg-[var(--maroon)] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white transition-all duration-300 hover-scale group"
-                aria-label={k}
-                style={{ animationDelay: `${i * 100}ms` }}
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-amber-300 flex items-center justify-center transition-all duration-300 hover-scale"
+                aria-label="Facebook"
               >
-                <SocialIcon kind={k} />
+                <SocialIcon kind="fb" />
               </a>
-            ))}
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-amber-300 flex items-center justify-center transition-all duration-300 hover-scale"
+                aria-label="LinkedIn"
+              >
+                <SocialIcon kind="in" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-amber-300 flex items-center justify-center transition-all duration-300 hover-scale"
+                aria-label="YouTube"
+              >
+                <SocialIcon kind="yt" />
+              </a>
+            </div>
           </div>
         </motion.div>
 
@@ -232,7 +257,7 @@ export default function Footer() {
 
       {/* BOTTOM */}
       <div className="border-t border-white/10 animate-fade-in-scale" style={{ animationDelay: '0.8s' }}>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
           <p className="text-center md:text-left hover:text-gray-400 transition-colors duration-300">
             © {new Date().getFullYear()} The Colombo Brokers&rsquo; Association. All Rights Reserved.
           </p>

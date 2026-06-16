@@ -80,15 +80,15 @@ const ITEMS: Action[] = [
 export default function QuickActions() {
   return (
     <section className="px-4 sm:px-6 lg:px-8 -mt-16 relative z-20">
-      <div className="max-w-[1400px] mx-auto bg-white dark:bg-neutral-900 rounded-2xl shadow-xl ring-1 ring-gray-200 dark:ring-neutral-800 p-2 md:p-3">
+      <div className="max-w-[1400px] mx-auto bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 p-2 md:p-3">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           {ITEMS.map((item, i) => (
             <Link
               key={item.title}
               href={item.href}
-              className={`group relative flex md:flex-col items-center md:text-center gap-3 md:gap-2 px-4 py-5 md:py-6 rounded-xl hover:bg-gray-50 dark:hover:bg-neutral-800 transition ${
+              className={`group relative flex md:flex-col items-center md:text-center gap-3 md:gap-2 px-4 py-5 md:py-6 rounded-xl hover:bg-gray-50 transition ${
                 i < ITEMS.length - 1
-                  ? 'md:border-r border-gray-100 dark:border-neutral-800'
+                  ? 'md:border-r border-gray-100'
                   : ''
               }`}
             >
@@ -96,10 +96,10 @@ export default function QuickActions() {
                 <div className="w-5 h-5 md:w-5.5 md:h-5.5">{item.icon}</div>
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-sm md:text-[13px] text-gray-900 dark:text-white">
+                <p className="font-semibold text-sm md:text-[13px] text-gray-900">
                   {item.title}
                 </p>
-                <p className="hidden md:block text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
+                <p className="hidden md:block text-[11px] text-gray-500 mt-0.5">
                   {item.desc}
                 </p>
               </div>

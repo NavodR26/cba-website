@@ -51,12 +51,12 @@ export default async function Brokers() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 items-center">
           {brokers.map((item: any) => (
-            <div key={item._id} className="flex justify-center p-4 hover:scale-105 transition">
+            <div key={item._id} className="flex justify-center p-6 rounded-2xl bg-gray-50 hover:bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 card-modern">
               {item.logo && (
                 <img
                   src={urlFor(item.logo).width(150).url()}
                   alt={item.companyName}
-                  className="object-contain"
+                  className="object-contain max-h-16 filter grayscale hover:grayscale-0 transition-all duration-300"
                 />
               )}
             </div>

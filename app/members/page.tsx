@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import Footer from '@/components/Footer'
-import PageHero from '@/components/PageHero'
+import PageHeroPremium from '@/components/PageHeroPremium'
 import MembersSubNav from '@/components/MembersSubNav'
 import CommodityPillars from '@/components/CommodityPillars'
 import MembershipBenefits from '@/components/MembershipBenefits'
@@ -131,15 +131,15 @@ export default async function MembersPage() {
   }))
 
   return (
-    <main className="cba-page-shell bg-white text-gray-800">
+    <main id="main-content" className="cba-page-shell bg-white text-gray-800">
       <TopBar events={safeEvents} />
       <Navbar />
 
-      <PageHero
+      <PageHeroPremium
         badge="Members & Directory"
-        title="Leadership & Members"
-        subtitle="Broker Directory"
-        description="Meet the leadership committee driving the Association forward and explore our member broking firms across Sri Lanka's commodity auction industries."
+        title="Leadership & Member Directory"
+        subtitle="Connecting accredited brokerage firms and industry professionals across Sri Lanka."
+        backgroundImage="/members_hero.png"
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'Members' },
@@ -289,7 +289,7 @@ export default async function MembersPage() {
               </h2>
               <p className="mt-2 text-sm text-gray-500 max-w-xl mx-auto">
                 Leading broker firms specialising in Sri Lanka&rsquo;s tea, rubber,
-                coconut and spices auction industries.
+                coconut and spices auction markets.
               </p>
             </div>
           </Reveal>
