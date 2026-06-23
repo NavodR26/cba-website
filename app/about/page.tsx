@@ -115,7 +115,7 @@ export default async function AboutPage() {
       <PageHeroPremium
         badge="About the Association"
         title="A Century of Trusted Auction Leadership"
-        subtitle="Serving Sri Lanka's auction markets through professional brokerage representation since 1904."
+        subtitle="Serving Sri Lanka's tea, rubber, coconut and spices auctions through professional brokerage representation since 1904."
         backgroundImage="/about_hero.png"
         breadcrumb={[
           { label: 'Home', href: '/' },
@@ -159,13 +159,13 @@ export default async function AboutPage() {
                 Who we are
               </span>
               <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                The institutional authority of Sri Lanka&apos;s auction market
+                The institutional authority of Sri Lanka&apos;s tea, rubber, coconut and spices auctions
               </h2>
               <p className="mt-6 text-gray-600 leading-relaxed text-lg font-medium">
                 Established in 1904, the Colombo Brokers&rsquo; Association (CBA) serves as the institutional authority vested with the responsibility to conduct Sri Lanka&rsquo;s most critical commodity auctions.
               </p>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                We maintain the highest standards of transparency, integrity and efficiency in the auction of tea, rubber, coconut and related commodities. The Association is recognised by government, industry and international stakeholders as the trusted custodian of Sri Lanka&rsquo;s auction market.
+                We maintain the highest standards of transparency, integrity and efficiency in the auction of tea, rubber, coconut and related commodities. The Association is recognised by government, industry and international stakeholders as the trusted custodian of Sri Lanka&rsquo;s tea, rubber, coconut and spices auctions.
               </p>
 
               <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -189,7 +189,7 @@ export default async function AboutPage() {
               What we stand for
             </span>
               <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900">
-                The institutional authority of Sri Lanka&apos;s auction market
+                The institutional authority of Sri Lanka&apos;s tea, rubber, coconut and spices auctions
               </h2>
             <p className="mt-3 text-gray-500 max-w-2xl mx-auto">
               The principles that guide every decision the Association makes —
