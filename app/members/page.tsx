@@ -289,7 +289,7 @@ export default async function MembersPage() {
               </h2>
               <p className="mt-2 text-sm text-gray-500 max-w-xl mx-auto">
                 Leading broker firms specialising in Sri Lanka&rsquo;s tea, rubber,
-                coconut and spices auction markets.
+                coconut and spices auctions.
               </p>
             </div>
           </Reveal>

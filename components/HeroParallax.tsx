@@ -87,7 +87,7 @@ export function HeroParallax() {
               transition={{ delay: 0.45, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg"
             >
-              Representing the highest standards of brokerage excellence across Sri Lanka&apos;s tea, rubber, coconut and spices auction markets.
+              Representing the highest standards of brokerage excellence across Sri Lanka&apos;s tea, rubber, coconut and spices auctions.
             </motion.p>
 
             <motion.div

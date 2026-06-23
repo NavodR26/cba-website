@@ -27,7 +27,7 @@ const BENEFITS: Benefit[] = [
   },
   {
     title: 'Policy Voice',
-    desc: 'Representation on regulatory matters affecting the auction market — through the CBA committee.',
+    desc: 'Representation on regulatory matters affecting the tea, rubber, coconut and spices auctions — through the CBA committee.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 11l18-8v18L3 13z" />
