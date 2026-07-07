@@ -250,7 +250,7 @@ function InfoWidget() {
           <circle cx="12" cy="12" r="9" />
           <path d="M12 7v5l3 2" />
         </svg>
-        <span className="hidden sm:inline text-white/90 font-medium text-xs">
+        <span suppressHydrationWarning className="hidden sm:inline text-white/90 font-medium text-xs">
           {parts.time}
         </span>
         <span className="hidden md:inline text-white/70 text-xs">

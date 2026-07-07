@@ -1,4 +1,15 @@
-export default function AboutSection() {
+import type { AboutPageContent } from '@/lib/sanity'
+
+type AboutSectionProps = {
+  content: AboutPageContent
+}
+
+export default function AboutSection({ content }: AboutSectionProps) {
+  const visionTitle = content.visionTitle?.trim() || 'Vision'
+  const visionText = content.visionText?.trim() || 'To champion a modern, transparent, and sustainable tea auction platform that strengthens Sri Lanka\'s position as the world\'s premier tea trading hub.'
+  const missionTitle = content.missionTitle?.trim() || 'Mission'
+  const missionText = content.missionText?.trim() || 'To foster a transparent, technology-driven, and sustainable marketplace that enhances stakeholder confidence, strengthens industry standards, and advances the global competitiveness of Sri Lanka\'s tea, rubber, coconut, and spice sectors.'
+
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
       <div className="absolute -right-32 top-0 w-72 h-72 rounded-full bg-[var(--maroon)]/5 blur-3xl" />
@@ -28,10 +39,10 @@ export default function AboutSection() {
                 </svg>
               </div>
               <h3 className="font-bold text-xl mb-3 text-[var(--maroon)] group-hover:translate-x-1 transition-transform duration-300">
-                Vision
+                {visionTitle}
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                To champion a modern, transparent, and sustainable tea auction platform that strengthens Sri Lanka's position as the world's premier tea trading hub.
+                {visionText}
               </p>
             </div>
           </div>
@@ -47,10 +58,10 @@ export default function AboutSection() {
                 </svg>
               </div>
               <h3 className="font-bold text-xl mb-3 text-[var(--maroon)] group-hover:translate-x-1 transition-transform duration-300">
-                Mission
+                {missionTitle}
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                To foster a transparent, technology-driven, and sustainable marketplace that enhances stakeholder confidence, strengthens industry standards, and advances the global competitiveness of Sri Lanka's tea, rubber, coconut, and spice sectors.
+                {missionText}
               </p>
             </div>
           </div>

@@ -2,8 +2,13 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
+import type { AboutPageContent } from '@/lib/sanity'
 
-export default function VisionMissionSection() {
+type VisionMissionSectionProps = {
+  content: AboutPageContent
+}
+
+export default function VisionMissionSection({ content }: VisionMissionSectionProps) {
   const headerRef = useRef(null)
   const headerInView = useInView(headerRef, { once: true })
   const visionRef = useRef(null)
@@ -15,6 +20,10 @@ export default function VisionMissionSection() {
 
   const [yearsCount, setYearsCount] = useState(0)
   const [commoditiesCount, setCommoditiesCount] = useState(0)
+  const visionTitle = content.visionTitle?.trim() || 'Our Vision'
+  const visionText = content.visionText?.trim() || "To champion a modern, transparent, and sustainable tea auction platform that strengthens Sri Lanka's position as the world's premier tea trading hub."
+  const missionTitle = content.missionTitle?.trim() || 'Our Mission'
+  const missionText = content.missionText?.trim() || "To foster a transparent, technology-driven, and sustainable marketplace that enhances stakeholder confidence, strengthens industry standards, and advances the global competitiveness of Sri Lanka's tea, rubber, coconut, and spice sectors."
 
   useEffect(() => {
     if (statsInView) {
@@ -54,7 +63,7 @@ export default function VisionMissionSection() {
             Vision & Mission
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-base md:text-lg">
-            Guided by over a century of excellence, we continue to shape the future of Sri Lanka's auction trade with integrity and innovation.
+            Guided by over a century of excellence, we continue to shape the future of Sri Lanka&apos;s auction trade with integrity and innovation.
           </p>
         </motion.div>
 
@@ -76,11 +85,11 @@ export default function VisionMissionSection() {
             </div>
             
             <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
-              Our Vision
+              {visionTitle}
             </h3>
             <div className="w-12 h-1 bg-[var(--maroon)] rounded-full mb-4" />
             <p className="text-gray-600 leading-relaxed text-sm md:text-base">
-              To champion a modern, transparent, and sustainable tea auction platform that strengthens Sri Lanka's position as the world's premier tea trading hub.
+              {visionText}
             </p>
             
             <div className="mt-6 pt-4 border-t border-gray-100">
@@ -108,11 +117,11 @@ export default function VisionMissionSection() {
             </div>
             
             <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
-              Our Mission
+              {missionTitle}
             </h3>
             <div className="w-12 h-1 bg-amber-500 rounded-full mb-4" />
             <p className="text-gray-600 leading-relaxed text-sm md:text-base">
-              To foster a transparent, technology-driven, and sustainable marketplace that enhances stakeholder confidence, strengthens industry standards, and advances the global competitiveness of Sri Lanka's tea, rubber, coconut, and spice sectors.
+              {missionText}
             </p>
             
             <div className="mt-6 pt-4 border-t border-gray-100 flex flex-wrap gap-2">

@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // Allow LAN/device testing during development (Chrome on phone/tablet).
-  allowedDevOrigins: process.env.NODE_ENV === 'development' 
-    ? ["192.168.100.147", "192.168.8.105", "192.168.8.*"] 
+  allowedDevOrigins: process.env.NODE_ENV === 'development'
+    ? ["192.168.100.147", "192.168.8.105", "192.168.8.*", "192.168.100.176","192.168.50.19"]
     : [],
   
   images: {

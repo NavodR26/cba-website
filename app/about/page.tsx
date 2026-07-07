@@ -8,6 +8,10 @@ import SectionReveal from '@/components/SectionReveal'
 import ArchivalPhotoShowcase from '@/components/ArchivalPhotoShowcase'
 import { getEvents } from '@/lib/events'
 import VisionMissionSection from '@/components/VisionMissionSection'
+import { getAboutPageContent } from '@/lib/sanity'
+import InteractiveTimeline from '@/components/InteractiveTimeline'
+import OurImpact from '@/components/OurImpact'
+import VirtualTour from '@/components/VirtualTour'
 
 export const metadata = {
   title: "About CBA | The Colombo Brokers' Association",
@@ -19,34 +23,6 @@ export const metadata = {
       "The Colombo Brokers' Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
   },
 }
-
-const HISTORY = [
-  {
-    year: '1904',
-    title: 'Foundation',
-    text: 'CBA founded to formalise broker representation in colonial-era tea trade.',
-  },
-  {
-    year: '1947',
-    title: 'Independence Era',
-    text: 'Expanded membership and industry reach following Sri Lanka’s independence.',
-  },
-  {
-    year: '1972',
-    title: 'Standardisation',
-    text: 'Introduced standardised auction practices for tea, rubber and coconut.',
-  },
-  {
-    year: '1990',
-    title: 'Industry Collaboration',
-    text: 'Strengthened collaboration with regulators and government stakeholders.',
-  },
-  {
-    year: '2020',
-    title: 'Digital Era',
-    text: 'Embracing digital transformation across the auction system.',
-  },
-]
 
 const VALUES = [
   {
@@ -61,7 +37,7 @@ const VALUES = [
   },
   {
     title: 'Heritage',
-    desc: 'Over a century of unbroken service to Sri Lanka&rsquo;s commodity export activity.',
+    desc: 'Over a century of unbroken service to Sri Lanka’s commodity export activity.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="8" r="6" />
@@ -92,6 +68,7 @@ const VALUES = [
 
 export default async function AboutPage() {
   let events: any[] = []
+  const aboutContent = await getAboutPageContent()
 
   try {
     events = await getEvents()
@@ -134,6 +111,7 @@ export default async function AboutPage() {
                 width={1200}
                 height={460}
                 className="w-full h-[460px] object-cover transition duration-700 group-hover:scale-105"
+                style={{ width: 'auto', height: 'auto' }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--maroon)]/45 to-transparent" />
             </div>
@@ -262,66 +240,16 @@ export default async function AboutPage() {
       </SectionReveal>
 
       {/* VISION + MISSION - Premium Redesigned Section */}
-      <VisionMissionSection />
+      <VisionMissionSection content={aboutContent} />
 
-      {/* HISTORY — vertical timeline (premium) */}
-      <SectionReveal>
-        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-[1100px] mx-auto">
-          <div className="text-center mb-10">
-            <span className="inline-block px-3 py-1 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
-              The Journey
-            </span>
-            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
-              Our History
-            </h2>
-            <p className="mt-3 text-gray-500 max-w-xl mx-auto">
-              Five defining moments across more than a century of service.
-            </p>
-          </div>
+      {/* Interactive Timeline */}
+      <InteractiveTimeline />
 
-          <ol className="relative space-y-10">
-            {/* Vertical rail */}
-            <span
-              aria-hidden
-              className="absolute left-[14px] sm:left-1/2 top-0 bottom-0 w-px bg-[var(--maroon)]/15"
-            />
+      {/* Our Impact Section */}
+      <OurImpact />
 
-            {HISTORY.map((h, i) => {
-              const isLeft = i % 2 === 0
-              return (
-                <li
-                  key={h.year}
-                  className="relative pl-10 sm:pl-0 sm:grid sm:grid-cols-2 sm:gap-10 items-start"
-                >
-                  {/* Dot */}
-                  <span className="absolute left-2 sm:left-1/2 top-2 -translate-x-1/2 w-4 h-4 rounded-full bg-[var(--maroon)] ring-4 ring-white shadow" />
-
-                  {/* Card */}
-                  <div className={isLeft ? 'sm:col-start-1' : 'sm:col-start-2 sm:row-start-1'}>
-                    <div className={`relative bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-transform duration-300 ${isLeft ? 'sm:mr-8' : 'sm:ml-8'} animate-fade-in-scale`} style={{ animationDelay: `${i * 90}ms` }}>
-                      <span
-                        aria-hidden
-                        className={`hidden sm:block absolute top-6 w-8 h-px bg-[var(--maroon)]/35 ${isLeft ? '-right-8' : '-left-8'}`}
-                      />
-                      <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--maroon)] bg-[var(--maroon)]/10 px-2.5 py-1 rounded-full">
-                        {h.year}
-                      </span>
-                      <h3 className="mt-3 text-lg font-bold text-gray-900">
-                        {h.title}
-                      </h3>
-                      <p className="mt-1.5 text-sm text-gray-600 leading-relaxed">
-                        {h.text}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              )
-            })}
-          </ol>
-        </div>
-      </section>
-      </SectionReveal>
+      {/* Virtual Tour */}
+      <VirtualTour />
 
       <SectionReveal>
         <ArchivalPhotoShowcase />

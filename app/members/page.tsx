@@ -6,8 +6,9 @@ import MembersSubNav from '@/components/MembersSubNav'
 import CommodityPillars from '@/components/CommodityPillars'
 import MembershipBenefits from '@/components/MembershipBenefits'
 import BrokersDirectoryClient from '@/components/BrokersDirectoryClient'
-import PastChairmenGrid from '@/components/PastChairmenGrid'
 import Reveal from '@/components/Reveal'
+import ChairmanMessage from '@/components/ChairmanMessage'
+import PastChairmenGrid from '@/components/PastChairmenGrid'
 import { client, urlFor } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
 
@@ -149,6 +150,11 @@ export default async function MembersPage() {
       <MembersSubNav />
 
       <CommodityPillars />
+
+      {/* CHAIRMAN MESSAGE SECTION */}
+      <Reveal>
+        <ChairmanMessage />
+      </Reveal>
 
       {/* LEADERSHIP SECTIONS */}
       <section
@@ -306,8 +312,8 @@ export default async function MembersPage() {
         </div>
       </section>
 
-    {/* PAST CHAIRMEN GRID */}
-    <PastChairmenGrid />
+      {/* PAST CHAIRMEN SECTION */}
+      <PastChairmenGrid />
 
       <Footer />
     </main>

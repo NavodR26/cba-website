@@ -2,7 +2,6 @@ import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import HeritageStrip from '@/components/HeritageStrip'
 import TraditionSection from '@/components/TraditionSection'
-import Chairman from '@/components/Chairman'
 import UpcomingEvents from '@/components/UpcomingEvents'
 import StatsBar from '@/components/StatsBar'
 import AnnouncementsGallery from '@/components/AnnouncementsGallery'
@@ -11,10 +10,13 @@ import SectionReveal from '@/components/SectionReveal'
 import FooterAnimated from '@/components/FooterAnimated'
 import Newsletter from '@/components/Newsletter'
 import { HeroParallax } from '@/components/HeroParallax'
+import QuickActions from '@/components/QuickActions'
+import Testimonials from '@/components/Testimonials'
 import { getEvents } from '@/lib/events'
+import { getAboutPageContent } from '@/lib/sanity'
 
 export default async function Home() {
-  const events = await getEvents()
+  const [events, aboutContent] = await Promise.all([getEvents(), getAboutPageContent()])
 
   const safeEvents = events.map((e: any) => ({
     ...e,
@@ -35,13 +37,14 @@ export default async function Home() {
       </SectionReveal>
       
       <SectionReveal>
-        <AboutSection />
+        <AboutSection content={aboutContent} />
       </SectionReveal>
-      
+
+      {/* Quick Actions */}
       <SectionReveal>
-        <Chairman />
+        <QuickActions />
       </SectionReveal>
-      
+
       <SectionReveal>
         <UpcomingEvents initialEvents={safeEvents} />
       </SectionReveal>
@@ -53,7 +56,10 @@ export default async function Home() {
       <SectionReveal>
         <StatsBar />
       </SectionReveal>
-      
+
+      {/* Testimonials */}
+      <Testimonials />
+
       <SectionReveal>
         <AnnouncementsGallery />
       </SectionReveal>

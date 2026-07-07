@@ -73,7 +73,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="light">
-      <body className={`${playfair.variable} ${inter.variable} ${jetbrains.variable} bg-white text-gray-800 font-sans antialiased overflow-x-hidden`}>
+      <body suppressHydrationWarning className={`${playfair.variable} ${inter.variable} ${jetbrains.variable} bg-white text-gray-800 font-sans antialiased overflow-x-hidden`}>
         <a href="#main-content" className="cba-skip-link">
           Skip to main content
         </a>

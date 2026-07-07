@@ -13,6 +13,9 @@ const ACTIONS = [
 export default function FloatingQuickDock() {
   const pathname = usePathname()
 
+  // Home page already has the full Quick Actions section — skip the dock there.
+  if (pathname === '/') return null
+
   return (
     <nav
       aria-label="Quick actions"

@@ -34,8 +34,8 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
       <header
         className={`cba-site-navbar fixed left-4 right-4 z-50 max-w-[1400px] mx-auto w-full box-border transition-all duration-300 ${
           scrolled
-            ? 'backdrop-blur-[20px] bg-white/95 border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.12)] rounded-2xl'
-            : 'bg-transparent border-transparent shadow-none'
+            ? 'backdrop-blur-[22px] bg-white/95 border border-gray-200/50 shadow-[0_12px_40px_rgba(0,0,0,0.14)] rounded-2xl'
+            : 'backdrop-blur-xl bg-gradient-to-r from-[rgba(10,18,30,0.18)] to-transparent border border-white/10 shadow-lg rounded-3xl'
         }`}
         style={{
           top: `${topbarHeight + 1}px`,
@@ -56,17 +56,17 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
               <div className="pointer-events-none absolute inset-0 rounded-2xl border border-white/20" />
             </div>
             <div className="leading-tight">
-              <p className={`font-semibold text-[1.125rem] sm:text-[1.25rem] md:text-[1.5rem] tracking-[0.04em] transition-all duration-300 group-hover:text-amber-400 ${scrolled ? 'text-[var(--maroon)]' : 'text-white'}`}>
+              <p className={`font-semibold text-[1.125rem] sm:text-[1.25rem] md:text-[1.5rem] tracking-[0.04em] transition-all duration-300 group-hover:text-amber-400 ${scrolled ? 'text-[var(--maroon)]' : 'text-slate-50'}`}>
                 CBA
               </p>
-              <p className={`hidden min-[380px]:block text-[0.5625rem] sm:text-[0.625rem] md:text-[0.6875rem] uppercase tracking-[0.12em] sm:tracking-[0.16em] transition-colors duration-300 group-hover:text-[var(--maroon)]/90 ${scrolled ? 'text-gray-600' : 'text-white/80'}`}>
+              <p className={`hidden min-[380px]:block text-[0.5625rem] sm:text-[0.625rem] md:text-[0.6875rem] uppercase tracking-[0.12em] sm:tracking-[0.16em] transition-colors duration-300 group-hover:text-[var(--maroon)]/90 ${scrolled ? 'text-gray-600' : 'text-slate-200'}`}>
                 Colombo Brokers&apos; Association
               </p>
             </div>
           </Link>
 
           {/* DESKTOP MENU — visible at lg+ */}
-          <nav className="hidden lg:flex items-center gap-1 text-[0.875rem] font-medium flex-1 justify-center">
+          <nav className="hidden lg:flex items-center gap-2 text-[0.95rem] font-medium flex-1 justify-center">
             {NAV.map((item, i) => {
               const active =
                 item.href === '/'
@@ -81,11 +81,11 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
                 >
                   <Link
                     href={item.href}
-                    className={`relative inline-flex items-center gap-1 px-4 py-[0.625rem] rounded-xl transition-all duration-300 group ${active
-                      ? 'text-[var(--maroon)] font-semibold bg-[var(--maroon)]/8'
+                    className={`relative inline-flex items-center gap-1 px-5 py-2 rounded-full transition-all duration-300 group ${active
+                      ? 'text-[var(--maroon)] font-semibold bg-gradient-to-r from-[rgba(122,31,42,0.12)] to-[rgba(250,204,21,0.06)] shadow-md'
                       : scrolled
-                      ? 'text-gray-700 hover:text-[var(--maroon)] hover:bg-gray-100'
-                      : 'text-white hover:text-amber-300 hover:bg-white/10'
+                      ? 'text-gray-700 hover:text-[var(--maroon)] hover:bg-gray-100/80'
+                      : 'text-slate-50 hover:text-amber-300 hover:bg-white/8'
                       }`}
                   >
                     <span className="relative z-10">{item.label}</span>
@@ -107,7 +107,7 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
 
                   {item.children && hoverIdx === i && (
                     <div className="absolute left-0 top-full pt-2 min-w-[20rem] animate-fade-in-scale">
-                      <div className="backdrop-blur-xl bg-white/95 rounded-2xl shadow-2xl ring-1 ring-gray-200/50 overflow-hidden border border-gray-200/50">
+                      <div className="backdrop-blur-2xl bg-white/95 rounded-2xl shadow-2xl ring-1 ring-gray-200/40 overflow-hidden border border-gray-200/40">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-transparent pointer-events-none rounded-2xl"></div>
                         {item.children.map((child, childIdx) => (
                           <Link
@@ -136,7 +136,7 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
 
           <SiteSearch
             showTrigger
-            triggerClassName="hidden lg:inline-flex items-center gap-2 rounded-full border border-gray-200/50 bg-gray-100/50 backdrop-blur-[10px] px-4 py-2 text-xs font-semibold shadow-sm transition hover:border-[var(--maroon)]/30 hover:bg-gray-200/50"
+            triggerClassName="hidden lg:inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 backdrop-blur-[8px] px-4 py-2 text-xs font-semibold shadow-sm transition hover:border-[var(--maroon)]/30 hover:bg-white/12"
           />
 
           {/* MOBILE */}
