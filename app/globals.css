@@ -25,6 +25,13 @@
   --font-playfair: 'Playfair Display', Georgia, serif;
   --font-inter: 'Inter', system-ui, sans-serif;
   --font-jetbrains: 'JetBrains Mono', monospace;
+  --cba-bg: #F7F5F2;
+  --cba-white-warm: #fffaf6;
+  --cba-gold: #C8A45D;
+  --cba-maroon: #7A1F28;
+  --cba-text: #202124;
+  --cba-muted: #6F6F6F;
+  --cba-border: rgba(0,0,0,0.08);
 }
 
 html {
@@ -292,12 +299,116 @@ canvas {
   overflow: hidden;
 }
 
+/* Hero height breakpoints per design */
+.cba-hero-height { min-height: 760px; }
+@media (min-width: 640px) { .cba-hero-height { min-height: 820px; } }
+@media (min-width: 1024px) { .cba-hero-height { min-height: 760px; } }
+@media (min-width: 1280px) { .cba-hero-height { min-height: 800px; } }
+
+/* Left overlay per design */
+.cba-hero-left-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(7,14,27,.88) 0%, rgba(10,20,36,.68) 46%, rgba(10,18,30,.34) 100%);
+  pointer-events: none;
+}
+
+/* Subtle dotted world-map watermark (replace with a precise svg later if desired) */
+.cba-hero-worldmap {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0.035;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+
+/* Trade route line animation */
+.route-line {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: route-draw 12s linear infinite;
+  opacity: 0.035;
+}
+@keyframes route-draw {
+  0% { stroke-dashoffset: 1400; opacity: 0.04 }
+  50% { stroke-dashoffset: 700; opacity: 0.08 }
+  100% { stroke-dashoffset: 0; opacity: 0.04 }
+}
+
+/* Scroll mouse indicator */
+.animate-scroll-dot { animation: scroll-dot 1.6s cubic-bezier(.2,.9,.2,1) infinite }
+@keyframes scroll-dot {
+  0% { transform: translateY(0); opacity: 1 }
+  50% { transform: translateY(8px); opacity: 0.5 }
+  100% { transform: translateY(0); opacity: 1 }
+}
+
+/* Premium hero title */
+.cba-hero-title {
+  font-family: var(--font-playfair);
+  font-weight: 600;
+  line-height: 1.05;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.8rem, 4.8vw, 4.7rem);
+}
+@media (min-width:1280px) { .cba-hero-title { font-size: 64px; } }
+@media (min-width:1024px) and (max-width:1279px) { .cba-hero-title { font-size: 54px; } }
+@media (min-width:640px) and (max-width:1023px) { .cba-hero-title { font-size: 42px; } }
+@media (max-width:639px) { .cba-hero-title { font-size: 32px; } }
+
+.cba-hero-text-panel {
+  position: relative;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.cba-hero-text-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at left, rgba(201,162,39,0.14), transparent 58%);
+}
+.cba-hero-text-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: transparent;
+}
+
+.cba-hero-title {
+  text-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+}
+
+.cba-hero-sub {
+  text-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+}
+
+/* Premium hero right card */
+.cba-hero-right-card {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 32px;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(255,255,255,0.16), rgba(255,255,255,0.07));
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 30px 90px rgba(0,0,0,0.28);
+}
+
 .cba-hero-mesh::after {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.22;
+  opacity: 0.1;
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
@@ -432,7 +543,7 @@ canvas {
   bottom: -2px;
   width: 100%;
   height: 1.5px;
-  background: currentColor;
+  background: var(--cba-gold);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);

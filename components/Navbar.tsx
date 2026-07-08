@@ -32,19 +32,21 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
   return (
     <>
       <header
-        className={`cba-site-navbar fixed left-4 right-4 z-50 max-w-[1400px] mx-auto w-full box-border transition-all duration-300 ${
+        className={`cba-site-navbar fixed z-50 max-w-[1400px] mx-auto w-[92%] left-4 right-4 box-border transition-all duration-300 ${
           scrolled
-            ? 'backdrop-blur-[22px] bg-white/95 border border-gray-200/50 shadow-[0_12px_40px_rgba(0,0,0,0.14)] rounded-2xl'
-            : 'backdrop-blur-xl bg-gradient-to-r from-[rgba(10,18,30,0.18)] to-transparent border border-white/10 shadow-lg rounded-3xl'
+            ? 'backdrop-blur-[18px] bg-white/95 border border-[var(--cba-border)] shadow-[0_10px_30px_rgba(0,0,0,0.09)] rounded-[24px]'
+            : 'backdrop-blur-[18px] bg-[rgba(255,255,255,0.06)] border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.12)] rounded-[24px]'
         }`}
         style={{
           top: `${topbarHeight + 1}px`,
+          left: '4%',
+          right: '4%'
         }}
       >
         <div className="px-4 sm:px-6 lg:px-8 py-[0.625rem] flex items-center justify-between gap-8 animate-fade-in-scale">
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-3 shrink-0 group hover-scale transition-all duration-300">
-            <div className="relative w-[3rem] h-[3rem] sm:w-[3.5rem] sm:h-[3.5rem] md:w-[4rem] md:h-[4rem] p-1 rounded-2xl bg-gradient-to-br from-[var(--maroon)]/15 to-amber-100/15 shadow-[0_18px_40px_rgba(122,31,42,0.12)] group-hover:scale-105 transition-transform duration-500">
+            <div className="relative w-[4.25rem] h-[4.25rem] sm:w-[4.75rem] sm:h-[4.75rem] md:w-[5rem] md:h-[5rem] p-1 rounded-[12px] bg-gradient-to-br from-[var(--cba-maroon)]/12 to-[var(--cba-gold)]/12 shadow-[0_18px_40px_rgba(122,31,42,0.12)] group-hover:scale-102 transition-transform duration-500">
               <Image
                 src="/logo.png"
                 alt="Colombo Brokers' Association"
@@ -56,17 +58,17 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
               <div className="pointer-events-none absolute inset-0 rounded-2xl border border-white/20" />
             </div>
             <div className="leading-tight">
-              <p className={`font-semibold text-[1.125rem] sm:text-[1.25rem] md:text-[1.5rem] tracking-[0.04em] transition-all duration-300 group-hover:text-amber-400 ${scrolled ? 'text-[var(--maroon)]' : 'text-slate-50'}`}>
+              <p className={`font-semibold text-[1.25rem] sm:text-[1.35rem] md:text-[1.5rem] tracking-[0.04em] transition-all duration-300 group-hover:text-[var(--cba-gold)] ${scrolled ? 'text-[var(--cba-maroon)]' : 'text-slate-50'}`}>
                 CBA
               </p>
-              <p className={`hidden min-[380px]:block text-[0.5625rem] sm:text-[0.625rem] md:text-[0.6875rem] uppercase tracking-[0.12em] sm:tracking-[0.16em] transition-colors duration-300 group-hover:text-[var(--maroon)]/90 ${scrolled ? 'text-gray-600' : 'text-slate-200'}`}>
+              <p className={`hidden min-[380px]:block text-[0.5625rem] sm:text-[0.625rem] md:text-[0.6875rem] uppercase tracking-[0.12em] sm:tracking-[0.16em] transition-colors duration-300 group-hover:text-[var(--cba-maroon)]/90 ${scrolled ? 'text-gray-600' : 'text-slate-200'}`}>
                 Colombo Brokers&apos; Association
               </p>
             </div>
           </Link>
 
           {/* DESKTOP MENU — visible at lg+ */}
-          <nav className="hidden lg:flex items-center gap-2 text-[0.95rem] font-medium flex-1 justify-center">
+          <nav className="hidden lg:flex items-center gap-2 text-[0.95rem] font-normal flex-1 justify-center">
             {NAV.map((item, i) => {
               const active =
                 item.href === '/'
@@ -82,13 +84,13 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
                   <Link
                     href={item.href}
                     className={`relative inline-flex items-center gap-1 px-5 py-2 rounded-full transition-all duration-300 group ${active
-                      ? 'text-[var(--maroon)] font-semibold bg-gradient-to-r from-[rgba(122,31,42,0.12)] to-[rgba(250,204,21,0.06)] shadow-md'
+                      ? 'text-[var(--cba-maroon)] font-semibold bg-gradient-to-r from-[rgba(122,31,42,0.08)] to-[rgba(200,164,93,0.04)] shadow-sm'
                       : scrolled
-                      ? 'text-gray-700 hover:text-[var(--maroon)] hover:bg-gray-100/80'
-                      : 'text-slate-50 hover:text-amber-300 hover:bg-white/8'
+                      ? 'text-gray-700 hover:text-[var(--cba-maroon)] hover:bg-gray-100/80'
+                      : 'text-slate-50 hover:text-[var(--cba-gold)] hover:bg-white/6'
                       }`}
                   >
-                    <span className="relative z-10">{item.label}</span>
+                    <span className="relative z-10 cba-link-grow">{item.label}</span>
                     {item.children && (
                       <svg
                         width="0.875rem"

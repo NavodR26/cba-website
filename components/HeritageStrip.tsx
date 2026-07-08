@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -12,42 +13,28 @@ import { useState } from 'react'
  */
 export default function HeritageStrip() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 -mt-16 relative z-20">
-      <div className="max-w-[1400px] mx-auto bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
-        <div className="grid lg:grid-cols-5 items-stretch">
-          <GavelPanel />
-
-          <div className="lg:col-span-3 grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
-            <Pillar
-              title="Market Operations"
-              text="Facilitating one of the world's largest single-origin commodity auctions with efficiency and trust."
-              icon={
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M3 21h18M5 21V7l7-4 7 4v14" />
-                  <path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2" />
-                </svg>
-              }
+    <section className="px-4 sm:px-6 lg:px-8 mt-12 relative z-10">
+      <div className="mx-auto max-w-7xl rounded-[36px] bg-[linear-gradient(180deg,#fffaf6, #fbf7f2)] p-12 shadow-[0_30px_80px_rgba(16,24,32,0.06)] border border-[rgba(0,0,0,0.04)] overflow-hidden">
+        <div className="flex flex-col lg:flex-row items-center gap-8">
+          <div className="w-full lg:w-[45%] flex items-center justify-center">
+            <Image
+              src="/cba-gavel-top.png"
+              alt="auction gavel"
+              width={420}
+              height={240}
+              className="max-w-[420px] w-full object-contain"
+              style={{ width: 'auto', height: 'auto' }}
             />
-            <Pillar
-              title="Heritage"
-              text="120+ years of professional excellence and industry leadership."
-              icon={
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="8" r="6" />
-                  <path d="M15.5 13l2 8-5.5-3-5.5 3 2-8" />
-                </svg>
-              }
-            />
-            <Pillar
-              title="Transparency"
-              text="Independent broker oversight ensuring fair market practices."
-              icon={
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 17l-6.5 4 2-7.5L2 9h7z" />
-                </svg>
-              }
-              cta={{ label: 'Learn more', href: '/about' }}
-            />
+          </div>
+          <div className="w-full lg:w-[55%]">
+            <div className="relative">
+              <div className="absolute inset-0 opacity-5" style={{ backgroundImage: `url('/cba-gavel-top.png')`, backgroundSize: '40%', backgroundRepeat: 'no-repeat', backgroundPosition: '10% 10%', filter: 'grayscale(1)', transform: 'scale(1.02)' }} />
+              <div className="relative p-6">
+                <h3 className="text-sm font-semibold tracking-[0.18em] text-[var(--cba-maroon)] uppercase">The symbol of CBA</h3>
+                <h2 className="mt-6 text-3xl lg:text-4xl font-serif font-semibold text-[#111827]">The auction gavel — emblem of fairness, authority and tradition since 1904</h2>
+                <p className="mt-6 text-lg text-[#6F6F6F] max-w-2xl">Our ceremonies and auction practices have been at the heart of Sri Lanka's commodity trade for over a century. We continue to steward markets with professional rigor and institutional integrity.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -87,9 +74,11 @@ function GavelPanel() {
         {errored ? (
           <FallbackGavel />
         ) : (
-          <img
+          <Image
             src="/cba-gavel.png"
             alt="CBA ceremonial gavel"
+            width={320}
+            height={260}
             className="mx-auto object-contain drop-shadow-2xl max-h-[200px] md:max-h-[240px] cba-gavel-3d"
             onError={() => setErrored(true)}
           />
