@@ -35,16 +35,16 @@ export const metadata = {
   title: "The Colombo Brokers' Association",
   description:
     "The Colombo Brokers' Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
-  metadataBase: new URL('https://cba.lk'),
+  metadataBase: new URL('https://cbasl.lk'),
   openGraph: {
     title: "The Colombo Brokers' Association",
     description:
       "Institutional auction authority, licensed by the Sri Lanka Tea Board to conduct Sri Lanka's tea auctions.",
     type: 'website',
-    url: 'https://cba.lk',
+    url: 'https://cbasl.lk',
     images: [
       {
-        url: 'https://cba.lk/hero.png',
+        url: 'https://cbasl.lk/hero.png',
         width: 1200,
         height: 630,
         alt: 'Colombo Brokers Association',
@@ -57,7 +57,7 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
-    sitemap: 'https://cba.lk/sitemap.xml',
+    sitemap: 'https://cbasl.lk/sitemap.xml',
   },
 }
 
@@ -91,15 +91,15 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: "The Colombo Brokers' Association",
-              url: 'https://cba.lk',
-              logo: 'https://cba.lk/logo.png',
+              url: 'https://cbasl.lk',
+              logo: 'https://cbasl.lk/logo.png',
               description:
                 "The Colombo Brokers' Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
               contactPoint: [
                 {
                   '@type': 'ContactPoint',
                   contactType: 'Customer Service',
-                  email: 'info@cba.lk',
+                  email: 'info@cbasl.lk',
                   areaServed: 'LK',
                   availableLanguage: ['English'],
                 },
