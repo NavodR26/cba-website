@@ -14,7 +14,7 @@ interface ImpactStat {
 const impactStats: ImpactStat[] = [
   { label: 'Tea Export Volume', value: 95, suffix: '%', description: 'Of Sri Lanka total exports', icon: 'leaf' },
   { label: 'Annual Auction Value', value: 2, suffix: 'B+', description: 'USD in trade volume', icon: 'trending-up' },
-  { label: 'Member Companies', value: 50, suffix: '+', description: 'Licensed brokerage firms', icon: 'building' },
+  { label: 'Member Companies', value: 50, suffix: '+', description: 'Licensed broking firms', icon: 'building' },
   { label: 'Weekly Auctions', value: 52, suffix: '', description: 'Consistent trading schedule', icon: 'calendar' },
 ]
 

@@ -112,7 +112,7 @@ export function HeroParallax({ nextAuction }: HeroParallaxProps) {
                 className="mt-7 max-w-2xl text-base leading-relaxed text-white/90 sm:text-xl cba-hero-sub"
                 style={{ fontFamily: 'var(--font-inter)', fontSize: '18px', maxWidth: '560px' }}
               >
-                Representing the highest standards of brokerage excellence across Sri Lanka&apos;s tea, rubber, coconut and spices auctions.
+                Representing the highest standards of broking excellence across Sri Lanka&apos;s Tea, Rubber, Coconut and Spices auctions.
               </motion.p>
 
               <div className="mt-8 grid max-w-2xl grid-cols-2 gap-x-4 gap-y-5 border-y border-white/15 py-5 sm:grid-cols-4">
@@ -163,7 +163,7 @@ export function HeroParallax({ nextAuction }: HeroParallaxProps) {
                 <div className="relative pt-2">
                   <div className="mb-8 h-1 w-full overflow-hidden rounded-full bg-white/10"><div className="h-full w-2/3 rounded-full bg-gradient-to-r from-amber-400 to-amber-200" /></div>
                   <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-amber-300">Premium Auction Insights</p>
-                  <h2 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">Modern brokerage, delivered with authority.</h2>
+                  <h2 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">Modern brokering, delivered with authority.</h2>
                   <p className="mt-5 max-w-md text-base leading-relaxed text-slate-200">Quick access to market updates, sales schedules and member resources for institutional trading professionals.</p>
 
                   <div className="mt-7 rounded-2xl border border-white/15 bg-slate-950/25 p-4 backdrop-blur-md">

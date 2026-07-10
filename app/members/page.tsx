@@ -139,7 +139,7 @@ export default async function MembersPage() {
       <PageHeroPremium
         badge="Members & Directory"
         title="Leadership & Member Directory"
-        subtitle="Connecting accredited brokerage firms and industry professionals across Sri Lanka."
+        subtitle="Connecting accredited broking firms and industry professionals across Sri Lanka."
         backgroundImage="/members_hero.png"
         breadcrumb={[
           { label: 'Home', href: '/' },

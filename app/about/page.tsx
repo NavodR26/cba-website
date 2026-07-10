@@ -92,7 +92,7 @@ export default async function AboutPage() {
       <PageHeroPremium
         badge="About the Association"
         title="A Century of Trusted Auction Leadership"
-        subtitle="Serving Sri Lanka's tea, rubber, coconut and spices auctions through professional brokerage representation since 1904."
+        subtitle="Delivering expert broking representation to Sri Lanka’s tea, rubber, coconut and spice auctions since 1904."
         backgroundImage="/about_hero.png"
         breadcrumb={[
           { label: 'Home', href: '/' },
