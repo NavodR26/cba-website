@@ -1,17 +1,28 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { urlFor } from '@/lib/sanity'
 import Image from 'next/image'
+
+interface VideoChapter {
+  title: string
+  timestamp: number
+}
 
 interface ShowcaseItem {
   _key: string
   title: string
   description: string
-  mediaType: 'image' | 'video'
+  mediaType: 'image' | 'video' | '360tour' | 'floorMap'
+  category?: string
   image?: any
   video?: any
+  tour360Url?: string
+  floorMap?: any
+  brochure?: any
+  qrCode?: any
+  videoChapters?: VideoChapter[]
   displayOrder: number
 }
 
@@ -29,6 +40,13 @@ export default function FacilityShowcase() {
   const [isPlaying, setIsPlaying] = useState(true)
   const [isPaused, setIsPaused] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string>('all')
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [zoomLevel, setZoomLevel] = useState(1)
+  const [panPosition, setPanPosition] = useState({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const [showChapters, setShowChapters] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     async function fetchShowcase() {
@@ -72,28 +90,56 @@ export default function FacilityShowcase() {
   }
 
   const items = showcase.showcaseItems
-  const currentItem = items[currentIndex]
+  const categories = ['all', ...new Set(items.map(item => item.category).filter((cat): cat is string => Boolean(cat)))]
+  const filteredItems = selectedCategory === 'all' 
+    ? items 
+    : items.filter(item => item.category === selectedCategory)
+  const currentItem = filteredItems[currentIndex]
 
   const nextSlide = () => {
     setDirection(1)
-    setCurrentIndex((prev) => (prev + 1) % items.length)
+    setCurrentIndex((prev) => (prev + 1) % filteredItems.length)
   }
 
   const prevSlide = () => {
     setDirection(-1)
-    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length)
+    setCurrentIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length)
+  }
+
+  const handleZoomIn = () => setZoomLevel(prev => Math.min(prev + 0.5, 3))
+  const handleZoomOut = () => setZoomLevel(prev => Math.max(prev - 0.5, 1))
+  const handleResetZoom = () => {
+    setZoomLevel(1)
+    setPanPosition({ x: 0, y: 0 })
+  }
+
+  const handleChapterClick = (timestamp: number) => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = timestamp
+      videoRef.current.play()
+    }
+  }
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen)
+    handleResetZoom()
   }
 
   // Auto-play functionality
   useEffect(() => {
-    if (!isPlaying || isPaused || items.length <= 1) return
+    if (!isPlaying || isPaused || filteredItems.length <= 1) return
 
     const interval = setInterval(() => {
       nextSlide()
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [isPlaying, isPaused, currentIndex, items.length])
+  }, [isPlaying, isPaused, currentIndex, filteredItems.length])
+
+  // Reset index when category changes
+  useEffect(() => {
+    setCurrentIndex(0)
+  }, [selectedCategory])
 
   const slideVariants: any = {
     enter: (direction: number) => ({
@@ -145,6 +191,25 @@ export default function FacilityShowcase() {
           </p>
         </motion.div>
 
+        {/* Category Filter */}
+        {categories.length > 1 && (
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  selectedCategory === category
+                    ? 'bg-[var(--cba-maroon)] text-white shadow-md'
+                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                }`}
+              >
+                {category === 'all' ? 'All Facilities' : category}
+              </button>
+            ))}
+          </div>
+        )}
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -155,7 +220,7 @@ export default function FacilityShowcase() {
           onMouseLeave={() => setIsPaused(false)}
         >
           <div 
-            className="relative rounded-3xl overflow-hidden shadow-2xl bg-gray-900 aspect-[16/9] md:aspect-[21/9]"
+            className={`relative rounded-3xl overflow-hidden shadow-2xl bg-gray-900 aspect-[16/9] md:aspect-[21/9] ${isFullscreen ? 'fixed inset-0 z-50 rounded-none' : ''}`}
             onTouchStart={(e) => {
               setTouchStart(e.touches[0].clientX)
             }}
@@ -183,23 +248,79 @@ export default function FacilityShowcase() {
                 animate="center"
                 exit="exit"
                 className="absolute inset-0"
+                style={{
+                  transform: `scale(${zoomLevel}) translate(${panPosition.x}px, ${panPosition.y}px)`,
+                  transition: isDragging ? 'none' : 'transform 0.3s ease'
+                }}
               >
                 {currentItem.mediaType === 'video' && currentItem.video ? (
-                  <video
-                    src={urlFor(currentItem.video).url()}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
+                  <div className="relative w-full h-full">
+                    <video
+                      ref={videoRef}
+                      src={urlFor(currentItem.video).url()}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Video Chapters */}
+                    {currentItem.videoChapters && currentItem.videoChapters.length > 0 && (
+                      <div className="absolute bottom-4 left-4 right-4 bg-black/70 backdrop-blur-md rounded-xl p-3">
+                        <button
+                          onClick={() => setShowChapters(!showChapters)}
+                          className="text-white text-sm font-medium mb-2 flex items-center gap-2"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                          </svg>
+                          Chapters
+                        </button>
+                        {showChapters && (
+                          <div className="space-y-1">
+                            {currentItem.videoChapters.map((chapter, idx) => (
+                              <button
+                                key={idx}
+                                onClick={() => handleChapterClick(chapter.timestamp)}
+                                className="block w-full text-left text-white/80 hover:text-white text-xs py-1 px-2 rounded hover:bg-white/10 transition"
+                              >
+                                {chapter.title} - {Math.floor(chapter.timestamp / 60)}:{(chapter.timestamp % 60).toString().padStart(2, '0')}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ) : currentItem.mediaType === '360tour' && currentItem.tour360Url ? (
+                  <iframe
+                    src={currentItem.tour360Url}
+                    title={currentItem.title}
+                    className="w-full h-full"
+                    allowFullScreen
+                    loading="lazy"
                   />
+                ) : currentItem.mediaType === 'floorMap' && currentItem.floorMap ? (
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={urlFor(currentItem.floorMap).width(1920).height(1080).url()}
+                      alt={currentItem.title}
+                      fill
+                      className="object-cover"
+                      priority={currentIndex === 0}
+                    />
+                    <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md rounded-xl px-3 py-2">
+                      <span className="text-white text-xs font-medium">Interactive Floor Map</span>
+                    </div>
+                  </div>
                 ) : currentItem.image ? (
                   <Image
                     src={urlFor(currentItem.image).width(1920).height(1080).url()}
                     alt={currentItem.title}
                     fill
-                    className="object-cover"
+                    className="object-cover cursor-zoom-in"
                     priority={currentIndex === 0}
+                    onClick={handleZoomIn}
                   />
                 ) : null}
 
@@ -217,13 +338,40 @@ export default function FacilityShowcase() {
                     <p className="text-base text-white/80 max-w-2xl leading-relaxed">
                       {currentItem.description}
                     </p>
+                    
+                    {/* Action Buttons */}
+                    <div className="flex flex-wrap gap-3 mt-4">
+                      {currentItem.brochure && (
+                        <a
+                          href={urlFor(currentItem.brochure).url()}
+                          download
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg text-white text-sm font-medium hover:bg-white/20 transition"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          Download Brochure
+                        </a>
+                      )}
+                      {currentItem.qrCode && (
+                        <button
+                          onClick={() => {/* Show QR modal */}}
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg text-white text-sm font-medium hover:bg-white/20 transition"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                          </svg>
+                          View QR Code
+                        </button>
+                      )}
+                    </div>
                   </motion.div>
                 </div>
               </motion.div>
             </AnimatePresence>
 
             {/* Navigation Buttons */}
-            {items.length > 1 && (
+            {filteredItems.length > 1 && (
               <>
                 <button
                   onClick={prevSlide}
@@ -257,6 +405,58 @@ export default function FacilityShowcase() {
                   </svg>
                 </button>
 
+                {/* Zoom Controls */}
+                {currentItem.mediaType === 'image' && (
+                  <div className="absolute top-4 right-4 flex gap-2 z-20">
+                    <button
+                      onClick={handleZoomOut}
+                      disabled={zoomLevel <= 1}
+                      className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      aria-label="Zoom out"
+                    >
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={handleZoomIn}
+                      disabled={zoomLevel >= 3}
+                      className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      aria-label="Zoom in"
+                    >
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={handleResetZoom}
+                      className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300"
+                      aria-label="Reset zoom"
+                    >
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+
+                {/* Fullscreen Button */}
+                <button
+                  onClick={toggleFullscreen}
+                  className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 z-20"
+                  aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+                >
+                  {isFullscreen ? (
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                  )}
+                </button>
+
                 {/* Play/Pause Button */}
                 <button
                   onClick={() => setIsPaused(prev => !prev)}
@@ -278,9 +478,9 @@ export default function FacilityShowcase() {
           </div>
 
           {/* Thumbnail Navigation */}
-          {items.length > 1 && (
+          {filteredItems.length > 1 && (
             <div className="flex justify-center gap-3 mt-8">
-              {items.map((item, index) => (
+              {filteredItems.map((item, index) => (
                 <button
                   key={item._key}
                   onClick={() => {
@@ -300,6 +500,19 @@ export default function FacilityShowcase() {
                         <path d="M8 5v14l11-7z" />
                       </svg>
                     </div>
+                  ) : item.mediaType === '360tour' ? (
+                    <div className="w-full h-full bg-gray-800 flex items-center justify-center">
+                      <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    </div>
+                  ) : item.mediaType === 'floorMap' && item.floorMap ? (
+                    <Image
+                      src={urlFor(item.floorMap).width(200).height(120).url()}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                    />
                   ) : item.image ? (
                     <Image
                       src={urlFor(item.image).width(200).height(120).url()}

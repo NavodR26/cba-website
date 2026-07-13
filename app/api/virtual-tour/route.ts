@@ -12,8 +12,17 @@ export async function GET() {
           title,
           description,
           mediaType,
+          category,
           image,
           video,
+          tour360Url,
+          floorMap,
+          brochure,
+          qrCode,
+          videoChapters[]{
+            title,
+            timestamp
+          },
           displayOrder
         }
       }
