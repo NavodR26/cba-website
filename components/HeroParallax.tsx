@@ -191,7 +191,7 @@ export function HeroParallax({ nextAuction }: HeroParallaxProps) {
           </div>
         </div>
       </div>
-      <div aria-hidden className="absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-slate-950/55 to-transparent" />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-slate-950/40 to-transparent" />
       <div aria-hidden className="absolute bottom-0 left-1/2 z-20 hidden h-20 w-px -translate-x-1/2 bg-gradient-to-b from-amber-300/20 to-amber-300 lg:block" />
       {/* Scroll mouse indicator (desktop only) */}
       <ScrollMouse />

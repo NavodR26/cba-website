@@ -18,6 +18,7 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
   const pathname = usePathname()
   const [hoverIdx, setHoverIdx] = useState<number | null>(null)
   const [scrolled, setScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState<string>('')
   const totalHeaderHeight = topbarHeight + NAV_HEIGHT
   const isHomepage = pathname === '/'
 
@@ -28,6 +29,30 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Scroll spy for section highlighting on homepage
+  useEffect(() => {
+    if (!isHomepage) return
+
+    const sections = document.querySelectorAll('section[id]')
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }, observerOptions)
+
+    sections.forEach(section => observer.observe(section))
+
+    return () => observer.disconnect()
+  }, [isHomepage])
 
   return (
     <>
@@ -83,8 +108,10 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
                 >
                   <Link
                     href={item.href}
-                    className={`relative inline-flex items-center gap-1 px-5 py-2 rounded-full transition-all duration-300 group ${active
-                      ? 'text-[var(--cba-maroon)] font-semibold bg-gradient-to-r from-[rgba(122,31,42,0.08)] to-[rgba(200,164,93,0.04)] shadow-sm'
+                    className={`relative inline-flex items-center gap-1 px-5 py-2 rounded-full transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-[var(--cba-maroon)] focus:ring-offset-2 ${active
+                      ? scrolled
+                        ? 'text-[var(--cba-maroon)] font-semibold bg-gradient-to-r from-[rgba(122,31,42,0.08)] to-[rgba(200,164,93,0.04)] shadow-sm'
+                        : 'text-white font-semibold bg-white/10 backdrop-blur-md shadow-sm'
                       : scrolled
                       ? 'text-gray-700 hover:text-[var(--cba-maroon)] hover:bg-gray-100/80'
                       : 'text-slate-50 hover:text-[var(--cba-gold)] hover:bg-white/6'
@@ -146,7 +173,7 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
             <button
               type="button"
               onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))}
-              className="relative flex h-[2.75rem] w-[2.75rem] items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 shadow-sm transition hover:border-[var(--maroon)]/30 hover:text-[var(--maroon)]"
+              className="relative flex h-[2.75rem] w-[2.75rem] items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 shadow-sm transition hover:border-[var(--maroon)]/30 hover:text-[var(--maroon)] focus:outline-none focus:ring-2 focus:ring-[var(--cba-maroon)] focus:ring-offset-2"
               aria-label="Open site search"
             >
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

@@ -7,7 +7,7 @@ const SOURCES = [
   'https://api.frankfurter.app/latest?from=USD&to=LKR',
 ]
 
-export const revalidate = 60 // Update every minute for more accuracy
+export const revalidate = 300 // Update every 5 minutes to reduce API calls
 
 export async function GET() {
   for (const url of SOURCES) {

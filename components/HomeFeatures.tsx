@@ -32,7 +32,7 @@ const features = [
 
 export default function HomeFeatures() {
   return (
-    <section className="relative z-20 -mt-10 px-4 pb-14 sm:px-6 lg:-mt-14 lg:px-8 lg:pb-20">
+    <section className="relative z-20 px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <motion.div
         className="mx-auto max-w-[1400px] overflow-hidden rounded-[30px] border border-slate-200/80 bg-white/95 p-3 shadow-[0_24px_70px_rgba(15,23,42,0.13)] backdrop-blur-xl sm:p-4 lg:rounded-[36px] lg:p-5"
         initial={false}

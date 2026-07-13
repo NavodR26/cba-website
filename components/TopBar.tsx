@@ -217,7 +217,7 @@ function InfoWidget() {
     }
 
     fetchExchangeRate()
-    const intervalId = window.setInterval(fetchExchangeRate, 60 * 1000)
+    const intervalId = window.setInterval(fetchExchangeRate, 5 * 60 * 1000)
     
     const tick = window.setInterval(() => {
       if (rateUpdatedAt) {

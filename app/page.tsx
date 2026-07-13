@@ -28,6 +28,9 @@ export default async function Home() {
     .filter((event: any) => event.start_date && new Date(event.start_date).getTime() >= Date.now())
     .sort((a: any, b: any) => new Date(a.start_date).getTime() - new Date(b.start_date).getTime())[0]
 
+  console.log('[Home] Total events:', safeEvents.length)
+  console.log('[Home] Next auction:', nextAuction)
+
   return (
     <main id="main-content" className="cba-page-shell bg-white text-gray-800">
       <TopBar events={safeEvents} />

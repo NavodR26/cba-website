@@ -11,7 +11,7 @@ import VisionMissionSection from '@/components/VisionMissionSection'
 import { getAboutPageContent } from '@/lib/sanity'
 import InteractiveTimeline from '@/components/InteractiveTimeline'
 import OurImpact from '@/components/OurImpact'
-import VirtualTour from '@/components/VirtualTour'
+import FacilityShowcase from '@/components/VirtualTour'
 
 export const metadata = {
   title: "About CBA | The Colombo Brokers' Association",
@@ -248,8 +248,8 @@ export default async function AboutPage() {
       {/* Our Impact Section */}
       <OurImpact />
 
-      {/* Virtual Tour */}
-      <VirtualTour />
+      {/* Facility Showcase */}
+      <FacilityShowcase />
 
       <SectionReveal>
         <ArchivalPhotoShowcase />
