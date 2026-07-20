@@ -59,6 +59,16 @@ const IMPORTANT_LINKS = [
   },
 ]
 
+function eventCategory(event: { title?: string; category?: string; type?: string }) {
+  const value = `${event.title || ''} ${event.category || ''} ${event.type || ''}`.toLowerCase()
+  if (value.includes('rubber')) return { label: 'Rubber', color: '#1f6f43', soft: 'rgba(31,111,67,0.1)' }
+  if (value.includes('coconut')) return { label: 'Coconut', color: '#b67419', soft: 'rgba(182,116,25,0.12)' }
+  if (value.includes('committee')) return { label: 'Committee', color: '#27548a', soft: 'rgba(39,84,138,0.1)' }
+  if (value.includes('agm')) return { label: 'AGM', color: '#6d28d9', soft: 'rgba(109,40,217,0.12)' }
+  if (value.includes('tea')) return { label: 'Tea', color: '#7a1f2a', soft: 'rgba(122,31,42,0.1)' }
+  return { label: event.category || event.type || 'Event', color: '#555555', soft: 'rgba(85,85,85,0.1)' }
+}
+
 async function getDownloads() {
   return await client.fetch(
     `*[_type == "announcement" && defined(file)] | order(date desc){
@@ -84,6 +94,9 @@ export default async function ResourcesPage() {
     location: e.location,
     notes: e.notes,
   }))
+  const scheduledEvents = [...safeEvents]
+    .filter((event) => event.start_date)
+    .sort((a, b) => new Date(a.start_date!).getTime() - new Date(b.start_date!).getTime())
 
   return (
     <main id="main-content" className="cba-page-shell bg-white text-gray-800">
@@ -102,66 +115,70 @@ export default async function ResourcesPage() {
       />
 
       <SectionReveal>
-        <section id="auction-calendar" className="scroll-mt-32 bg-white px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1400px]">
-            <div className="mb-6">
-              <span className="inline-block rounded-full bg-[var(--maroon)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[var(--maroon)]">
+        <section id="auction-calendar" className="scroll-mt-32 bg-[#faf9f7] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+          <div className="mx-auto max-w-[1320px]">
+            <div className="mb-8 max-w-2xl">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--maroon)]/10 bg-[var(--maroon)]/8 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--maroon)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--cba-gold)]" />
                 Live Calendar
               </span>
-              <h2 className="mt-2 text-3xl font-bold text-gray-900 md:text-4xl">
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 md:text-[2.5rem]">
                 Auction Schedule & Events
               </h2>
-              <p className="mt-1 text-sm text-gray-500">
-                Official calendar with scheduled auctions and committee meetings.
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Browse upcoming auctions, committee meetings and Association dates in one official schedule.
               </p>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-              <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
-                <div className="overflow-hidden rounded-lg border border-gray-200">
-                  <EventCalendarClient events={safeEvents} />
-                </div>
+            <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(340px,0.85fr)]">
+              <div>
+                <EventCalendarClient events={safeEvents} />
               </div>
 
-              <div className="flex flex-col space-y-4">
-                <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                  <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--maroon)]">
-                    Event Categories
-                  </p>
+              <aside className="space-y-5">
+                <div className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_14px_35px_rgba(15,23,42,0.06)]">
                   <CalendarStats events={safeEvents} />
                 </div>
 
-                <div className="flex-1 overflow-hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                  <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--maroon)]">
-                    Upcoming
-                  </p>
-                  <div className="max-h-72 space-y-3 overflow-y-auto pr-1">
-                    {safeEvents.slice(0, 6).map((e, i) => (
-                      <div key={`${e.title}-${i}`} className="border-b border-gray-100 pb-3 last:border-b-0">
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="text-xs">
-                            {e.start_date && (
-                              <p className="font-semibold text-gray-900">
-                                {new Date(e.start_date).toLocaleDateString('en-GB', {
-                                  day: '2-digit',
-                                  month: 'short',
-                                })}
-                              </p>
-                            )}
-                            <p className="line-clamp-1 text-gray-600">{e.title}</p>
+                <div className="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.06)] sm:p-6">
+                  <div className="mb-4 flex items-end justify-between gap-4">
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--maroon)]">Schedule</p>
+                      <h3 className="mt-1 text-lg font-semibold text-slate-950">Scheduled events</h3>
+                    </div>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-500">{scheduledEvents.length}</span>
+                  </div>
+                  <div className="space-y-1">
+                    {scheduledEvents.slice(0, 5).map((e, i) => {
+                      const category = eventCategory(e)
+                      return (
+                        <div key={`${e.title}-${i}`} className="group flex gap-3 border-t border-slate-100 py-3 first:border-t-0 first:pt-0">
+                          <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-xl text-center" style={{ backgroundColor: category.soft }}>
+                            <span className="text-sm font-bold leading-none" style={{ color: category.color }}>
+                              {e.start_date ? new Date(e.start_date).toLocaleDateString('en-GB', { day: '2-digit' }) : '—'}
+                            </span>
+                            <span className="mt-1 text-[9px] font-bold uppercase tracking-wide text-slate-500">
+                              {e.start_date ? new Date(e.start_date).toLocaleDateString('en-GB', { month: 'short' }) : ''}
+                            </span>
                           </div>
-                          <span className="inline-flex shrink-0 items-center rounded bg-[var(--maroon)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                            {e.category || e.type || 'Event'}
-                          </span>
+                          <div className="min-w-0 flex-1 pt-0.5">
+                            <div className="flex items-start justify-between gap-2">
+                              <p className="line-clamp-1 text-sm font-semibold text-slate-800">{e.title}</p>
+                              <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide" style={{ backgroundColor: category.soft, color: category.color }}>
+                                {category.label}
+                              </span>
+                            </div>
+                            <div className="mt-1 opacity-80 transition-opacity group-hover:opacity-100">
+                              <AddToCalendarLink event={e} />
+                            </div>
+                          </div>
                         </div>
-                        <div className="mt-2">
-                          <AddToCalendarLink event={e} />
-                        </div>
-                      </div>
-                    ))}
+                      )
+                    })}
+                    {scheduledEvents.length === 0 && <p className="py-5 text-sm text-slate-500">No scheduled events are available yet.</p>}
                   </div>
                 </div>
-              </div>
+              </aside>
             </div>
           </div>
         </section>

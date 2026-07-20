@@ -216,7 +216,7 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+    <div className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.07)]">
       {/* HEADER */}
       <div className="px-4 py-5 flex flex-col gap-4 border-b border-gray-100 md:px-7 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex w-full items-center gap-2 sm:gap-3 lg:w-auto">

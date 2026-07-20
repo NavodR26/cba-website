@@ -11,7 +11,7 @@ export default function AboutSection({ content }: AboutSectionProps) {
   const missionText = content.missionText?.trim() || 'To foster a transparent, technology-driven, and sustainable marketplace that enhances stakeholder confidence, strengthens industry standards, and advances the global competitiveness of Sri Lanka\'s tea, rubber, coconut, and spice sectors.'
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
+    <section className="pb-16 pt-10 px-4 sm:px-6 sm:pb-20 sm:pt-12 lg:px-8 lg:pb-24 lg:pt-14 bg-white relative overflow-hidden">
       <div className="absolute -right-32 top-0 w-72 h-72 rounded-full bg-[var(--maroon)]/5 blur-3xl" />
       <div className="absolute -left-32 bottom-0 w-64 h-64 rounded-full bg-amber-300/5 blur-3xl" />
 
@@ -24,7 +24,7 @@ export default function AboutSection({ content }: AboutSectionProps) {
         </h2>
 
         <p className="text-gray-600 max-w-3xl mx-auto mt-4 text-lg leading-relaxed animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
-          Since 1904, stewarding Sri Lanka&apos;s tea, rubber, coconut and spices markets with uncompromised integrity and professional excellence.
+          CBA stewards Sri Lanka&apos;s tea, rubber, coconut and spice markets with uncompromised integrity and professional excellence.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6 text-left mt-10 max-w-5xl mx-auto">

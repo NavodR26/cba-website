@@ -2,14 +2,12 @@ import Navbar from '@/components/Navbar'
 import TopBar from '@/components/TopBar'
 import TraditionSection from '@/components/TraditionSection'
 import UpcomingEvents from '@/components/UpcomingEvents'
-import StatsBar from '@/components/StatsBar'
 import AnnouncementsGallery from '@/components/AnnouncementsGallery'
 import AboutSection from '@/components/AboutSection'
 import SectionReveal from '@/components/SectionReveal'
 import FooterAnimated from '@/components/FooterAnimated'
 import Newsletter from '@/components/Newsletter'
 import { HeroParallax } from '@/components/HeroParallax'
-import HomeFeatures from '@/components/HomeFeatures'
 import QuickActions from '@/components/QuickActions'
 import Testimonials from '@/components/Testimonials'
 import { getEvents } from '@/lib/events'
@@ -24,12 +22,7 @@ export default async function Home() {
     end_date: e.end_date ? new Date(e.end_date).toISOString() : null,
   }))
 
-  const nextAuction = safeEvents
-    .filter((event: any) => event.start_date && new Date(event.start_date).getTime() >= Date.now())
-    .sort((a: any, b: any) => new Date(a.start_date).getTime() - new Date(b.start_date).getTime())[0]
-
   console.log('[Home] Total events:', safeEvents.length)
-  console.log('[Home] Next auction:', nextAuction)
 
   return (
     <main id="main-content" className="cba-page-shell bg-white text-gray-800">
@@ -37,28 +30,15 @@ export default async function Home() {
       <Navbar topbarHeight={44} />
 
       {/* HERO */}
-      <HeroParallax
-        nextAuction={nextAuction ? {
-          title: nextAuction.title || nextAuction.category || nextAuction.type || 'Upcoming Auction',
-          date: new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(nextAuction.start_date)),
-          saleNo: nextAuction.sale_no ? `Sale ${nextAuction.sale_no}` : undefined,
-        } : undefined}
-      />
+      <HeroParallax />
 
-      {/* Overlapping features section */}
+      {/* Quick access follows the hero, matching the homepage visual hierarchy. */}
       <SectionReveal>
-        {/* Lazy-load to keep initial paint light */}
-        {/* @ts-ignore */}
-        <HomeFeatures />
+        <QuickActions />
       </SectionReveal>
 
       <SectionReveal>
         <AboutSection content={aboutContent} />
-      </SectionReveal>
-
-      {/* Quick Actions */}
-      <SectionReveal>
-        <QuickActions />
       </SectionReveal>
 
       <SectionReveal>
@@ -69,10 +49,6 @@ export default async function Home() {
         <TraditionSection />
       </SectionReveal>
       
-      <SectionReveal>
-        <StatsBar />
-      </SectionReveal>
-
       {/* Testimonials */}
       <Testimonials />
 

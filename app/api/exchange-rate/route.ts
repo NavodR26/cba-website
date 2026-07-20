@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 // Multiple reliable sources with fallback
 const SOURCES = [
   'https://api.exchangerate-api.com/v4/latest/USD',

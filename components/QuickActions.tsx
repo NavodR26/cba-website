@@ -1,111 +1,82 @@
-import Link from 'next/link'
+'use client'
 
-type Action = {
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import Link from 'next/link'
+import type { PointerEvent } from 'react'
+
+type Resource = {
   title: string
-  desc: string
+  description: string
   href: string
-  icon: React.ReactNode
+  image: string
+  icon: 'calendar' | 'people' | 'directory' | 'notice' | 'gallery' | 'contact'
+  featured?: boolean
 }
 
-const ITEMS: Action[] = [
-  {
-    title: 'Auction Calendar',
-    desc: 'Tea, rubber & coconut sales',
-    href: '/resources',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="3" y="4" width="18" height="18" rx="2" />
-        <path d="M16 2v4M8 2v4M3 10h18" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Committee',
-    desc: 'Office bearers & members',
-    href: '/committee',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M17 20v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 20v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Brokers Directory',
-    desc: 'Member firms profiles',
-    href: '/brokers',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M3 21h18M5 21V7l7-4 7 4v14" />
-        <path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Announcements',
-    desc: 'Circulars & notices',
-    href: '/#announcements',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M3 11l18-8v18L3 13z" />
-        <path d="M11 11.5v6" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Gallery',
-    desc: 'Photos & event coverage',
-    href: '/gallery',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="3" y="3" width="18" height="18" rx="2" />
-        <circle cx="9" cy="9" r="2" />
-        <path d="M21 15l-5-5L5 21" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Contact Us',
-    desc: 'Get in touch',
-    href: '/contact',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" />
-      </svg>
-    ),
-  },
+const resources: Resource[] = [
+  { title: 'Auction Calendar', description: 'Live auction dates, meetings and market activity.', href: '/resources', image: '/resources_hero.png', icon: 'calendar', featured: true },
+  { title: 'Committee', description: 'Meet the leadership guiding the association.', href: '/committee', image: '/members_hero.png', icon: 'people' },
+  { title: 'Brokers Directory', description: 'Explore our trusted member broker network.', href: '/brokers', image: '/members_hero.png', icon: 'directory' },
+  { title: 'Announcements', description: 'Important notices and association updates.', href: '/#announcements', image: '/about_hero.png', icon: 'notice' },
+  { title: 'Gallery', description: 'Moments from CBA events and milestones.', href: '/gallery', image: '/gallery_hero.png', icon: 'gallery' },
+  { title: 'Contact Us', description: 'Speak directly with the association team.', href: '/contact', image: '/contact_hero.png', icon: 'contact' },
 ]
 
+function ResourceIcon({ icon }: { icon: Resource['icon'] }) {
+  const icons = {
+    calendar: <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2M8 18h2" /></>,
+    people: <><circle cx="12" cy="8" r="3" /><path d="M5 21c.6-4 3-6 7-6s6.4 2 7 6M4 10.5a2.5 2.5 0 0 0 1.8-4.2M20 10.5a2.5 2.5 0 0 1-1.8-4.2" /></>,
+    directory: <><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 7h8M8 11h8M8 15h4" /><circle cx="17" cy="16" r="3" /><path d="m19 18 2 2" /></>,
+    notice: <><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></>,
+    gallery: <><rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="8.5" cy="9" r="1.5" /><path d="m21 15-5-5L5 20" /></>,
+    contact: <><path d="M20 15.5a4.7 4.7 0 0 1-4.8 4.5c-1.1 0-2.1-.3-3-.8L4 21l1.9-6.3A8.5 8.5 0 1 1 20 15.5Z" /></>,
+  }
+
+  return <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>{icons[icon]}</svg>
+}
+
 export default function QuickActions() {
+  const setPointerPosition = (event: PointerEvent<HTMLAnchorElement>) => {
+    const card = event.currentTarget
+    const bounds = card.getBoundingClientRect()
+    card.style.setProperty('--resource-pointer-x', `${event.clientX - bounds.left}px`)
+    card.style.setProperty('--resource-pointer-y', `${event.clientY - bounds.top}px`)
+  }
+
   return (
-    <section className="px-4 sm:px-6 lg:px-8 -mt-16 relative z-20">
-      <div className="max-w-[1400px] mx-auto bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 p-2 md:p-3">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-          {ITEMS.map((item, i) => (
-            <Link
-              key={item.title}
-              href={item.href}
-              className={`group relative flex md:flex-col items-center md:text-center gap-3 md:gap-2 px-4 py-5 md:py-6 rounded-xl hover:bg-gray-50 transition ${
-                i < ITEMS.length - 1
-                  ? 'md:border-r border-gray-100'
-                  : ''
-              }`}
-            >
-              <div className="w-11 h-11 md:w-12 md:h-12 rounded-xl bg-[var(--maroon)]/10 text-[var(--maroon)] flex items-center justify-center shrink-0 group-hover:bg-[var(--maroon)] group-hover:text-white transition">
-                <div className="w-5 h-5 md:w-5.5 md:h-5.5">{item.icon}</div>
-              </div>
-              <div className="min-w-0">
-                <p className="font-semibold text-sm md:text-[13px] text-gray-900">
-                  {item.title}
-                </p>
-                <p className="hidden md:block text-[11px] text-gray-500 mt-0.5">
-                  {item.desc}
-                </p>
-              </div>
-            </Link>
+    <section className="cba-resource-hub relative -mt-10 overflow-hidden px-4 pb-12 pt-[5.5rem] sm:px-6 sm:pb-14 sm:pt-24 lg:px-8 lg:pb-16 lg:pt-28">
+      <div className="cba-resource-hub__atmosphere pointer-events-none absolute inset-0" aria-hidden />
+      <div className="cba-resource-hub__transition pointer-events-none absolute inset-x-0 top-0" aria-hidden />
+      <div className="relative mx-auto max-w-[1440px]">
+        <motion.header initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.55 }} className="mb-7 flex flex-col gap-5 border-b border-[#0a1b38]/10 pb-6 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.24em] text-[#8d2330]"><span className="h-px w-7 bg-current" />Quick access</p>
+            <h2 className="mt-3 text-[clamp(2rem,3.4vw,3.25rem)] font-bold leading-none tracking-[-0.055em] text-[#091936]">Your connection to <span className="text-[#c99b2e]">the market.</span></h2>
+          </div>
+          <Link href="/resources" className="group inline-flex shrink-0 items-center gap-3 text-[11px] font-bold uppercase tracking-[0.13em] text-[#8d2330] transition hover:text-[#5f1720]">View all resources <span className="flex h-8 w-8 items-center justify-center rounded-full border border-current/30 text-lg transition duration-300 group-hover:translate-x-1 group-hover:bg-[#8d2330] group-hover:text-white">&rarr;</span></Link>
+        </motion.header>
+
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.14 }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 xl:gap-4">
+          {resources.map((resource, index) => (
+            <motion.div key={resource.title} variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.48, ease: 'easeOut' } } }}>
+              <Link href={resource.href} onPointerMove={setPointerPosition} className={`cba-resource-card group relative flex min-h-[208px] flex-col overflow-hidden rounded-2xl p-5 ${resource.featured ? 'cba-resource-card--featured' : ''}`}>
+                <Image src={resource.image} alt="" fill sizes="(min-width: 1280px) 17vw, (min-width: 1024px) 31vw, (min-width: 640px) 47vw, 100vw" className="cba-resource-card__image pointer-events-none object-cover" />
+                <span className="cba-resource-card__overlay pointer-events-none absolute inset-0" aria-hidden />
+                <span className="cba-resource-card__spotlight pointer-events-none absolute inset-0" aria-hidden />
+                <div className="relative z-10 flex items-start justify-between">
+                  <span className="cba-resource-card__icon flex h-10 w-10 items-center justify-center rounded-xl"><ResourceIcon icon={resource.icon} /></span>
+                  <span className="font-mono text-[10px] font-medium tracking-[0.14em] opacity-55">{String(index + 1).padStart(2, '0')}</span>
+                </div>
+                <div className="relative z-10 mt-auto">
+                  <h3 className="text-[15px] font-bold leading-tight tracking-[-0.025em]">{resource.title}</h3>
+                  <p className="mt-2 text-[12px] leading-5 opacity-70">{resource.description}</p>
+                  <span className="mt-4 flex items-center justify-between border-t border-current/15 pt-3 text-[10px] font-bold uppercase tracking-[0.14em]">Open resource <span className="text-base transition-transform duration-300 group-hover:translate-x-1">&rarr;</span></span>
+                </div>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

@@ -65,7 +65,7 @@ export default function Testimonials() {
           <span className="inline-block px-5 py-2 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-bold uppercase tracking-[0.2em]">
             Industry Voices
           </span>
-          <h2 className="mt-6 text-4xl md:text-5xl font-bold text-gray-900" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+          <h2 className="mt-6 text-4xl md:text-5xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}>
             What Leaders Say About CBA
           </h2>
           <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-lg">
@@ -110,7 +110,7 @@ export default function Testimonials() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="text-xl md:text-2xl text-gray-800 leading-relaxed italic mb-10 font-medium"
-              style={{ fontFamily: 'Georgia, serif' }}
+              style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}
             >
               &ldquo;{current.quote}&rdquo;
             </motion.blockquote>

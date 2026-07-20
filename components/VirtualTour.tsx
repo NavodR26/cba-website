@@ -82,6 +82,31 @@ export default function FacilityShowcase() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
+  // Auto-play functionality
+  useEffect(() => {
+    if (loading || !showcase || !showcase.showcaseItems || showcase.showcaseItems.length === 0) return
+    
+    const items = showcase.showcaseItems
+    const categories = ['all', ...new Set(items.map(item => item.category).filter((cat): cat is string => Boolean(cat)))]
+    const filteredItems = selectedCategory === 'all' 
+      ? items 
+      : items.filter(item => item.category === selectedCategory)
+    
+    if (!isPlaying || isPaused || filteredItems.length <= 1) return
+
+    const interval = setInterval(() => {
+      setDirection(1)
+      setCurrentIndex((prev) => (prev + 1) % filteredItems.length)
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [isPlaying, isPaused, selectedCategory, loading, showcase])
+
+  // Reset index when category changes
+  useEffect(() => {
+    setCurrentIndex(0)
+  }, [selectedCategory])
+
   if (loading) return null
 
   if (!showcase || !showcase.showcaseItems || showcase.showcaseItems.length === 0) {
@@ -125,22 +150,6 @@ export default function FacilityShowcase() {
     handleResetZoom()
   }
 
-  // Auto-play functionality
-  useEffect(() => {
-    if (!isPlaying || isPaused || filteredItems.length <= 1) return
-
-    const interval = setInterval(() => {
-      nextSlide()
-    }, 5000)
-
-    return () => clearInterval(interval)
-  }, [isPlaying, isPaused, currentIndex, filteredItems.length])
-
-  // Reset index when category changes
-  useEffect(() => {
-    setCurrentIndex(0)
-  }, [selectedCategory])
-
   const slideVariants: any = {
     enter: (direction: number) => ({
       x: direction > 0 ? 1000 : -1000,
@@ -166,8 +175,8 @@ export default function FacilityShowcase() {
   }
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
-      <div className="absolute inset-0 opacity-30">
+    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+      <div className="absolute inset-0 opacity-20">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--cba-gold)]/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--cba-maroon)]/10 rounded-full blur-3xl" />
       </div>
@@ -178,30 +187,34 @@ export default function FacilityShowcase() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[var(--cba-maroon)]/10 text-[var(--cba-maroon)] text-xs font-semibold uppercase tracking-wider">
-            Explore
-          </span>
-          <h2 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[var(--cba-maroon)]" />
+            <span className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-[var(--cba-maroon)]/10 to-[var(--cba-maroon)]/5 text-[var(--cba-maroon)] text-[11px] font-bold uppercase tracking-[0.2em] border border-[var(--cba-maroon)]/20">
+              Explore
+            </span>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[var(--cba-maroon)]" />
+          </div>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight">
             {showcase.title}
           </h2>
-          <p className="mt-4 text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-3 text-sm text-gray-600 max-w-2xl mx-auto leading-relaxed">
             {showcase.description}
           </p>
         </motion.div>
 
         {/* Category Filter */}
         {categories.length > 1 && (
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
+          <div className="flex flex-wrap justify-center gap-2 mb-6">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   selectedCategory === category
-                    ? 'bg-[var(--cba-maroon)] text-white shadow-md'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    ? 'bg-[var(--cba-maroon)] text-white shadow-md hover:shadow-lg'
+                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 hover:border-[var(--cba-maroon)]/30'
                 }`}
               >
                 {category === 'all' ? 'All Facilities' : category}
@@ -220,7 +233,7 @@ export default function FacilityShowcase() {
           onMouseLeave={() => setIsPaused(false)}
         >
           <div 
-            className={`relative rounded-3xl overflow-hidden shadow-2xl bg-gray-900 aspect-[16/9] md:aspect-[21/9] ${isFullscreen ? 'fixed inset-0 z-50 rounded-none' : ''}`}
+            className={`relative rounded-2xl overflow-hidden shadow-lg bg-gray-900 aspect-[16/9] md:aspect-[21/9] ${isFullscreen ? 'fixed inset-0 z-50 rounded-none' : ''}`}
             onTouchStart={(e) => {
               setTouchStart(e.touches[0].clientX)
             }}
@@ -326,16 +339,16 @@ export default function FacilityShowcase() {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                   >
-                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                    <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
                       {currentItem.title}
                     </h3>
-                    <p className="text-base text-white/80 max-w-2xl leading-relaxed">
+                    <p className="text-sm text-white/80 max-w-2xl leading-relaxed">
                       {currentItem.description}
                     </p>
                     
@@ -479,7 +492,7 @@ export default function FacilityShowcase() {
 
           {/* Thumbnail Navigation */}
           {filteredItems.length > 1 && (
-            <div className="flex justify-center gap-3 mt-8">
+            <div className="flex justify-center gap-2 mt-6">
               {filteredItems.map((item, index) => (
                 <button
                   key={item._key}
@@ -487,9 +500,9 @@ export default function FacilityShowcase() {
                     setDirection(index > currentIndex ? 1 : -1)
                     setCurrentIndex(index)
                   }}
-                  className={`relative w-16 h-12 md:w-20 md:h-14 rounded-lg overflow-hidden transition-all duration-300 ${
+                  className={`relative w-14 h-10 md:w-16 md:h-12 rounded-lg overflow-hidden transition-all duration-300 ${
                     index === currentIndex
-                      ? 'ring-2 ring-[var(--cba-maroon)] ring-offset-2 scale-105 shadow-lg'
+                      ? 'ring-2 ring-[var(--cba-maroon)] ring-offset-2 scale-105 shadow-md'
                       : 'opacity-60 hover:opacity-100 hover:scale-105'
                   }`}
                   aria-label={`Go to slide ${index + 1}`}

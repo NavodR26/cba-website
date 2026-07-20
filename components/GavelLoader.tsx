@@ -13,8 +13,9 @@ const GAVEL_HEAD_OFFSET_X = 20;
 
 // Wooden base horizontal nudge. Negative = left.
 const BASE_OFFSET_X = -70;
+const BASE_OFFSET_Y = 10;
 
-const GAVEL_OFFSET_Y = -25;
+const GAVEL_OFFSET_Y = -7;
 
 const GAVEL_CONTACT_Y = 29; // px — the calibrated "impact" position. DO NOT
                              // change this: it's what makes the head land on
@@ -31,7 +32,7 @@ const STRIKE_Y = GAVEL_CONTACT_Y;            // exact contact — unchanged
 
 // Strike point on the base surface (256×256 container).
 const STRIKE_POINT_X = 128 + BASE_OFFSET_X;
-const STRIKE_POINT_Y = 185;
+const STRIKE_POINT_Y = 185 + BASE_OFFSET_Y;
 
 // Gavel render size — kept large for presence on the loader screen.
 const GAVEL_RENDER_SIZE = 320;
@@ -129,7 +130,7 @@ export default function GavelLoader() {
             {/* Base — entrance, idle float, and impact reaction */}
             <div
               className="absolute bottom-8 left-1/2"
-              style={{ transform: `translateX(calc(-50% + ${BASE_OFFSET_X}px))` }}
+              style={{ transform: `translateX(calc(-50% + ${BASE_OFFSET_X}px)) translateY(${BASE_OFFSET_Y}px)` }}
             >
             <motion.div
               initial={{ opacity: 0, y: 20, scale: 0.86 }}
@@ -290,10 +291,10 @@ export default function GavelLoader() {
                 width={GAVEL_RENDER_SIZE}
                 height={GAVEL_RENDER_SIZE}
                 priority
-                className="w-full h-auto object-contain"
+                className="object-contain"
                 draggable={false}
                 style={{
-                  width: 'auto',
+                  width: '100%',
                   height: 'auto',
                   filter: 'drop-shadow(0 24px 48px rgba(0, 0, 0, 0.18))',
                 }}
@@ -387,7 +388,7 @@ export default function GavelLoader() {
                 transition={{ delay: 0.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="text-[1.75rem] md:text-[2.25rem] font-bold"
                 style={{
-                  fontFamily: 'Playfair Display, Georgia, serif',
+                  fontFamily: 'var(--font-inter), system-ui, sans-serif',
                   color: '#102A43',
                   fontWeight: 700,
                   letterSpacing: '2px',
@@ -402,7 +403,7 @@ export default function GavelLoader() {
               transition={{ delay: 0.5, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="text-sm md:text-base mt-4"
               style={{
-                fontFamily: 'Inter, system-ui, sans-serif',
+                fontFamily: 'var(--font-inter), system-ui, sans-serif',
                 color: '#5F6C7B',
                 fontWeight: 500,
               }}

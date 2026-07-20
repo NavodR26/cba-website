@@ -1,28 +1,27 @@
 ﻿'use client';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
-import { useScrollParallax } from '@/hooks/useParallax';
 import Link from 'next/link';
-import MagneticButton from './MagneticButton';
+import { useScrollParallax } from '@/hooks/useParallax';
 import TradeRoutes from './TradeRoutes';
-import ScrollMouse from './ScrollMouse';
 
-interface HeroParallaxProps {
-  nextAuction?: { title: string; date: string; saleNo?: string }
-}
+const particles = [
+  { left: '8%', top: '23%', size: 3, delay: 0 },
+  { left: '18%', top: '72%', size: 2, delay: 1.4 },
+  { left: '32%', top: '15%', size: 2, delay: 2.2 },
+  { left: '69%', top: '19%', size: 3, delay: 0.7 },
+  { left: '83%', top: '63%', size: 2, delay: 2.8 },
+  { left: '92%', top: '34%', size: 2, delay: 1.8 },
+  { left: '45%', top: '45%', size: 4, delay: 3.2 },
+  { left: '55%', top: '35%', size: 2, delay: 0.5 },
+];
 
-const credibility = [
-  ['Global', 'Market connections'],
-  ['120+', 'Years of leadership'],
-  ['4', 'Commodity sectors'],
-  ['CBA', 'Institutional authority'],
-]
-
-export function HeroParallax({ nextAuction }: HeroParallaxProps) {
+export function HeroParallax() {
   const { ref: heroRef, y: skylineY } = useScrollParallax(0.3);
   const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const scale = useTransform(scrollY, [0, 300], [1, 1.05]);
+  const opacity = useTransform(scrollY, [0, 500], [1, 0.2]);
+  const scale = useTransform(scrollY, [0, 500], [1, 1.02]);
+  const contentY = useTransform(scrollY, [0, 700], [0, -54]);
 
   return (
     <section ref={heroRef} className="relative w-full overflow-hidden cba-hero-height cba-hero-mesh" style={{ paddingTop: 'var(--navbar-height)' }}>
@@ -36,8 +35,9 @@ export function HeroParallax({ nextAuction }: HeroParallaxProps) {
         <Image src="/hero.png" alt="Colombo skyline" fill className="object-cover object-[58%_center] sm:object-center" priority />
       </motion.div>
 
-      {/* Left overlay for text readability (reduced opacity) */}
-      <div className="cba-hero-left-overlay" />
+      {/* Refined gradient overlay - more subtle while maintaining readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a0f1a]/92 via-[#0d1528]/75 to-[#0f1a30]/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a]/60 via-transparent to-transparent" />
 
       {/* World map watermark (subtle) */}
       <svg className="cba-hero-worldmap" viewBox="0 0 1600 800" preserveAspectRatio="xMidYMid slice" aria-hidden>
@@ -70,131 +70,98 @@ export function HeroParallax({ nextAuction }: HeroParallaxProps) {
       {/* Trade route lines */}
       <TradeRoutes />
 
-      {/* Decorative orbs removed to reduce visual noise */}
+      {/* Wide-screen ambient glows give the skyline depth at its outer edges. */}
+      <div className="hero-orb hero-orb-1" aria-hidden />
+      <div className="hero-orb hero-orb-2" aria-hidden />
 
-      <div className="relative z-10 mx-auto flex min-h-[inherit] w-full max-w-[1400px] items-center px-4 sm:px-6 lg:px-8">
-        <div className="grid w-full grid-cols-1 gap-10 py-16 lg:grid-cols-12 lg:gap-14 lg:py-20">
-          <div className="lg:col-span-6 flex flex-col justify-center text-left lg:text-left">
-            <div className="cba-hero-text-panel relative p-2 sm:p-4">
-              <motion.div
-                initial={false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-slate-950/35 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.3em] text-white shadow-[0_18px_50px_rgba(0,0,0,0.18)] backdrop-blur-md"
-              >
-                <span className="inline-flex h-2.5 w-2.5 rounded-full bg-amber-300 shadow-[0_0_14px_rgba(245,212,76,0.45)]" />
-                Established 1904
-              </motion.div>
-
-              <motion.h1
-                initial={false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-8 max-w-3xl cba-hero-title"
-              >
-                The Colombo Brokers&apos;
-                <br />
-                <motion.span
-                  className="text-[var(--cba-gold)]"
-                  animate={{
-                    textShadow: ['0 0 18px rgba(201, 162, 39, 0.18)', '0 0 34px rgba(201, 162, 39, 0.45)', '0 0 18px rgba(201, 162, 39, 0.18)'],
-                  }}
-                  transition={{ duration: 3.5, repeat: Infinity }}
-                >
-                  Association
-                </motion.span>
-              </motion.h1>
-
-              <motion.p
-                initial={false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-7 max-w-2xl text-base leading-relaxed text-white/90 sm:text-xl cba-hero-sub"
-                style={{ fontFamily: 'var(--font-inter)', fontSize: '18px', maxWidth: '560px' }}
-              >
-                Representing the highest standards of broking excellence across Sri Lanka&apos;s Tea, Rubber, Coconut and Spices auctions.
-              </motion.p>
-
-              <div className="mt-8 grid max-w-2xl grid-cols-2 gap-x-4 gap-y-5 border-y border-white/15 py-5 sm:grid-cols-4">
-                {credibility.map(([value, label]) => (
-                  <div key={label} className="border-l border-amber-300/60 pl-3 first:border-l-0 first:pl-0 sm:first:border-l sm:first:pl-3">
-                    <p className="text-base font-bold text-white sm:text-lg">{value}</p>
-                    <p className="mt-0.5 text-[9px] font-semibold uppercase leading-4 tracking-[0.14em] text-white/55 sm:text-[10px]">{label}</p>
-                  </div>
-                ))}
-              </div>
-
-              <motion.div
-                initial={false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.65, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-8 flex flex-col gap-4 sm:flex-row cba-hero-buttons"
-              >
-                <MagneticButton strength={15} className="w-full sm:w-auto">
-                  <Link
-                    href="/resources"
-                    className="relative inline-flex h-[56px] w-full items-center justify-center gap-3 rounded-2xl bg-[var(--cba-gold)] px-8 text-sm font-bold text-slate-950 shadow-[0_16px_40px_rgba(201,162,39,0.25)] transition duration-300 hover:-translate-y-1 hover:bg-amber-300 hover:shadow-[0_20px_50px_rgba(201,162,39,0.35)] sm:w-auto"
-                  >
-                    View Auction Calendar
-                    <span aria-hidden>→</span>
-                  </Link>
-                </MagneticButton>
-
-                <MagneticButton strength={15} className="w-full sm:w-auto">
-                  <Link
-                    href="/about"
-                    className="relative inline-flex h-[56px] w-full items-center justify-center rounded-2xl border border-white/25 bg-white/10 px-7 font-semibold text-white backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:bg-white hover:text-slate-950 sm:w-auto"
-                  >
-                    About CBA
-                  </Link>
-                </MagneticButton>
-              </motion.div>
-            </div>
-          </div>
-
-          <div className="relative flex items-center justify-end lg:col-span-6">
-            <motion.div
-              initial={false}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="cba-hero-right-card group w-full max-w-[520px]"
-            >
-              <div className="relative w-full p-7 sm:p-10 lg:p-12">
-                <div className="relative pt-2">
-                  <div className="mb-8 h-1 w-full overflow-hidden rounded-full bg-white/10"><div className="h-full w-2/3 rounded-full bg-gradient-to-r from-amber-400 to-amber-200" /></div>
-                  <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-amber-300">Premium Auction Insights</p>
-                  <h2 className="text-3xl font-semibold leading-tight text-white sm:text-4xl">Modern brokering, delivered with authority.</h2>
-                  <p className="mt-5 max-w-md text-base leading-relaxed text-slate-200">Quick access to market updates, sales schedules and member resources for institutional trading professionals.</p>
-
-                  <div className="mt-7 rounded-2xl border border-white/15 bg-slate-950/25 p-4 backdrop-blur-md">
-                    <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Next scheduled auction</p>
-                        <p className="mt-2 font-semibold text-white">{nextAuction?.title || 'View the upcoming auction calendar'}</p>
-                      </div>
-                      <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.7)]" />
-                    </div>
-                    {nextAuction && (
-                      <div className="mt-3 flex flex-wrap gap-2 text-xs text-slate-300">
-                        <span className="rounded-full bg-white/10 px-3 py-1.5">{nextAuction.date}</span>
-                        {nextAuction.saleNo && <span className="rounded-full bg-white/10 px-3 py-1.5">{nextAuction.saleNo}</span>}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-8 text-sm">
-                    <Link href="/resources" className="inline-flex items-center gap-3 font-bold text-amber-300 transition hover:gap-4 hover:text-amber-200">Explore Resources <span aria-hidden>→</span></Link>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+      {/* Light ambient particles add depth without competing with the message. */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        {particles.map((particle, index) => (
+          <motion.span
+            key={index}
+            className="hero-particle"
+            style={{
+              left: particle.left,
+              top: particle.top,
+              width: particle.size,
+              height: particle.size,
+            }}
+            animate={{ y: [0, -18, 0], opacity: [0.18, 0.72, 0.18], scale: [1, 1.35, 1] }}
+            transition={{ duration: 5 + index * 0.45, delay: particle.delay, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        ))}
       </div>
-      <div aria-hidden className="absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-slate-950/40 to-transparent" />
-      <div aria-hidden className="absolute bottom-0 left-1/2 z-20 hidden h-20 w-px -translate-x-1/2 bg-gradient-to-b from-amber-300/20 to-amber-300 lg:block" />
-      {/* Scroll mouse indicator (desktop only) */}
-      <ScrollMouse />
+
+      <motion.div
+        className="relative z-10 mx-auto grid min-h-[calc(var(--cba-hero-min-height)-var(--navbar-height))] w-full max-w-[1440px] items-center gap-10 px-6 pb-28 pt-14 sm:px-10 lg:grid-cols-[minmax(0,1fr)_350px] lg:px-16 lg:pt-16"
+        style={{ y: contentY }}
+      >
+        <div className="max-w-3xl">
+          <motion.div initial={{ opacity: 0, x: -22 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.65 }} className="mb-6 flex items-center gap-4">
+            <span className="h-px w-12 bg-gradient-to-r from-amber-300 to-transparent" />
+            <span className="text-[11px] font-bold uppercase tracking-[0.32em] text-amber-200/90">Est. 1904</span>
+          </motion.div>
+          <motion.h1 initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.8 }} className="font-serif text-[clamp(2.9rem,4.45vw,4.85rem)] leading-[0.94] tracking-[-0.05em] text-white lg:whitespace-nowrap">
+            The Colombo Brokers&apos;<br />
+            <span className="bg-gradient-to-r from-[#f7d572] via-[#e8c86a] to-[#c8a45d] bg-clip-text text-transparent animate-shimmer">Association</span>
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28, duration: 0.7 }} className="mt-8 max-w-xl text-[15px] leading-7 text-white/90 sm:text-base font-light">
+            Representing the highest standards of broking excellence across Sri Lanka&apos;s <span className="text-amber-200/80 font-medium">Tea, Rubber, Coconut and Spices</span> auctions.
+          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.7 }} className="mt-10 flex flex-wrap gap-4">
+            <Link href="/about" className="group relative inline-flex items-center gap-4 overflow-hidden rounded-full bg-gradient-to-r from-[#d9af57] via-[#e8c86a] to-[#d9af57] bg-[length:200%_100%] px-8 py-4 text-sm font-semibold text-[#061733] shadow-[0_12px_32px_rgba(217,175,87,0.35)] transition-all duration-300 hover:bg-[position:100%_0] hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(217,175,87,0.45)]">
+              <span className="relative z-10">Discover CBA</span>
+              <span className="relative z-10 text-xl transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+            </Link>
+            <Link href="/members" className="group relative inline-flex items-center gap-4 overflow-hidden rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-white/50 hover:bg-white/10 hover:shadow-[0_12px_32px_rgba(0,0,0,0.25)]">
+              <span className="relative z-10">Our Members</span>
+              <span className="relative z-10 text-xl transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </Link>
+          </motion.div>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.65, duration: 0.7 }} className="mt-12 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/20 pt-6 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400/80" />
+              Licensed auction authority
+            </span>
+            <span className="text-amber-300/90">Sri Lanka &middot; Global markets</span>
+          </motion.div>
+        </div>
+
+        <motion.aside initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.28, duration: 0.85 }} className="hidden justify-self-end lg:block">
+          <div className="cba-heritage-card group relative w-[350px] overflow-hidden rounded-[28px] p-8 text-center">
+            {/* Premium gradient overlay */}
+            <motion.div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,220,139,0.15),transparent_60%)]" animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 6, repeat: Infinity }} />
+            <motion.div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0a0f1a]/30" />
+            
+            {/* Animated border glow */}
+            <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <motion.div className="relative mx-auto h-52 w-52" animate={{ y: [0, -8, 0], rotate: [0, 1, 0, -1, 0] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-amber-300/25 to-transparent blur-3xl" />
+              <Image src="/logo.png" alt="Colombo Brokers' Association emblem" fill className="relative z-10 object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.55)]" />
+            </motion.div>
+            
+            <h2 className="relative mt-6 font-serif text-[1.65rem] font-semibold text-white tracking-tight">Institutional Heritage</h2>
+            <div className="relative mx-auto my-4 h-0.5 w-12 bg-gradient-to-r from-transparent via-amber-300 to-transparent" />
+            <p className="relative text-sm font-semibold text-amber-200/90 tracking-wide uppercase">Market stewardship</p>
+            <p className="relative mt-6 text-[13px] leading-7 text-white/80 font-light">A recognised institution for transparent, well-governed commodity auctions.</p>
+            
+            {/* Decorative corner accents */}
+            <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-amber-400/30 rounded-tl-lg" />
+            <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-amber-400/30 rounded-br-lg" />
+          </div>
+        </motion.aside>
+      </motion.div>
+
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 0.8 }} className="absolute bottom-16 left-6 z-20 hidden items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70 lg:flex lg:left-16">
+        <span className="relative flex h-8 w-5 justify-center rounded-full border border-white/30 pt-1.5 bg-white/5 backdrop-blur-sm">
+          <motion.span className="animate-scroll-dot h-1.5 w-1.5 rounded-full bg-gradient-to-b from-amber-300 to-amber-500" />
+        </span>
+        <span className="text-white/80">Scroll to explore</span>
+      </motion.div>
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[11] h-px bg-gradient-to-r from-transparent via-[#e8c86a]/70 to-transparent" aria-hidden />
     </section>
   );
 }

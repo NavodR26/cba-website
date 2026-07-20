@@ -36,7 +36,7 @@ export default function TraditionSection() {
             Tradition Defined by the Gavel
           </h2>
           <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
-            Over a century of fair, transparent auctions. Every symbol carries the weight of institutional integrity.
+            The symbols, ceremonies and standards that bring institutional integrity to every auction.
           </p>
         </div>
 

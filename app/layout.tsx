@@ -1,6 +1,6 @@
 import './globals.css'
 import type { Viewport } from 'next'
-import { Playfair_Display, Inter, JetBrains_Mono } from 'next/font/google'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import CursorDot from '@/components/CursorDot'
 import ProtectCopy from '@/components/ProtectCopy'
 import SmoothScroll from '@/components/SmoothScroll'
@@ -10,13 +10,6 @@ import GavelLoader from '@/components/GavelLoader'
 import PageTransition from '@/components/PageTransition'
 import BackToTop from '@/components/BackToTop'
 import FloatingQuickDock from '@/components/FloatingQuickDock'
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  variable: '--font-playfair',
-  display: 'swap',
-})
 
 const inter = Inter({
   subsets: ['latin'],
@@ -75,7 +68,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="light">
-      <body suppressHydrationWarning className={`${playfair.variable} ${inter.variable} ${jetbrains.variable} bg-white text-gray-800 font-sans antialiased overflow-x-hidden`}>
+      <body suppressHydrationWarning className={`${inter.variable} ${jetbrains.variable} bg-white text-gray-800 font-sans antialiased overflow-x-hidden`}>
         <a href="#main-content" className="cba-skip-link">
           Skip to main content
         </a>
