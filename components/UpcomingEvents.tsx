@@ -73,7 +73,7 @@ export default function UpcomingEvents({ initialEvents = [] }: { initialEvents?:
       <div className="relative mx-auto max-w-[1440px]">
         <motion.header initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.55 }} className="grid gap-6 border-b border-[#0a1b38]/10 pb-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div>
-            <p className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.24em] text-[#8d2330]"><span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#b82a3b]/40" /><span className="relative h-2 w-2 rounded-full bg-[#b82a3b]" /></span>Live events</p>
+            <p className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.24em] text-[#8d2330]"><span className="h-px w-7 bg-current" />Live events</p>
             <h2 className="mt-3 text-[clamp(2rem,3.5vw,3.35rem)] font-bold leading-none tracking-[-0.055em] text-[#091936]">Upcoming auctions <span className="text-[#c99b2e]">&amp; meetings.</span></h2>
             <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500"><span><strong className="text-[#091936]">{auctionCount}</strong> auctions scheduled</span><span className="h-1 w-1 rounded-full bg-[#c99b2e]" /><span><strong className="text-[#091936]">{meetingCount}</strong> meetings scheduled</span></div>
           </div>

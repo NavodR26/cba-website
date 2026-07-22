@@ -371,23 +371,18 @@ select,
   mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.86) 38%, transparent 100%);
 }
 
-.cba-resource-hub__transition::after {
-  content: '';
-  position: absolute;
-  right: 8%;
-  bottom: 2.8rem;
-  left: 8%;
-  height: 1px;
-  opacity: .48;
-  background: linear-gradient(90deg, transparent, rgba(235, 194, 101, .82), transparent);
-}
-
 .cba-resource-hub__atmosphere {
   background:
     radial-gradient(52rem 21rem at 50% -18rem, rgba(8, 29, 61, .12), transparent 70%),
     radial-gradient(30rem 17rem at 100% 100%, rgba(201, 155, 46, .08), transparent 72%),
     linear-gradient(90deg, rgba(8, 29, 61, .035) 1px, transparent 1px);
   background-size: auto, auto, 8.5rem 100%;
+}
+
+.cba-resource-hub__signal {
+  border: 1px solid rgba(201,155,46,.22);
+  background: radial-gradient(circle, rgba(201,155,46,.16) 0%, rgba(201,155,46,.035) 38%, transparent 68%);
+  box-shadow: 0 0 0 26px rgba(201,155,46,.025), 0 0 0 52px rgba(9,25,54,.018);
 }
 
 .cba-resource-card {

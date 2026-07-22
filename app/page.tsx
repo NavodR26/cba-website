@@ -32,7 +32,7 @@ export default async function Home() {
       {/* HERO */}
       <HeroParallax />
 
-      {/* Quick access follows the hero, matching the homepage visual hierarchy. */}
+      {/* Essential member pathways. */}
       <SectionReveal>
         <QuickActions />
       </SectionReveal>
@@ -49,13 +49,12 @@ export default async function Home() {
         <TraditionSection />
       </SectionReveal>
       
-      {/* Testimonials */}
-      <Testimonials />
-
       <SectionReveal>
         <AnnouncementsGallery />
       </SectionReveal>
-      
+
+      <Testimonials />
+
       <SectionReveal>
         <Newsletter />
       </SectionReveal>

@@ -161,7 +161,6 @@ export function HeroParallax() {
         <span className="text-white/80">Scroll to explore</span>
       </motion.div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[11] h-px bg-gradient-to-r from-transparent via-[#e8c86a]/70 to-transparent" aria-hidden />
     </section>
   );
 }
