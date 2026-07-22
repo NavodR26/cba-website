@@ -27,7 +27,7 @@ const GAVEL_CONTACT_Y = 29; // px — the calibrated "impact" position. DO NOT
 // overlapping the base. STRIKE_Y is intentionally left as-is.
 const REST_GAP = 25 + GAVEL_OFFSET_Y;   // was 25 — now includes clearance fix
 const IDLE_Y = GAVEL_CONTACT_Y - REST_GAP;   // hovers clear of the base
-const LIFT_Y = IDLE_Y - 25;                  // raised further for anticipation
+const LIFT_Y = IDLE_Y - 35;                  // raised further for anticipation
 const STRIKE_Y = GAVEL_CONTACT_Y;            // exact contact — unchanged
 
 // Strike point on the base surface (256×256 container).
@@ -166,17 +166,17 @@ export default function GavelLoader() {
               {/* Idle podium glow — pulses gently before the strike */}
               <motion.div
                 animate={{
-                  opacity: animationStage >= 2 && animationStage < 5 ? [0.25, 0.55, 0.25] : animationStage >= 5 ? [0.55, 0.15, 0] : 0,
-                  scale: animationStage >= 2 && animationStage < 5 ? [1, 1.08, 1] : animationStage >= 5 ? [1, 1.35, 1.5] : 1,
+                  opacity: animationStage >= 2 && animationStage < 5 ? [0.3, 0.65, 0.3] : animationStage >= 5 ? [0.65, 0.2, 0] : 0,
+                  scale: animationStage >= 2 && animationStage < 5 ? [1, 1.12, 1] : animationStage >= 5 ? [1, 1.45, 1.6] : 1,
                 }}
                 transition={{
-                  duration: animationStage >= 5 ? 0.55 : 2.6,
+                  duration: animationStage >= 5 ? 0.6 : 2.8,
                   repeat: animationStage >= 2 && animationStage < 5 ? Infinity : 0,
                   ease: 'easeInOut',
                 }}
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-16 rounded-full pointer-events-none blur-xl"
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-20 rounded-full pointer-events-none blur-2xl"
                 style={{
-                  background: 'radial-gradient(ellipse, rgba(201, 162, 39, 0.45) 0%, transparent 72%)',
+                  background: 'radial-gradient(ellipse, rgba(201, 162, 39, 0.55) 0%, transparent 75%)',
                 }}
               />
 
@@ -262,8 +262,8 @@ export default function GavelLoader() {
                 opacity: { duration: 0.9 },
                 filter: { duration: 0.9 },
                 y: {
-                  duration: animationStage === 4 ? 0.55 : 0.38,
-                  ease: animationStage === 4 ? [0.33, 1, 0.68, 1] : [0.86, 0, 0.07, 1],
+                  duration: animationStage === 4 ? 0.65 : 0.42,
+                  ease: animationStage === 4 ? [0.25, 0.46, 0.45, 0.94] : [0.86, 0, 0.07, 1],
                 },
                 rotate: {
                   duration: animationStage === 4 ? 0.55 : 0.38,
@@ -321,15 +321,15 @@ export default function GavelLoader() {
                   />
                   <motion.div
                     initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: [0, 0.7, 0], scale: [0.5, 1.4, 1.8] }}
+                    animate={{ opacity: [0, 0.85, 0], scale: [0.5, 1.6, 2.2] }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute w-24 h-24 rounded-full pointer-events-none"
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute w-28 h-28 rounded-full pointer-events-none"
                     style={{
                       left: STRIKE_POINT_X,
                       top: STRIKE_POINT_Y,
                       transform: 'translate(-50%, -50%)',
-                      background: 'radial-gradient(circle, rgba(255, 236, 179, 0.55) 0%, transparent 70%)',
+                      background: 'radial-gradient(circle, rgba(255, 236, 179, 0.65) 0%, transparent 70%)',
                     }}
                   />
                 </>
@@ -341,29 +341,29 @@ export default function GavelLoader() {
               {showRipple && (
                 <>
                   <motion.div
-                    initial={{ scale: 0.6, opacity: 0.45 }}
-                    animate={{ scale: 2.1, opacity: 0 }}
+                    initial={{ scale: 0.6, opacity: 0.5 }}
+                    animate={{ scale: 2.4, opacity: 0 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute w-36 h-36 rounded-full pointer-events-none"
+                    transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute w-40 h-40 rounded-full pointer-events-none"
                     style={{
                       left: STRIKE_POINT_X,
                       top: STRIKE_POINT_Y,
                       transform: 'translate(-50%, -50%)',
-                      border: '2px solid rgba(201, 162, 39, 0.45)',
+                      border: '2.5px solid rgba(201, 162, 39, 0.5)',
                     }}
                   />
                   <motion.div
-                    initial={{ scale: 0.6, opacity: 0.3 }}
-                    animate={{ scale: 2.6, opacity: 0 }}
+                    initial={{ scale: 0.6, opacity: 0.35 }}
+                    animate={{ scale: 2.9, opacity: 0 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.85, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute w-36 h-36 rounded-full pointer-events-none"
+                    transition={{ duration: 0.95, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute w-40 h-40 rounded-full pointer-events-none"
                     style={{
                       left: STRIKE_POINT_X,
                       top: STRIKE_POINT_Y,
                       transform: 'translate(-50%, -50%)',
-                      border: '1px solid rgba(201, 162, 39, 0.25)',
+                      border: '1.5px solid rgba(201, 162, 39, 0.3)',
                     }}
                   />
                 </>

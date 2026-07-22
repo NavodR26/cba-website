@@ -77,15 +77,15 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-br from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-gray-300 relative overflow-hidden pb-16 md:pb-14">
-      <div className="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 animate-shimmer" />
+    <footer className="bg-gradient-to-br from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-gray-300 relative overflow-hidden pb-12 md:pb-10">
+      <div className="h-0.5 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 animate-shimmer" />
 
       <div className="absolute inset-0">
         <div className="absolute inset-x-0 top-0 h-px bg-white/15" />
         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.06)_0%,transparent_34%,rgba(255,255,255,0.04)_100%)]" />
       </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-12 gap-10">
+      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-12 gap-8">
         {/* BRAND */}
         <motion.div
           custom={0}
@@ -100,65 +100,65 @@ export default function Footer() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="flex items-center gap-4 mb-5 group"
+            className="flex items-center gap-3 mb-4 group"
           >
-            <div className="relative w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-2xl bg-white/10 border border-white/10 p-1.5 hover-scale">
+            <div className="relative w-16 h-16 shrink-0 rounded-xl bg-white/10 border border-white/10 p-1.5 hover-scale">
               <Image
                 src="/logo.png"
                 alt="CBA"
                 fill
                 className="object-contain group-hover:rotate-12 transition-transform duration-300"
-                sizes="96px"
+                sizes="64px"
               />
             </div>
             <div>
-              <p className="font-bold text-white text-xl sm:text-2xl leading-tight transition-all duration-300 group-hover:text-amber-300">
+              <p className="font-bold text-white text-lg leading-tight transition-all duration-300 group-hover:text-amber-300">
                 The Colombo Brokers&rsquo;
                 <br />
                 Association
               </p>
-              <p className="text-[11px] sm:text-[12px] tracking-[0.25em] uppercase text-amber-300/80 group-hover:text-amber-300 transition-colors duration-300">
+              <p className="text-[10px] tracking-[0.25em] uppercase text-amber-300/80 group-hover:text-amber-300 transition-colors duration-300">
                 Established 1904
               </p>
             </div>
           </motion.div>
 
-          <p className="text-sm leading-relaxed text-gray-400 max-w-sm hover-lift">
+          <p className="text-xs leading-relaxed text-gray-400 max-w-xs hover-lift">
             The Colombo Brokers&rsquo; Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.
           </p>
 
-          <div className="mt-6">
+          <div className="mt-4">
             <a
-              href="mailto:info@cba.lk"
-              className="inline-flex items-center gap-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2.5 text-sm text-gray-300 hover:text-white transition-all duration-300"
+              href="mailto:info@cbasl.lk"
+              className="inline-flex items-center gap-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-2 text-xs text-gray-300 hover:text-white transition-all duration-300"
             >
-              <span className="w-8 h-8 rounded-full bg-[var(--maroon)]/20 text-amber-300 flex items-center justify-center shrink-0">
+              <span className="w-6 h-6 rounded-full bg-[var(--maroon)]/20 text-amber-300 flex items-center justify-center shrink-0">
                 <SocialIcon kind="mail" />
               </span>
-              info@cba.lk
+              info@cbasl.lk
             </a>
           </div>
 
-          <div className="mt-6">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Follow Us</h4>
-            <div className="flex items-center gap-3">
+          <div className="mt-4">
+            <h4 className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">Follow Us</h4>
+            <div className="flex items-center gap-2">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-amber-300 flex items-center justify-center transition-all duration-300 hover-scale"
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-amber-300 flex items-center justify-center transition-all duration-300 hover-scale"
                 aria-label="Facebook"
               >
                 <SocialIcon kind="fb" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-amber-300 flex items-center justify-center transition-all duration-300 hover-scale"
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-amber-300 flex items-center justify-center transition-all duration-300 hover-scale"
                 aria-label="LinkedIn"
               >
                 <SocialIcon kind="in" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-amber-300 flex items-center justify-center transition-all duration-300 hover-scale"
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-amber-300 flex items-center justify-center transition-all duration-300 hover-scale"
                 aria-label="YouTube"
               >
                 <SocialIcon kind="yt" />
@@ -176,10 +176,10 @@ export default function Footer() {
           viewport={{ once: true }}
           className="lg:col-span-2"
         >
-          <h3 className="font-semibold text-white text-sm uppercase tracking-wider mb-4 hover:text-gradient transition-all duration-300">
+          <h3 className="font-semibold text-white text-xs uppercase tracking-wider mb-3 hover:text-gradient transition-all duration-300">
             Explore
           </h3>
-          <ul className="space-y-2.5 text-sm">
+          <ul className="space-y-2 text-xs">
             {QUICK.map((l, i) => (
               <li key={l.label} className="animate-fade-in-scale" style={{ animationDelay: `${0.3 + i * 0.1}s` }}>
                 <Link
@@ -203,10 +203,10 @@ export default function Footer() {
           viewport={{ once: true }}
           className="lg:col-span-3"
         >
-          <h3 className="font-semibold text-white text-sm uppercase tracking-wider mb-4 hover:text-gradient transition-all duration-300">
+          <h3 className="font-semibold text-white text-xs uppercase tracking-wider mb-3 hover:text-gradient transition-all duration-300">
             Resources
           </h3>
-          <ul className="space-y-2.5 text-sm">
+          <ul className="space-y-2 text-xs">
             {RESOURCES.map((l, i) => (
               <li key={l.label} className="animate-fade-in-scale" style={{ animationDelay: `${0.5 + i * 0.1}s` }}>
                 <Link
@@ -230,25 +230,22 @@ export default function Footer() {
           viewport={{ once: true }}
           className="lg:col-span-3"
         >
-          <h3 className="font-semibold text-white text-sm uppercase tracking-wider mb-4 hover:text-gradient transition-all duration-300">
+          <h3 className="font-semibold text-white text-xs uppercase tracking-wider mb-3 hover:text-gradient transition-all duration-300">
             Contact
           </h3>
-          <ul className="space-y-3 text-sm text-gray-400">
-            <li className="flex items-start gap-3 hover-lift group">
-              <div className="w-10 h-10 rounded-full bg-[var(--maroon)]/10 text-amber-300 flex items-center justify-center shrink-0">
+          <ul className="space-y-2 text-xs text-gray-400">
+            <li className="flex items-start gap-2 hover-lift group">
+              <div className="w-8 h-8 rounded-full bg-[var(--maroon)]/10 text-amber-300 flex items-center justify-center shrink-0">
                 <SocialIcon kind="mail" />
               </div>
 
               <div>
-                <p className="text-[11px] uppercase tracking-[0.24em] font-semibold text-amber-300/90">
+                <p className="text-[10px] uppercase tracking-[0.24em] font-semibold text-amber-300/90">
                   Official Email
                 </p>
-                <a href="mailto:info@cba.lk" className="block mt-1 text-gray-300 font-medium hover:text-amber-300 transition-colors duration-300">
-                  info@cba.lk
+                <a href="mailto:info@cbasl.lk" className="block mt-0.5 text-gray-300 font-medium hover:text-amber-300 transition-colors duration-300">
+                  info@cbasl.lk
                 </a>
-                <p className="mt-3 text-xs text-gray-400 max-w-xs">
-                  Official inquiries and communications may be directed via email.
-                </p>
               </div>
             </li>
           </ul>
@@ -257,18 +254,18 @@ export default function Footer() {
 
       {/* BOTTOM */}
       <div className="border-t border-white/10 animate-fade-in-scale" style={{ animationDelay: '0.8s' }}>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col md:flex-row items-center justify-between gap-3 text-[10px] text-gray-500">
           <p className="text-center md:text-left hover:text-gray-400 transition-colors duration-300">
             © {new Date().getFullYear()} The Colombo Brokers&rsquo; Association. All Rights Reserved.
           </p>
 
-          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-5">
-            <div className="flex items-center gap-5">
-              <Link href="/contact" className="hover:text-amber-300 transition-colors duration-300 hover-lift">Privacy Policy</Link>
-              <Link href="/contact" className="hover:text-amber-300 transition-colors duration-300 hover-lift">Terms of Use</Link>
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+            <div className="flex items-center gap-4">
+              <a href="/CBA_Privacy_Policy_Terms_of_Use.pdf" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium">Privacy Policy</a>
+              <a href="/CBA_Privacy_Policy_Terms_of_Use.pdf" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium">Terms of Use</a>
             </div>
-            <div className="hidden md:block w-px h-3 bg-white/15" />
-            <p className="text-[11px] text-gray-500 hover:text-gray-400 transition-colors duration-300">
+            <div className="hidden md:block w-px h-2 bg-white/15" />
+            <p className="text-[10px] text-gray-500 hover:text-gray-400 transition-colors duration-300">
               Powered by{' '}
               <a
                 href="https://cenq.com"

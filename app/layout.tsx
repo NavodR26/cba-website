@@ -10,6 +10,7 @@ import GavelLoader from '@/components/GavelLoader'
 import PageTransition from '@/components/PageTransition'
 import BackToTop from '@/components/BackToTop'
 import FloatingQuickDock from '@/components/FloatingQuickDock'
+import CookieConsent from '@/components/CookieConsent'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -25,32 +26,54 @@ const jetbrains = JetBrains_Mono({
 })
 
 export const metadata = {
-  title: "The Colombo Brokers' Association",
+  title: "The Colombo Brokers' Association | Sri Lanka Tea Auction Authority",
   description:
-    "The Colombo Brokers' Association is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka.",
+    "The Colombo Brokers' Association (CBA) is the authority vested by the Sri Lanka Tea Board to conduct tea auctions in Sri Lanka. Established 1904. Connecting brokers, advancing the tea industry.",
+  keywords: ['Colombo Brokers Association', 'CBA', 'Sri Lanka tea auction', 'tea brokers', 'tea board', 'Colombo tea auction', 'Sri Lanka tea industry', 'tea trading', 'auction house'],
+  authors: [{ name: 'The Colombo Brokers\' Association' }],
+  creator: 'The Colombo Brokers\' Association',
+  publisher: 'The Colombo Brokers\' Association',
   metadataBase: new URL('https://cbasl.lk'),
+  alternates: {
+    canonical: 'https://cbasl.lk',
+  },
   openGraph: {
-    title: "The Colombo Brokers' Association",
+    title: "The Colombo Brokers' Association | Sri Lanka Tea Auction Authority",
     description:
-      "Institutional auction authority, licensed by the Sri Lanka Tea Board to conduct Sri Lanka's tea auctions.",
+      "Institutional auction authority, licensed by the Sri Lanka Tea Board to conduct Sri Lanka's tea auctions. Established 1904.",
     type: 'website',
     url: 'https://cbasl.lk',
+    siteName: "The Colombo Brokers' Association",
+    locale: 'en_LK',
     images: [
       {
         url: 'https://cbasl.lk/hero.png',
         width: 1200,
         height: 630,
-        alt: 'Colombo Brokers Association',
+        alt: 'Colombo Brokers Association - Sri Lanka Tea Auction Authority',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
+    title: "The Colombo Brokers' Association | Sri Lanka Tea Auction Authority",
+    description:
+      "Institutional auction authority, licensed by the Sri Lanka Tea Board to conduct Sri Lanka's tea auctions.",
+    images: ['https://cbasl.lk/hero.png'],
   },
   robots: {
     index: true,
     follow: true,
-    sitemap: 'https://cbasl.lk/sitemap.xml',
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'google-site-verification',
   },
 }
 
@@ -105,6 +128,7 @@ export default function RootLayout({
             {children}
             <BackToTop />
             <FloatingQuickDock />
+            <CookieConsent />
           </SmoothScroll>
         </PageTransition>
       </body>

@@ -1,10 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function LiveAuctionTicker() {
-  const [auctionStatus, setAuctionStatus] = useState({
+  const [auctionStatus] = useState({
     status: 'LIVE',
     saleNumber: 'Week 27',
     currentLot: 'Lot 847',

@@ -21,6 +21,24 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  
+  async headers() {
+    return [
+      {
+        source: '/CBA_Privacy_Policy_Terms_of_Use.pdf',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/pdf',
+          },
+          {
+            key: 'Content-Disposition',
+            value: 'inline; filename="CBA_Privacy_Policy_Terms_of_Use.pdf"',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

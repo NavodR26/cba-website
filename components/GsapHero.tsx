@@ -12,7 +12,7 @@ export default function GsapHero() {
       try {
         const ScrollTriggerMod = await import('gsap/ScrollTrigger')
         gsap.registerPlugin(ScrollTriggerMod.default || ScrollTriggerMod)
-      } catch (e) {
+      } catch {
         // ScrollTrigger optional
       }
 

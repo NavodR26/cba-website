@@ -1,9 +1,8 @@
 'use client'
 
-import Link from 'next/link'
 import { useState } from 'react'
 
-const OFFICIAL_EMAIL = 'info@cba.lk'
+const OFFICIAL_EMAIL = 'info@cbasl.lk'
 
 export default function ContactForm() {
   const [error, setError] = useState('')

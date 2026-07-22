@@ -1,6 +1,3 @@
-import CounterAnimation from './CounterAnimation'
-import Reveal from './Reveal'
-
 const stats = [
   { value: 100, suffix: '+', label: 'Member Companies', sub: 'Registered broking firms across Sri Lanka' },
   { value: 4, suffix: '', label: 'Commodity Auctions', sub: 'Tea, rubber, coconut and spices' },

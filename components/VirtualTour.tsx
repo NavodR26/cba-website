@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { urlFor } from '@/lib/sanity'
 import Image from 'next/image'
 
@@ -65,31 +65,13 @@ export default function FacilityShowcase() {
     fetchShowcase()
   }, [])
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
-        prevSlide()
-      } else if (e.key === 'ArrowRight') {
-        nextSlide()
-      } else if (e.key === ' ') {
-        e.preventDefault()
-        setIsPaused(prev => !prev)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
-
   // Auto-play functionality
   useEffect(() => {
     if (loading || !showcase || !showcase.showcaseItems || showcase.showcaseItems.length === 0) return
-    
+
     const items = showcase.showcaseItems
-    const categories = ['all', ...new Set(items.map(item => item.category).filter((cat): cat is string => Boolean(cat)))]
-    const filteredItems = selectedCategory === 'all' 
-      ? items 
+    const filteredItems = selectedCategory === 'all'
+      ? items
       : items.filter(item => item.category === selectedCategory)
     
     if (!isPlaying || isPaused || filteredItems.length <= 1) return
@@ -107,6 +89,40 @@ export default function FacilityShowcase() {
     setCurrentIndex(0)
   }, [selectedCategory])
 
+  // Compute filtered items (memoized to avoid recalculating)
+  const items = showcase?.showcaseItems || []
+  const filteredItems = selectedCategory === 'all'
+    ? items
+    : items.filter(item => item.category === selectedCategory)
+
+  // Navigation functions (must be before early returns to satisfy Hooks rules)
+  const nextSlide = useCallback(() => {
+    setDirection(1)
+    setCurrentIndex((prev) => (prev + 1) % filteredItems.length)
+  }, [filteredItems.length])
+
+  const prevSlide = useCallback(() => {
+    setDirection(-1)
+    setCurrentIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length)
+  }, [filteredItems.length])
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide()
+      } else if (e.key === 'ArrowRight') {
+        nextSlide()
+      } else if (e.key === ' ') {
+        e.preventDefault()
+        setIsPaused(prev => !prev)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [nextSlide, prevSlide])
+
   if (loading) return null
 
   if (!showcase || !showcase.showcaseItems || showcase.showcaseItems.length === 0) {
@@ -114,22 +130,8 @@ export default function FacilityShowcase() {
     return null
   }
 
-  const items = showcase.showcaseItems
   const categories = ['all', ...new Set(items.map(item => item.category).filter((cat): cat is string => Boolean(cat)))]
-  const filteredItems = selectedCategory === 'all' 
-    ? items 
-    : items.filter(item => item.category === selectedCategory)
   const currentItem = filteredItems[currentIndex]
-
-  const nextSlide = () => {
-    setDirection(1)
-    setCurrentIndex((prev) => (prev + 1) % filteredItems.length)
-  }
-
-  const prevSlide = () => {
-    setDirection(-1)
-    setCurrentIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length)
-  }
 
   const handleZoomIn = () => setZoomLevel(prev => Math.min(prev + 0.5, 3))
   const handleZoomOut = () => setZoomLevel(prev => Math.max(prev - 0.5, 1))
