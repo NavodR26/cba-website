@@ -13,7 +13,8 @@ const GAVEL_HEAD_OFFSET_X = 20;
 
 // Wooden base horizontal nudge. Negative = left.
 const BASE_OFFSET_X = -70;
-const BASE_OFFSET_Y = 10;
+// Raise the base so the hammer head meets its upper surface at the strike.
+const BASE_OFFSET_Y = -6;
 
 const GAVEL_OFFSET_Y = -7;
 
@@ -42,7 +43,6 @@ export default function GavelLoader() {
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
   const [animationStage, setAnimationStage] = useState(0);
-  const [showRipple, setShowRipple] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
@@ -67,7 +67,6 @@ export default function GavelLoader() {
     setTimeout(() => setAnimationStage(4), 3000);
     setTimeout(() => {
       setAnimationStage(5);
-      setShowRipple(true);
     }, 3800);
     setTimeout(() => setAnimationStage(6), 4200);
 
@@ -253,20 +252,20 @@ export default function GavelLoader() {
                   animationStage === 4
                     ? LIFT_Y
                     : animationStage >= 5
-                    ? STRIKE_Y
+                    ? [LIFT_Y, STRIKE_Y, STRIKE_Y - 8, STRIKE_Y]
                     : IDLE_Y,
-                rotate: animationStage === 4 ? 22 : animationStage >= 5 ? 0 : 0,
+                rotate: animationStage === 4 ? 22 : animationStage >= 5 ? [22, 0, -1.5, 0] : 0,
               }}
               transition={{
                 scale: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
                 opacity: { duration: 0.9 },
                 filter: { duration: 0.9 },
                 y: {
-                  duration: animationStage === 4 ? 0.65 : 0.42,
+                  duration: animationStage === 4 ? 0.65 : 0.52,
                   ease: animationStage === 4 ? [0.25, 0.46, 0.45, 0.94] : [0.86, 0, 0.07, 1],
                 },
                 rotate: {
-                  duration: animationStage === 4 ? 0.55 : 0.38,
+                  duration: animationStage === 4 ? 0.55 : 0.52,
                   ease: animationStage === 4 ? [0.33, 1, 0.68, 1] : [0.86, 0, 0.07, 1],
                 },
               }}
@@ -294,8 +293,6 @@ export default function GavelLoader() {
                 className="object-contain"
                 draggable={false}
                 style={{
-                  width: '100%',
-                  height: 'auto',
                   filter: 'drop-shadow(0 24px 48px rgba(0, 0, 0, 0.18))',
                 }}
               />
@@ -336,47 +333,22 @@ export default function GavelLoader() {
               )}
             </AnimatePresence>
 
-            {/* Ripple rings on impact */}
-            <AnimatePresence>
-              {showRipple && (
-                <>
-                  <motion.div
-                    initial={{ scale: 0.6, opacity: 0.5 }}
-                    animate={{ scale: 2.4, opacity: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute w-40 h-40 rounded-full pointer-events-none"
-                    style={{
-                      left: STRIKE_POINT_X,
-                      top: STRIKE_POINT_Y,
-                      transform: 'translate(-50%, -50%)',
-                      border: '2.5px solid rgba(201, 162, 39, 0.5)',
-                    }}
-                  />
-                  <motion.div
-                    initial={{ scale: 0.6, opacity: 0.35 }}
-                    animate={{ scale: 2.9, opacity: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.95, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute w-40 h-40 rounded-full pointer-events-none"
-                    style={{
-                      left: STRIKE_POINT_X,
-                      top: STRIKE_POINT_Y,
-                      transform: 'translate(-50%, -50%)',
-                      border: '1.5px solid rgba(201, 162, 39, 0.3)',
-                    }}
-                  />
-                </>
-              )}
-            </AnimatePresence>
           </div>
 
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center mt-10"
+            className="text-center mt-6"
           >
+            <motion.p
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-3 text-[10px] font-bold uppercase tracking-[0.32em] text-[#9b7628]"
+            >
+              Established 1904
+            </motion.p>
             <motion.div
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}

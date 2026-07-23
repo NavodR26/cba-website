@@ -151,7 +151,7 @@ export default function Testimonials() {
           {/* Navigation */}
           <div className="flex items-center justify-center gap-6 mt-12">
             <motion.button
-              whileHover={{ scale: 1.1, backgroundColor: 'var(--maroon)', color: 'white' }}
+              whileHover={{ scale: 1.1, backgroundColor: '#7a1f2a', color: '#ffffff' }}
               whileTap={{ scale: 0.9 }}
               onClick={prevTestimonial}
               className="w-12 h-12 rounded-full bg-gray-100 transition-all duration-300 flex items-center justify-center"
@@ -174,7 +174,7 @@ export default function Testimonials() {
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.1, backgroundColor: 'var(--maroon)', color: 'white' }}
+              whileHover={{ scale: 1.1, backgroundColor: '#7a1f2a', color: '#ffffff' }}
               whileTap={{ scale: 0.9 }}
               onClick={nextTestimonial}
               className="w-12 h-12 rounded-full bg-gray-100 transition-all duration-300 flex items-center justify-center"

@@ -10,31 +10,17 @@ type Resource = {
   description: string
   href: string
   image: string
-  icon: 'calendar' | 'people' | 'directory' | 'notice' | 'gallery' | 'contact'
   featured?: boolean
 }
 
 const resources: Resource[] = [
-  { title: 'Auction Calendar', description: 'Live auction dates, meetings and market activity.', href: '/resources', image: '/resources_hero.png', icon: 'calendar', featured: true },
-  { title: 'Committee', description: 'Meet the leadership guiding the association.', href: '/committee', image: '/members_hero.png', icon: 'people' },
-  { title: 'Brokers Directory', description: 'Explore our trusted member broker network.', href: '/brokers', image: '/members_hero.png', icon: 'directory' },
-  { title: 'Announcements', description: 'Important notices and association updates.', href: '/#announcements', image: '/about_hero.png', icon: 'notice' },
-  { title: 'Gallery', description: 'Moments from CBA events and milestones.', href: '/gallery', image: '/gallery_hero.png', icon: 'gallery' },
-  { title: 'Contact Us', description: 'Speak directly with the association team.', href: '/contact', image: '/contact_hero.png', icon: 'contact' },
+  { title: 'Auction Calendar', description: 'Live auction dates, meetings and market activity.', href: '/resources', image: '/resources_hero.png', featured: true },
+  { title: 'Committee', description: 'Meet the leadership guiding the association.', href: '/committee', image: '/members_hero.png' },
+  { title: 'Brokers Directory', description: 'Explore our trusted member broker network.', href: '/brokers', image: '/members_hero.png' },
+  { title: 'Announcements', description: 'Important notices and association updates.', href: '/#announcements', image: '/about_hero.png' },
+  { title: 'Gallery', description: 'Moments from CBA events and milestones.', href: '/gallery', image: '/gallery_hero.png' },
+  { title: 'Contact Us', description: 'Speak directly with the association team.', href: '/contact', image: '/contact_hero.png' },
 ]
-
-function ResourceIcon({ icon }: { icon: Resource['icon'] }) {
-  const icons = {
-    calendar: <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2M8 18h2" /></>,
-    people: <><circle cx="12" cy="8" r="3" /><path d="M5 21c.6-4 3-6 7-6s6.4 2 7 6M4 10.5a2.5 2.5 0 0 0 1.8-4.2M20 10.5a2.5 2.5 0 0 1-1.8-4.2" /></>,
-    directory: <><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 7h8M8 11h8M8 15h4" /><circle cx="17" cy="16" r="3" /><path d="m19 18 2 2" /></>,
-    notice: <><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></>,
-    gallery: <><rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="8.5" cy="9" r="1.5" /><path d="m21 15-5-5L5 20" /></>,
-    contact: <><path d="M20 15.5a4.7 4.7 0 0 1-4.8 4.5c-1.1 0-2.1-.3-3-.8L4 21l1.9-6.3A8.5 8.5 0 1 1 20 15.5Z" /></>,
-  }
-
-  return <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>{icons[icon]}</svg>
-}
 
 export default function QuickActions() {
   const setPointerPosition = (event: PointerEvent<HTMLAnchorElement>) => {
@@ -69,14 +55,14 @@ export default function QuickActions() {
                 <Image src={resource.image} alt="" fill sizes="(min-width: 1280px) 17vw, (min-width: 1024px) 31vw, (min-width: 640px) 47vw, 100vw" className="cba-resource-card__image pointer-events-none object-cover" />
                 <span className="cba-resource-card__overlay pointer-events-none absolute inset-0" aria-hidden />
                 <span className="cba-resource-card__spotlight pointer-events-none absolute inset-0" aria-hidden />
-                <div className="relative z-10 flex items-start justify-between">
-                  <span className="cba-resource-card__icon flex h-10 w-10 items-center justify-center rounded-xl"><ResourceIcon icon={resource.icon} /></span>
+                <div className="relative z-10 flex items-center justify-between border-b border-current/15 pb-3">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.18em] opacity-60">CBA service</span>
                   <span className="font-mono text-[10px] font-medium tracking-[0.14em] opacity-55">{String(index + 1).padStart(2, '0')}</span>
                 </div>
                 <div className="relative z-10 mt-auto">
                   <h3 className="text-[15px] font-bold leading-tight tracking-[-0.025em]">{resource.title}</h3>
                   <p className="mt-2 text-[12px] leading-5 opacity-70">{resource.description}</p>
-                  <span className="mt-4 flex items-center justify-between border-t border-current/15 pt-3 text-[10px] font-bold uppercase tracking-[0.14em]">Open resource <span className="text-base transition-transform duration-300 group-hover:translate-x-1">&rarr;</span></span>
+                  <span className="mt-4 flex items-center justify-between border-t border-current/15 pt-3 text-[10px] font-bold uppercase tracking-[0.14em]">Explore <span className="text-base transition-transform duration-300 group-hover:translate-x-1">&rarr;</span></span>
                 </div>
               </Link>
             </motion.div>

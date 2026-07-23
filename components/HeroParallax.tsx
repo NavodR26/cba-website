@@ -139,7 +139,7 @@ export function HeroParallax() {
             
             <motion.div className="relative mx-auto h-52 w-52" animate={{ y: [0, -8, 0], rotate: [0, 1, 0, -1, 0] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}>
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-amber-300/25 to-transparent blur-3xl" />
-              <Image src="/logo.png" alt="Colombo Brokers' Association emblem" fill className="relative z-10 object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.55)]" />
+              <Image src="/logo.png" alt="Colombo Brokers' Association emblem" fill sizes="208px" className="relative z-10 object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.55)]" />
             </motion.div>
             
             <h2 className="relative mt-6 font-serif text-[1.65rem] font-semibold text-white tracking-tight">Institutional Heritage</h2>

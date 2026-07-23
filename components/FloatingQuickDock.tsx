@@ -13,11 +13,13 @@ const ACTIONS = [
 export default function FloatingQuickDock() {
   const pathname = usePathname()
 
-  // Home page already has the full Quick Actions section — skip the dock there.
+  if (pathname === '/') return null
+
+  // All other pages retain the dock for compact navigation.
   return (
     <nav
       aria-label="Quick actions"
-      className={`cba-floating-quick-dock fixed bottom-4 left-1/2 z-50 w-[calc(100%-24px)] max-w-xl -translate-x-1/2 rounded-2xl border border-white/20 bg-white/30 px-2 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-[20px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] md:bottom-6 md:w-auto ${pathname === '/' ? 'md:hidden' : ''}`}
+      className="cba-floating-quick-dock fixed bottom-4 left-1/2 z-50 w-[calc(100%-24px)] max-w-xl -translate-x-1/2 rounded-2xl border border-white/20 bg-white/30 px-2 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-[20px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] md:bottom-6 md:w-auto"
       style={{ paddingBottom: 'max(0px, env(safe-area-inset-bottom, 0px))', minHeight: '60px' }}
     >
       <div className="grid grid-cols-4 gap-1 md:flex md:items-center h-full">
