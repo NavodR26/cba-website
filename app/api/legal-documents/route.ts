@@ -5,7 +5,15 @@ export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
-    const legalDocuments = await client.fetch(`*[_type == "legalDocument"]`)
+    const legalDocuments = await client.fetch(`
+      *[_type == "legalDocument"] | order(_updatedAt desc) {
+        _id,
+        documentType,
+        title,
+        effectiveDate,
+        "pdfUrl": pdfFile.asset->url
+      }
+    `)
     return NextResponse.json(legalDocuments || [])
   } catch {
     return NextResponse.json({ error: 'Failed to load legal documents' }, { status: 500 })

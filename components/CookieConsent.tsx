@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link'
-import { urlFor } from '@/lib/sanity'
 
 export default function CookieConsent() {
   const [isVisible, setIsVisible] = useState(false)
@@ -41,13 +39,7 @@ export default function CookieConsent() {
   const termsOfUseDoc = legalDocuments.find((doc: any) => doc.documentType === 'termsOfUse')
 
   const getPDFUrl = (doc: any) => {
-    if (!doc?.pdfFile?.asset?._ref) return '/CBA_Privacy_Policy_Terms_of_Use.pdf'
-    // Sanity file asset reference format: file-{id}-{extension}
-    const ref = doc.pdfFile.asset._ref
-    const parts = ref.split('-')
-    const fileId = parts[1]
-    const extension = parts[2]
-    return `https://cdn.sanity.io/files/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${fileId}.${extension}`
+    return doc?.pdfUrl || '/CBA_Privacy_Policy_Terms_of_Use.pdf'
   }
 
   const handleAccept = () => {
@@ -101,23 +93,23 @@ export default function CookieConsent() {
                   We use cookies to enhance your experience on our website. By continuing to browse, you agree to our use of cookies for analytics and functionality purposes.
                 </p>
                 <div className="flex items-center gap-4 text-sm">
-                  <Link
+                  <a
                     href={getPDFUrl(privacyPolicyDoc)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[var(--maroon)] hover:text-[var(--maroon-dark)] font-medium transition-colors duration-200 underline underline-offset-2"
                   >
                     Privacy Policy
-                  </Link>
+                  </a>
                   <span className="text-gray-300">|</span>
-                  <Link
+                  <a
                     href={getPDFUrl(termsOfUseDoc)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[var(--maroon)] hover:text-[var(--maroon-dark)] font-medium transition-colors duration-200 underline underline-offset-2"
                   >
                     Terms of Use
-                  </Link>
+                  </a>
                 </div>
               </div>
 

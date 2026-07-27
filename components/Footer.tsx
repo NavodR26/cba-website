@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { urlFor } from '@/lib/sanity'
 
 const QUICK = [
   { href: '/', label: 'Home' },
@@ -75,13 +74,7 @@ export default function Footer() {
   const termsOfUseDoc = legalDocuments.find((doc: any) => doc.documentType === 'termsOfUse')
 
   const getPDFUrl = (doc: any) => {
-    if (!doc?.pdfFile?.asset?._ref) return '/CBA_Privacy_Policy_Terms_of_Use.pdf'
-    // Sanity file asset reference format: file-{id}-{extension}
-    const ref = doc.pdfFile.asset._ref
-    const parts = ref.split('-')
-    const fileId = parts[1]
-    const extension = parts[2]
-    return `https://cdn.sanity.io/files/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${fileId}.${extension}`
+    return doc?.pdfUrl || '/CBA_Privacy_Policy_Terms_of_Use.pdf'
   }
 
   const colVariants = {
@@ -297,7 +290,6 @@ export default function Footer() {
                 href={getPDFUrl(privacyPolicyDoc)} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                download
                 className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
               >
                 Privacy Policy
@@ -306,7 +298,6 @@ export default function Footer() {
                 href={getPDFUrl(termsOfUseDoc)} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                download
                 className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
               >
                 Terms of Use
