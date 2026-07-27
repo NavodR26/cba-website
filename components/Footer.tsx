@@ -262,7 +262,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
             <div className="flex items-center gap-4">
               <a 
-                href="/legal/privacy-policy" 
+                href="/CBA_Privacy_Policy_Terms_of_Use.pdf" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
@@ -270,7 +270,7 @@ export default function Footer() {
                 Privacy Policy
               </a>
               <a 
-                href="/legal/terms-of-use" 
+                href="/CBA_Privacy_Policy_Terms_of_Use.pdf" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"

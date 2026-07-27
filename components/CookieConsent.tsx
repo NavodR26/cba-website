@@ -71,7 +71,7 @@ export default function CookieConsent() {
                 </p>
                 <div className="flex items-center gap-4 text-sm">
                   <a
-                    href="/legal/privacy-policy"
+                    href="/CBA_Privacy_Policy_Terms_of_Use.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[var(--maroon)] hover:text-[var(--maroon-dark)] font-medium transition-colors duration-200 underline underline-offset-2"
@@ -80,7 +80,7 @@ export default function CookieConsent() {
                   </a>
                   <span className="text-gray-300">|</span>
                   <a
-                    href="/legal/terms-of-use"
+                    href="/CBA_Privacy_Policy_Terms_of_Use.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[var(--maroon)] hover:text-[var(--maroon-dark)] font-medium transition-colors duration-200 underline underline-offset-2"
