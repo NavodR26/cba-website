@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { urlFor } from '@/lib/sanity'
 
 const QUICK = [
   { href: '/', label: 'Home' },
@@ -75,12 +76,13 @@ export default function Footer() {
 
   const getPDFUrl = (doc: any) => {
     if (!doc?.pdfFile?.asset?._ref) return '/CBA_Privacy_Policy_Terms_of_Use.pdf'
-    // Sanity URL format: file-{id}-{extension}
-    const ref = doc.pdfFile.asset._ref
-    const parts = ref.split('-')
-    const id = parts[1]
-    const extension = parts[2]
-    return `https://cdn.sanity.io/files/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${id}.${extension}`
+    // Use urlFor for proper Sanity asset URL construction
+    try {
+      return urlFor(doc.pdfFile).url()
+    } catch (error) {
+      console.warn('Failed to construct Sanity URL:', error)
+      return '/CBA_Privacy_Policy_Terms_of_Use.pdf'
+    }
   }
 
   const colVariants = {
