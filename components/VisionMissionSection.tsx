@@ -1,183 +1,97 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef, useEffect, useState } from 'react'
+import Image from 'next/image'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { AboutPageContent } from '@/lib/sanity'
 
-type VisionMissionSectionProps = {
-  content: AboutPageContent
-}
+type VisionMissionSectionProps = { content: AboutPageContent }
+
+const principles = ['Transparency', 'Standards', 'Technology', 'Sustainability']
 
 export default function VisionMissionSection({ content }: VisionMissionSectionProps) {
-  const headerRef = useRef(null)
-  const headerInView = useInView(headerRef, { once: true })
-  const visionRef = useRef(null)
-  const visionInView = useInView(visionRef, { once: true })
-  const missionRef = useRef(null)
-  const missionInView = useInView(missionRef, { once: true })
-  const statsRef = useRef(null)
-  const statsInView = useInView(statsRef, { once: true })
-
-  const [yearsCount, setYearsCount] = useState(0)
-  const [commoditiesCount, setCommoditiesCount] = useState(0)
+  const reduceMotion = useReducedMotion()
   const visionTitle = content.visionTitle?.trim() || 'Our Vision'
-  const visionText = content.visionText?.trim() || "To champion a modern, transparent, and sustainable tea auction platform that strengthens Sri Lanka's position as the world's premier tea trading hub."
+  const visionText = content.visionText?.trim() || "To be the leading authority for Sri Lanka's auctions, recognized globally for integrity, transparency, excellence, and the sustainable advancement of the Tea, Rubber, Coconut, and Spice sectors."
   const missionTitle = content.missionTitle?.trim() || 'Our Mission'
-  const missionText = content.missionText?.trim() || "To foster a transparent, technology-driven, and sustainable marketplace that enhances stakeholder confidence, strengthens industry standards, and advances the global competitiveness of Sri Lanka's tea, rubber, coconut, and spice sectors."
+  const missionText = content.missionText?.trim() || "To lead Sri Lanka's auctions with integrity, transparency, and excellence while fostering collaboration, advancing sustainable trade, and creating lasting value for the Tea, Rubber, Coconut, and Spice sectors."
 
-  useEffect(() => {
-    if (statsInView) {
-      const animateCount = (target: number, setter: (val: number) => void) => {
-        let current = 0
-        const increment = target / 60
-        const timer = setInterval(() => {
-          current += increment
-          if (current >= target) {
-            setter(target)
-            clearInterval(timer)
-          } else {
-            setter(Math.floor(current))
-          }
-        }, 16)
-      }
-      animateCount(120, setYearsCount)
-      animateCount(4, setCommoditiesCount)
-    }
-  }, [statsInView])
+  const reveal = (delay = 0) => ({
+    initial: reduceMotion ? false : { opacity: 0, y: 22 },
+    whileInView: reduceMotion ? {} : { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.25 },
+    transition: { duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] as const },
+  })
 
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(122,31,42,0.02),transparent_50%)]" />
-      <div className="max-w-[1200px] mx-auto relative z-10">
-        {/* Section Header */}
-        <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 20 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="text-center mb-10"
-        >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[var(--maroon)]" />
-            <span className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-[var(--maroon)]/10 to-[var(--maroon)]/5 text-[var(--maroon)] text-[11px] font-bold uppercase tracking-[0.2em] border border-[var(--maroon)]/20">
-              Our Purpose
-            </span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[var(--maroon)]" />
+    <section className="relative overflow-hidden bg-[#f8f6f2] px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-[72px]">
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_10%_20%,rgba(122,31,42,0.07),transparent_30%),radial-gradient(ellipse_at_88%_78%,rgba(185,132,61,0.12),transparent_28%)]" />
+      <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--maroon)]/20 to-transparent" />
+
+      <div className="relative mx-auto max-w-[1240px]">
+        <motion.header {...reveal()} className="relative mx-auto mb-0 max-w-[1160px] overflow-hidden rounded-t-2xl border border-slate-200/80 bg-[#fdfbf7] px-5 py-9 text-center sm:px-8 sm:py-10">
+          <Image src="/images/about/vision-integrity.png" alt="" fill sizes="1160px" className="pointer-events-none object-cover object-left opacity-25" />
+          <Image src="/images/about/mission-auction.png" alt="" fill sizes="1160px" className="pointer-events-none object-cover object-right opacity-20" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(253,251,247,0.9),rgba(253,251,247,0.7)_48%,rgba(253,251,247,0.9))]" />
+          <div className="relative flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-amber-600/60" />
+            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#a77b3b]">Our purpose</p>
+            <span className="h-px w-8 bg-amber-600/60" />
           </div>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight">
-            Vision & Mission
+          <h2 className="relative mt-3 [font-family:Georgia,serif] text-3xl font-bold tracking-[-0.03em] text-slate-900 sm:text-4xl lg:text-[2.7rem]">
+            Vision <span className="text-[var(--maroon)]">&amp;</span> Mission
           </h2>
-          <p className="mt-3 text-sm text-gray-600 max-w-2xl mx-auto">
-            Guided by over a century of excellence, we continue to shape the future of Sri Lanka&apos;s auction trade with integrity and innovation.
+          <p className="relative mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:text-[15px]">
+            Guided by over a century of excellence, we shape the future of Sri Lanka&apos;s auction trade with integrity and innovation.
           </p>
-        </motion.div>
+        </motion.header>
 
-        {/* Vision & Mission Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-10">
-          {/* Vision Card */}
-          <motion.article
-            ref={visionRef}
-            initial={{ opacity: 0, y: 30 }}
-            animate={visionInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200/80 group hover:-translate-y-1"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--maroon)]/15 to-[var(--maroon)]/5 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:from-[var(--maroon)] group-hover:to-[var(--maroon-dark)] group-hover:text-white transition-all duration-300">
-              <svg className="w-7 h-7 text-[var(--maroon)] group-hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="3" />
-                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z" />
-              </svg>
-            </div>
-            
-            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 tracking-tight">
-              {visionTitle}
-            </h3>
-            <div className="w-10 h-1 bg-gradient-to-r from-[var(--maroon)] to-[var(--maroon-dark)] rounded-full mb-4" />
-            <p className="text-gray-600 leading-relaxed text-sm">
-              {visionText}
-            </p>
-            
-            <div className="mt-5 pt-4 border-t border-gray-100">
-              <span className="inline-flex items-center gap-2 text-xs font-medium text-[var(--maroon)]">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 17l-6.5 4 2-7.5L2 9h7z" />
-                </svg>
-                Established 1904
-              </span>
-            </div>
-          </motion.article>
+        <motion.div {...reveal(0.12)} className="relative mx-auto max-w-[1080px] rounded-b-2xl border border-t-0 border-slate-200/90 bg-white shadow-[0_22px_55px_rgba(45,32,37,0.16)]">
+          <div className="grid lg:grid-cols-[0.94fr_1.06fr]">
+            <article className="group relative z-10 min-h-[330px] overflow-hidden rounded-tl-2xl bg-slate-950 p-7 text-white sm:p-9 lg:mr-[-38px] lg:min-h-[365px] lg:rounded-bl-2xl lg:p-11 lg:[clip-path:polygon(0_0,92%_0,100%_50%,92%_100%,0_100%)]">
+              <Image src="/images/about/vision-integrity.png" alt="" fill sizes="(max-width: 1024px) 100vw, 48vw" className="object-cover object-center opacity-50 transition duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-[linear-gradient(125deg,rgba(5,21,39,0.98),rgba(7,25,44,0.88)_52%,rgba(10,28,48,0.72))]" />
+              <div aria-hidden className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(135deg,transparent_49.5%,rgba(255,255,255,0.55)_50%,transparent_50.5%)] [background-size:15px_15px]" />
+              <div className="relative flex h-full flex-col">
+                <SectionLabel text={visionTitle} light />
+                <p className="mt-5 max-w-[31ch] [font-family:Georgia,serif] text-xl leading-[1.55] text-white sm:text-[1.35rem]">{visionText}</p>
+                <div className="mt-auto pt-7">
+                  <span className="block h-px w-10 bg-amber-300/80" />
+                  <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-200">Established 1904</p>
+                  <p className="mt-1 text-xs text-white/65">Over 120 years of trusted service</p>
+                </div>
+              </div>
+            </article>
 
-          {/* Mission Card */}
-          <motion.article
-            ref={missionRef}
-            initial={{ opacity: 0, y: 30 }}
-            animate={missionInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200/80 group hover:-translate-y-1"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400/15 to-amber-400/5 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:from-amber-400 group-hover:to-amber-500 group-hover:text-white transition-all duration-300">
-              <svg className="w-7 h-7 text-amber-600 group-hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 17l-6.5 4 2-7.5L2 9h7z" />
-              </svg>
-            </div>
-            
-            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 tracking-tight">
-              {missionTitle}
-            </h3>
-            <div className="w-10 h-1 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full mb-4" />
-            <p className="text-gray-600 leading-relaxed text-sm">
-              {missionText}
-            </p>
-            
-            <div className="mt-5 pt-4 border-t border-gray-100 flex flex-wrap gap-2">
-              {['Transparency', 'Standards', 'Technology', 'Sustainability'].map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-600 border border-gray-200 hover:border-amber-400 hover:text-amber-600 transition-colors duration-200"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </motion.article>
-        </div>
-
-        {/* Stats Strip */}
-        <motion.div
-          ref={statsRef}
-          initial={{ opacity: 0, y: 20 }}
-          animate={statsInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.45 }}
-          className="bg-gradient-to-r from-[var(--maroon)] to-[#5a1620] rounded-2xl p-5 md:p-6 shadow-lg"
-        >
-          <div className="grid grid-cols-3 gap-4">
-            <div className="text-center">
-              <p className="text-2xl md:text-3xl font-bold text-white mb-1">
-                {yearsCount}+
-              </p>
-              <p className="text-[10px] md:text-xs text-amber-300 uppercase tracking-wider">
-                Years of Excellence
-              </p>
-            </div>
-            <div className="text-center border-l border-r border-white/10">
-              <p className="text-2xl md:text-3xl font-bold text-white mb-1">
-                {commoditiesCount}
-              </p>
-              <p className="text-[10px] md:text-xs text-amber-300 uppercase tracking-wider">
-                Commodities
-              </p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl md:text-3xl font-bold text-white mb-1">
-                Global
-              </p>
-              <p className="text-[10px] md:text-xs text-amber-300 uppercase tracking-wider">
-                Reach
-              </p>
-            </div>
+            <article className="relative min-h-[330px] overflow-hidden rounded-br-2xl bg-[#fdfcf9] p-7 sm:p-9 lg:min-h-[365px] lg:pl-20 lg:pr-11 lg:py-11">
+              <Image src="/images/about/mission-auction.png" alt="" fill sizes="(max-width: 1024px) 100vw, 52vw" className="object-cover object-right opacity-30" />
+              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(253,252,249,0.98),rgba(253,252,249,0.76))]" />
+              <div aria-hidden className="absolute -right-20 bottom-[-6rem] h-64 w-64 rounded-full border border-[var(--maroon)]/10" />
+              <div className="relative flex h-full flex-col">
+                <SectionLabel text={missionTitle} />
+                <p className="mt-5 max-w-[36ch] [font-family:Georgia,serif] text-xl leading-[1.55] text-slate-700 sm:text-[1.35rem]">{missionText}</p>
+                <div className="mt-auto flex flex-wrap gap-x-4 gap-y-2 border-t border-[var(--maroon)]/15 pt-5">
+                  {principles.map((principle, index) => (
+                    <span key={principle} className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.15em] text-slate-600">
+                      {index > 0 && <i className="hidden h-4 w-px bg-[var(--maroon)]/25 sm:block" />}
+                      {principle}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </article>
           </div>
+          <div aria-hidden className="absolute left-[46%] top-1/2 z-20 hidden h-[78%] w-px -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-amber-300 to-transparent lg:block" />
         </motion.div>
       </div>
     </section>
+  )
+}
+
+function SectionLabel({ text, light = false }: { text: string; light?: boolean }) {
+  return (
+    <div>
+      <p className={`text-[10px] font-bold uppercase tracking-[0.24em] ${light ? 'text-amber-200' : 'text-[var(--maroon)]'}`}>{text}</p>
+      <span className={`mt-3 block h-px w-9 ${light ? 'bg-amber-300/80' : 'bg-[#b98a45]'}`} />
+    </div>
   )
 }

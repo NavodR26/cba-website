@@ -8,9 +8,27 @@ export default function CookieConsent() {
   const [isMinimized, setIsMinimized] = useState(false)
 
   useEffect(() => {
-    // Check if user has already consented
-    const consent = localStorage.getItem('cba-cookie-consent')
-    if (!consent) {
+    // Check if user has already consented and if consent is still valid (24 hours)
+    const consentData = localStorage.getItem('cba-cookie-consent')
+    if (consentData) {
+      try {
+        const { timestamp, choice } = JSON.parse(consentData)
+        const now = Date.now()
+        const hoursElapsed = (now - timestamp) / (1000 * 60 * 60)
+        
+        // If 24 hours have passed, show the banner again
+        if (hoursElapsed >= 24) {
+          localStorage.removeItem('cba-cookie-consent')
+          const timer = setTimeout(() => {
+            setIsVisible(true)
+          }, 1500)
+          return () => clearTimeout(timer)
+        }
+      } catch (error) {
+        // If data is corrupted, remove it and show banner
+        localStorage.removeItem('cba-cookie-consent')
+      }
+    } else {
       // Show after a short delay for better UX
       const timer = setTimeout(() => {
         setIsVisible(true)
@@ -20,12 +38,20 @@ export default function CookieConsent() {
   }, [])
 
   const handleAccept = () => {
-    localStorage.setItem('cba-cookie-consent', 'accepted')
+    const consentData = {
+      choice: 'accepted',
+      timestamp: Date.now()
+    }
+    localStorage.setItem('cba-cookie-consent', JSON.stringify(consentData))
     setIsVisible(false)
   }
 
   const handleDecline = () => {
-    localStorage.setItem('cba-cookie-consent', 'declined')
+    const consentData = {
+      choice: 'declined',
+      timestamp: Date.now()
+    }
+    localStorage.setItem('cba-cookie-consent', JSON.stringify(consentData))
     setIsVisible(false)
   }
 

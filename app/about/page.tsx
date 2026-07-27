@@ -28,41 +28,22 @@ const VALUES = [
   {
     title: 'Integrity',
     desc: 'Every auction we oversee runs on transparent, verifiable rules — no compromises.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z" />
-        <path d="M9 12l2 2 4-4" />
-      </svg>
-    ),
+    image: '/images/about/vision-integrity.png',
   },
   {
     title: 'Heritage',
     desc: 'Over a century of unbroken service to Sri Lanka’s commodity export activity.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="8" r="6" />
-        <path d="M15.5 13l2 8-5.5-3-5.5 3 2-8" />
-      </svg>
-    ),
+    image: '/images/about/mission-auction.png',
   },
   {
     title: 'Excellence',
     desc: 'Setting the professional benchmark for the broking community in the region.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 17l-6.5 4 2-7.5L2 9h7z" />
-      </svg>
-    ),
+    image: '/images/commodities/tea-auction.png',
   },
   {
     title: 'Stewardship',
     desc: 'Protecting the interests of growers, buyers and the wider auction ecosystem.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 12l9-9 9 9-9 9-9-9z" />
-        <path d="M12 8v8M8 12h8" />
-      </svg>
-    ),
+    image: '/images/about/stewardship-tea-estate.png',
   },
 ]
 
@@ -218,21 +199,22 @@ export default async function AboutPage() {
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
               {VALUES.map((v, i) => (
                 <article
                   key={v.title}
-                  className="group relative bg-white rounded-2xl border border-gray-200/80 p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 hover:border-[var(--maroon)]/30 animate-fade-in-scale"
+                  className="group relative min-h-[250px] overflow-hidden rounded-2xl bg-slate-900 p-6 text-white shadow-[0_10px_30px_rgba(22,27,36,0.12)] transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl animate-fade-in-scale"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--maroon)]/0 via-transparent to-transparent opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--maroon)]/10 to-[var(--maroon)]/5 text-[var(--maroon)] flex items-center justify-center mb-5 group-hover:from-[var(--maroon)] group-hover:to-[var(--maroon-dark)] group-hover:text-white transition-all duration-300 shadow-sm">
-                    <div className="w-7 h-7">{v.icon}</div>
-                  </div>
-                  <h3 className="font-bold text-gray-900 text-xl tracking-tight">{v.title}</h3>
-                  <p className="mt-3 text-sm text-gray-600 leading-relaxed">
+                  <Image src={v.image} alt="" fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/70 to-slate-900/10" />
+                  <div className="relative flex min-h-[202px] flex-col justify-end">
+                  <span className="mb-3 h-px w-9 bg-amber-300" />
+                  <h3 className="font-bold text-xl tracking-tight">{v.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/80">
                     {v.desc}
                   </p>
+                  </div>
                 </article>
               ))}
             </div>
