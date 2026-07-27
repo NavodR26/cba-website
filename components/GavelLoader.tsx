@@ -40,7 +40,7 @@ const GAVEL_RENDER_SIZE = 320;
 
 export default function GavelLoader() {
   const mounted = useRef(false);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
   const [animationStage, setAnimationStage] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
@@ -50,9 +50,10 @@ export default function GavelLoader() {
     mounted.current = true;
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return;
-
-    setVisible(true);
+    if (prefersReduced) {
+      setVisible(false);
+      return;
+    }
 
     const progressInterval = setInterval(() => {
       setProgress((p) => {

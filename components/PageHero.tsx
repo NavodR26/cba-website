@@ -18,21 +18,23 @@ export default function PageHero({
   animated = true,
 }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-white">
-      <div aria-hidden className="absolute inset-0 bg-[linear-gradient(135deg,rgba(122,31,42,0.055),transparent_42%,rgba(245,158,11,0.08))]" />
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+    <section className="relative overflow-hidden border-b border-slate-200/80 bg-slate-50">
+      <div aria-hidden className="absolute inset-0 bg-[linear-gradient(135deg,rgba(122,31,42,0.09),transparent_44%,rgba(245,158,11,0.11))]" />
+      <div aria-hidden className="absolute -right-12 -top-24 h-72 w-72 rounded-full bg-amber-300/15 blur-3xl" />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--maroon)]/25 to-transparent" />
 
-      <div className="relative mx-auto max-w-[1400px] px-4 py-10 sm:px-6 md:py-12 lg:px-8">
+      <div className="relative mx-auto max-w-[1400px] px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         {badge && (
           <div className={animated ? 'animate-fade-in-scale' : ''}>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[var(--maroon)]/10 bg-[var(--maroon)]/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--maroon)] shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[var(--maroon)]/15 bg-white/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--maroon)] shadow-sm backdrop-blur">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
               {badge}
             </span>
           </div>
         )}
 
         <h1
-          className={`mt-5 max-w-[calc(100vw-2rem)] text-2xl font-semibold leading-tight text-gray-900 min-[420px]:text-3xl sm:max-w-4xl sm:text-4xl md:text-5xl lg:text-5xl ${
+          className={`mt-5 max-w-[calc(100vw-2rem)] text-2xl font-semibold leading-[1.1] tracking-[-0.03em] text-slate-900 min-[420px]:text-3xl sm:max-w-4xl sm:text-4xl md:text-5xl lg:text-5xl ${
             animated ? 'animate-fade-in-scale' : ''
           }`}
           style={{ animationDelay: animated ? '0.1s' : '0s', letterSpacing: 0 }}
@@ -50,7 +52,7 @@ export default function PageHero({
 
         {description && (
           <p
-            className={`mt-4 max-w-[calc(100vw-2rem)] text-sm leading-relaxed text-gray-600 sm:max-w-3xl md:text-base ${
+            className={`mt-5 max-w-[calc(100vw-2rem)] border-l-2 border-[var(--maroon)]/70 pl-4 text-sm leading-relaxed text-slate-600 sm:max-w-3xl md:text-base ${
               animated ? 'animate-fade-in-scale' : ''
             }`}
             style={{ animationDelay: animated ? '0.2s' : '0s' }}
@@ -61,7 +63,8 @@ export default function PageHero({
 
         {breadcrumb && breadcrumb.length > 0 && (
           <nav
-            className={`mt-8 flex flex-wrap gap-2 text-sm text-gray-600 ${
+            aria-label="Breadcrumb"
+            className={`mt-8 flex flex-wrap gap-2 text-xs text-slate-600 ${
               animated ? 'animate-fade-in-scale' : ''
             }`}
             style={{ animationDelay: animated ? '0.3s' : '0s' }}
@@ -69,13 +72,13 @@ export default function PageHero({
             {breadcrumb.map((item, i) => (
               <div key={item.label} className="flex items-center gap-2">
                 {item.href ? (
-                  <Link href={item.href} className="transition hover:text-gray-900">
+                  <Link href={item.href} className="transition hover:text-[var(--maroon)] hover:underline underline-offset-4">
                     {item.label}
                   </Link>
                 ) : (
                   <span className="font-semibold text-gray-900">{item.label}</span>
                 )}
-                {i < breadcrumb.length - 1 && <span className="text-gray-400">/</span>}
+                  {i < breadcrumb.length - 1 && <span className="text-[var(--maroon)]/45">/</span>}
               </div>
             ))}
           </nav>

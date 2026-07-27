@@ -7,8 +7,8 @@ import CommodityPillars from '@/components/CommodityPillars'
 import MembershipBenefits from '@/components/MembershipBenefits'
 import BrokersDirectoryClient from '@/components/BrokersDirectoryClient'
 import Reveal from '@/components/Reveal'
-import ChairmanMessage from '@/components/ChairmanMessage'
 import PastChairmenGrid from '@/components/PastChairmenGrid'
+import PersonCard from '@/components/PersonCard'
 import { client, urlFor } from '@/lib/sanity'
 import { getEvents } from '@/lib/events'
 
@@ -31,6 +31,9 @@ async function getBrokers() {
 }
 async function getPartnerInstitutions() {
   return await client.fetch(`*[_type == "partnerInstitution"]`)
+}
+async function getChairman() {
+  return await client.fetch(`*[_type == "chairman"][0]`)
 }
 
 const BROKER_ORDER = [
@@ -116,11 +119,12 @@ function sortCommittee(arr: any[]) {
 }
 
 export default async function MembersPage() {
-  const [members, brokerRows, partnerInstitutions, events] = await Promise.all([
+  const [members, brokerRows, partnerInstitutions, events, chairman] = await Promise.all([
     getCommittee(),
     getBrokers(),
     getPartnerInstitutions(),
     getEvents(),
+    getChairman(),
   ])
   const brokers = sortBrokers(brokerRows)
   const safeEvents = events.map((e: any) => ({
@@ -150,11 +154,6 @@ export default async function MembersPage() {
       <MembersSubNav />
 
       <CommodityPillars />
-
-      {/* CHAIRMAN MESSAGE SECTION */}
-      <Reveal>
-        <ChairmanMessage />
-      </Reveal>
 
       {/* LEADERSHIP SECTIONS */}
       <section
@@ -204,7 +203,7 @@ export default async function MembersPage() {
                             delay={i * 50}
                             distance={20}
                           >
-                            <PersonCard item={item} />
+                            <PersonCard item={item} chairmanData={chairman} />
                           </Reveal>
                         ))}
                       </div>
@@ -370,58 +369,5 @@ function PartnerCard({ name, category, logo }: { name: string; category: string;
       <h3 className="text-sm font-bold text-gray-900 leading-tight">{name}</h3>
       <p className="text-xs text-gray-500 mt-1">{category}</p>
     </div>
-  )
-}
-
-function PersonCard({
-  item,
-  featured = false,
-}: {
-  item: any
-  featured?: boolean
-}) {
-  const isChairman =
-    (item.role || '').toLowerCase().includes('chairman') &&
-    !(item.role || '').toLowerCase().includes('deputy') &&
-    !(item.role || '').toLowerCase().includes('vice')
-
-  return (
-    <article className={`group relative bg-white rounded-xl border p-4 flex flex-col gap-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full ${
-      isChairman ? 'border-[var(--maroon)] ring-1 ring-[var(--maroon)]/20 shadow-md' : 'border-gray-200 hover:border-gray-300'
-    }`}>
-      <div className={`relative overflow-hidden rounded-lg bg-gray-50 shrink-0 ${featured ? 'aspect-[4/3]' : 'aspect-square'}`}>
-        {item.photo ? (
-          <img
-            src={urlFor(item.photo).width(400).height(featured ? 300 : 400).url()}
-            className="w-full h-full object-cover group-hover:scale-105 transition duration-500 ease-out"
-            alt={item.name}
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-4xl text-gray-200 font-bold bg-gradient-to-br from-gray-50 to-gray-100">
-            {item.name?.charAt(0) || '?'}
-          </div>
-        )}
-        {item.role && (
-          <div className="absolute top-2 left-2 z-10">
-            <span className={`inline-flex px-2 py-1 text-[10px] uppercase tracking-wider font-bold rounded-md shadow-sm ${
-              isChairman ? 'bg-[var(--maroon)] text-white' : 'bg-white/95 text-gray-700 border border-gray-100'
-            }`}>
-              {item.role}
-            </span>
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-col flex-grow text-center px-1">
-        <h3 className={`font-bold text-gray-900 leading-tight ${featured ? 'text-lg' : 'text-base'}`}>
-          {item.name}
-        </h3>
-        {item.company && (
-          <p className="text-xs text-gray-500 mt-1.5 line-clamp-2">
-            {item.company}
-          </p>
-        )}
-      </div>
-    </article>
   )
 }

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 const QUICK = [
   { href: '/', label: 'Home' },
@@ -52,6 +53,36 @@ function SocialIcon({ kind }: { kind: 'fb' | 'in' | 'yt' | 'mail' }) {
 }
 
 export default function Footer() {
+  const [legalDocuments, setLegalDocuments] = useState<any[]>([])
+
+  useEffect(() => {
+    async function fetchLegalDocuments() {
+      try {
+        const response = await fetch('/api/legal-documents', { cache: 'no-store' })
+        if (response.ok) {
+          const data = await response.json()
+          setLegalDocuments(data || [])
+        }
+      } catch (error) {
+        console.warn('Failed to fetch legal documents:', error)
+      }
+    }
+    fetchLegalDocuments()
+  }, [])
+
+  const privacyPolicyDoc = legalDocuments.find((doc: any) => doc.documentType === 'privacyPolicy')
+  const termsOfUseDoc = legalDocuments.find((doc: any) => doc.documentType === 'termsOfUse')
+
+  const getPDFUrl = (doc: any) => {
+    if (!doc?.pdfFile?.asset?._ref) return '/CBA_Privacy_Policy_Terms_of_Use.pdf'
+    // Sanity URL format: file-{id}-{extension}
+    const ref = doc.pdfFile.asset._ref
+    const parts = ref.split('-')
+    const id = parts[1]
+    const extension = parts[2]
+    return `https://cdn.sanity.io/files/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${id}.${extension}`
+  }
+
   const colVariants = {
     hidden: { opacity: 0, y: 24 },
     visible: (i: number) => ({
@@ -261,8 +292,24 @@ export default function Footer() {
 
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
             <div className="flex items-center gap-4">
-              <a href="/CBA_Privacy_Policy_Terms_of_Use.pdf" className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium">Privacy Policy</a>
-              <a href="/CBA_Privacy_Policy_Terms_of_Use.pdf" className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium">Terms of Use</a>
+              <a 
+                href={getPDFUrl(privacyPolicyDoc)} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                download
+                className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
+              >
+                Privacy Policy
+              </a>
+              <a 
+                href={getPDFUrl(termsOfUseDoc)} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                download
+                className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
+              >
+                Terms of Use
+              </a>
             </div>
             <div className="hidden md:block w-px h-2 bg-white/15" />
             <p className="text-[10px] text-gray-500 hover:text-gray-400 transition-colors duration-300">

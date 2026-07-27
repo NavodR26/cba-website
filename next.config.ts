@@ -35,6 +35,23 @@ const nextConfig: NextConfig = {
             key: 'Content-Disposition',
             value: 'inline; filename="CBA_Privacy_Policy_Terms_of_Use.pdf"',
           },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+        ],
+      },
+      {
+        source: '/:all*(svg|png|jpg|jpeg|gif|webp|pdf)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
         ],
       },
     ];
