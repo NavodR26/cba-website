@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 export default function CookieConsent() {
   const [isVisible, setIsVisible] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
-  const [legalDocuments, setLegalDocuments] = useState<any[]>([])
 
   useEffect(() => {
     // Check if user has already consented
@@ -19,28 +18,6 @@ export default function CookieConsent() {
       return () => clearTimeout(timer)
     }
   }, [])
-
-  useEffect(() => {
-    async function fetchLegalDocuments() {
-      try {
-        const response = await fetch('/api/legal-documents', { cache: 'no-store' })
-        if (response.ok) {
-          const data = await response.json()
-          setLegalDocuments(data || [])
-        }
-      } catch (error) {
-        console.warn('Failed to fetch legal documents:', error)
-      }
-    }
-    fetchLegalDocuments()
-  }, [])
-
-  const privacyPolicyDoc = legalDocuments.find((doc: any) => doc.documentType === 'privacyPolicy')
-  const termsOfUseDoc = legalDocuments.find((doc: any) => doc.documentType === 'termsOfUse')
-
-  const getPDFUrl = (doc: any) => {
-    return doc?.pdfUrl || '/CBA_Privacy_Policy_Terms_of_Use.pdf'
-  }
 
   const handleAccept = () => {
     localStorage.setItem('cba-cookie-consent', 'accepted')
@@ -94,7 +71,7 @@ export default function CookieConsent() {
                 </p>
                 <div className="flex items-center gap-4 text-sm">
                   <a
-                    href={getPDFUrl(privacyPolicyDoc)}
+                    href="/legal/privacy-policy"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[var(--maroon)] hover:text-[var(--maroon-dark)] font-medium transition-colors duration-200 underline underline-offset-2"
@@ -103,7 +80,7 @@ export default function CookieConsent() {
                   </a>
                   <span className="text-gray-300">|</span>
                   <a
-                    href={getPDFUrl(termsOfUseDoc)}
+                    href="/legal/terms-of-use"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[var(--maroon)] hover:text-[var(--maroon-dark)] font-medium transition-colors duration-200 underline underline-offset-2"

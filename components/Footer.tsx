@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
 
 const QUICK = [
   { href: '/', label: 'Home' },
@@ -53,30 +52,6 @@ function SocialIcon({ kind }: { kind: 'fb' | 'in' | 'yt' | 'mail' }) {
 }
 
 export default function Footer() {
-  const [legalDocuments, setLegalDocuments] = useState<any[]>([])
-
-  useEffect(() => {
-    async function fetchLegalDocuments() {
-      try {
-        const response = await fetch('/api/legal-documents', { cache: 'no-store' })
-        if (response.ok) {
-          const data = await response.json()
-          setLegalDocuments(data || [])
-        }
-      } catch (error) {
-        console.warn('Failed to fetch legal documents:', error)
-      }
-    }
-    fetchLegalDocuments()
-  }, [])
-
-  const privacyPolicyDoc = legalDocuments.find((doc: any) => doc.documentType === 'privacyPolicy')
-  const termsOfUseDoc = legalDocuments.find((doc: any) => doc.documentType === 'termsOfUse')
-
-  const getPDFUrl = (doc: any) => {
-    return doc?.pdfUrl || '/CBA_Privacy_Policy_Terms_of_Use.pdf'
-  }
-
   const colVariants = {
     hidden: { opacity: 0, y: 24 },
     visible: (i: number) => ({
@@ -287,7 +262,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
             <div className="flex items-center gap-4">
               <a 
-                href={getPDFUrl(privacyPolicyDoc)} 
+                href="/legal/privacy-policy" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
@@ -295,7 +270,7 @@ export default function Footer() {
                 Privacy Policy
               </a>
               <a 
-                href={getPDFUrl(termsOfUseDoc)} 
+                href="/legal/terms-of-use" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
