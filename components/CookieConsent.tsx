@@ -42,13 +42,12 @@ export default function CookieConsent() {
 
   const getPDFUrl = (doc: any) => {
     if (!doc?.pdfFile?.asset?._ref) return '/CBA_Privacy_Policy_Terms_of_Use.pdf'
-    // Use urlFor for proper Sanity asset URL construction
-    try {
-      return urlFor(doc.pdfFile).url()
-    } catch (error) {
-      console.warn('Failed to construct Sanity URL:', error)
-      return '/CBA_Privacy_Policy_Terms_of_Use.pdf'
-    }
+    // Sanity file asset reference format: file-{id}-{extension}
+    const ref = doc.pdfFile.asset._ref
+    const parts = ref.split('-')
+    const fileId = parts[1]
+    const extension = parts[2]
+    return `https://cdn.sanity.io/files/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${fileId}.${extension}`
   }
 
   const handleAccept = () => {
