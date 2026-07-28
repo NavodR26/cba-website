@@ -18,6 +18,8 @@ const RESOURCES = [
   { href: '/#announcements', label: 'Circulars & Notices' },
   { href: '/#announcements', label: 'Downloads' },
   { href: '/contact', label: 'Important Links' },
+  { href: '/privacy-policy', label: 'Privacy Policy' },
+  { href: '/terms-of-use', label: 'Terms of Use' },
 ]
 
 function SocialIcon({ kind }: { kind: 'fb' | 'in' | 'yt' | 'mail' }) {
@@ -80,12 +82,12 @@ export default function Footer() {
     <footer className="bg-gradient-to-br from-[var(--maroon)] via-[#5a1828] to-[var(--maroon)] text-gray-300 relative overflow-hidden pb-12 md:pb-10">
       <div className="h-0.5 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 animate-shimmer" />
 
-      <div className="absolute inset-0">
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute inset-x-0 top-0 h-px bg-white/15" />
         <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.06)_0%,transparent_34%,rgba(255,255,255,0.04)_100%)]" />
       </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-12 gap-8">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-12 gap-8">
         {/* BRAND */}
         <motion.div
           custom={0}
@@ -254,28 +256,13 @@ export default function Footer() {
       </div>
 
       {/* BOTTOM */}
-      <div className="border-t border-white/10 animate-fade-in-scale" style={{ animationDelay: '0.8s' }}>
+      <div className="relative z-10 border-t border-white/10 animate-fade-in-scale" style={{ animationDelay: '0.8s' }}>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col md:flex-row items-center justify-between gap-3 text-[10px] text-gray-500">
           <p className="text-center md:text-left hover:text-gray-400 transition-colors duration-300">
             © {new Date().getFullYear()} The Colombo Brokers&rsquo; Association. All Rights Reserved.
           </p>
 
-          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
-            <div className="flex items-center gap-4">
-              <Link 
-                href="/privacy-policy" 
-                className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
-              >
-                Privacy Policy
-              </Link>
-              <Link 
-                href="/terms-of-use" 
-                className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
-              >
-                Terms of Use
-              </Link>
-            </div>
-            <div className="hidden md:block w-px h-2 bg-white/15" />
+          <div className="flex items-center">
             <p className="text-[10px] text-gray-500 hover:text-gray-400 transition-colors duration-300">
               Powered by{' '}
               <a

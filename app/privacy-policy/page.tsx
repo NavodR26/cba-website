@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
               Privacy Policy
             </h1>
             <p className="text-sm text-gray-500 mt-1">
-              The Colombo Brokers' Association
+              The Colombo Brokers&rsquo; Association
             </p>
           </div>
           <Link

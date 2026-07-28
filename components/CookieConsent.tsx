@@ -1,66 +1,36 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+
+const CONSENT_KEY = 'cba-cookie-consent'
 
 export default function CookieConsent() {
   const [isVisible, setIsVisible] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
 
   useEffect(() => {
-    // Check if user has already consented and if consent is still valid (24 hours)
-    const consentData = localStorage.getItem('cba-cookie-consent')
-    if (consentData) {
+    const savedConsent = localStorage.getItem(CONSENT_KEY)
+
+    if (savedConsent) {
       try {
-        const { timestamp, choice } = JSON.parse(consentData)
-        const now = Date.now()
-        const hoursElapsed = (now - timestamp) / (1000 * 60 * 60)
-        
-        // If 24 hours have passed, show the banner again
-        if (hoursElapsed >= 24) {
-          localStorage.removeItem('cba-cookie-consent')
-          const timer = setTimeout(() => {
-            setIsVisible(true)
-          }, 1500)
-          return () => clearTimeout(timer)
-        }
-      } catch (error) {
-        // If data is corrupted, remove it and show banner
-        localStorage.removeItem('cba-cookie-consent')
+        const { timestamp } = JSON.parse(savedConsent)
+        const ageInHours = (Date.now() - timestamp) / (1000 * 60 * 60)
+        if (ageInHours < 24) return
+        localStorage.removeItem(CONSENT_KEY)
+      } catch {
+        localStorage.removeItem(CONSENT_KEY)
       }
-    } else {
-      // Show after a short delay for better UX
-      const timer = setTimeout(() => {
-        setIsVisible(true)
-      }, 1500)
-      return () => clearTimeout(timer)
     }
+
+    const timer = window.setTimeout(() => setIsVisible(true), 1500)
+    return () => window.clearTimeout(timer)
   }, [])
 
-  const handleAccept = () => {
-    const consentData = {
-      choice: 'accepted',
-      timestamp: Date.now()
-    }
-    localStorage.setItem('cba-cookie-consent', JSON.stringify(consentData))
+  const saveChoice = (choice: 'accepted' | 'declined') => {
+    localStorage.setItem(CONSENT_KEY, JSON.stringify({ choice, timestamp: Date.now() }))
     setIsVisible(false)
-  }
-
-  const handleDecline = () => {
-    const consentData = {
-      choice: 'declined',
-      timestamp: Date.now()
-    }
-    localStorage.setItem('cba-cookie-consent', JSON.stringify(consentData))
-    setIsVisible(false)
-  }
-
-  const handleMinimize = () => {
-    setIsMinimized(true)
-  }
-
-  const handleRestore = () => {
-    setIsMinimized(false)
   }
 
   if (!isVisible) return null
@@ -68,101 +38,57 @@ export default function CookieConsent() {
   return (
     <AnimatePresence>
       {!isMinimized ? (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed bottom-0 left-0 right-0 z-[9998] bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl"
-          style={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(250,250,250,0.98) 100%)',
-          }}
+        <motion.aside
+          initial={{ opacity: 0, y: -18, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -12, scale: 0.98 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          role="dialog"
+          aria-label="Cookie preferences"
+          className="fixed top-24 right-3 z-[9998] w-[calc(100%-1.5rem)] max-w-md overflow-hidden rounded-2xl border border-white/70 bg-white/95 shadow-[0_20px_60px_rgba(39,16,24,0.22)] backdrop-blur-xl sm:right-6 sm:w-[25rem]"
         >
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-              {/* Content */}
-              <div className="flex-1 max-w-3xl">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-[var(--maroon)]/10 flex items-center justify-center">
-                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-[var(--maroon)]" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    Cookie Preferences
-                  </h3>
-                </div>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">
-                  We use cookies to enhance your experience on our website. By continuing to browse, you agree to our use of cookies for analytics and functionality purposes.
-                </p>
-                <div className="flex items-center gap-4 text-sm">
-                  <a
-                    href="/CBA_Privacy_Policy_Terms_of_Use.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[var(--maroon)] hover:text-[var(--maroon-dark)] font-medium transition-colors duration-200 underline underline-offset-2"
-                  >
-                    Privacy Policy
-                  </a>
-                  <span className="text-gray-300">|</span>
-                  <a
-                    href="/CBA_Privacy_Policy_Terms_of_Use.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[var(--maroon)] hover:text-[var(--maroon-dark)] font-medium transition-colors duration-200 underline underline-offset-2"
-                  >
-                    Terms of Use
-                  </a>
-                </div>
-              </div>
+          <div className="h-1 bg-gradient-to-r from-[#7a1f2a] via-[#c9a227] to-[#7a1f2a]" />
+          <div className="relative p-5 sm:p-6">
+            <button type="button" onClick={() => setIsMinimized(true)} className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-[var(--maroon)] focus:outline-none focus:ring-2 focus:ring-[var(--maroon)]/30" aria-label="Hide cookie preferences">
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+            </button>
 
-              {/* Buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
-                <button
-                  onClick={handleDecline}
-                  className="px-6 py-2.5 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 text-sm font-medium"
-                >
-                  Decline
-                </button>
-                <button
-                  onClick={handleAccept}
-                  className="px-6 py-2.5 rounded-full bg-[var(--maroon)] text-white hover:bg-[var(--maroon-dark)] shadow-lg hover:shadow-xl transition-all duration-200 text-sm font-medium"
-                  style={{
-                    background: 'linear-gradient(135deg, #7a1f2a 0%, #5a1620 100%)',
-                  }}
-                >
-                  Accept All
-                </button>
-                <button
-                  onClick={handleMinimize}
-                  className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 text-gray-400 hover:text-gray-600 lg:hidden"
-                  aria-label="Minimize"
-                >
-                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M18 6L6 18M6 6l12 12" />
-                  </svg>
-                </button>
+            <div className="flex gap-3 pr-8">
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[var(--maroon)] to-[#4c1320] text-[#f4d27c] shadow-lg shadow-[var(--maroon)]/20">
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" /><path d="M9.5 12.5c.8 1 2.2 1 3 0s2.2-1 3 0" /></svg>
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9b7628]">Your privacy</p>
+                <h3 className="mt-0.5 text-base font-semibold text-slate-900">A better CBA experience</h3>
               </div>
             </div>
+
+            <p className="mt-4 text-[13px] leading-6 text-slate-600">We use essential cookies to keep the site secure and optional analytics to improve our services. You stay in control.</p>
+
+            <div className="mt-4 flex items-center gap-3 text-xs font-medium">
+              <Link href="/privacy-policy" className="text-[var(--maroon)] underline decoration-[var(--maroon)]/30 underline-offset-4 transition hover:text-[#9b7628]">Privacy Policy</Link>
+              <span className="h-1 w-1 rounded-full bg-slate-300" />
+              <Link href="/terms-of-use" className="text-[var(--maroon)] underline decoration-[var(--maroon)]/30 underline-offset-4 transition hover:text-[#9b7628]">Terms of Use</Link>
+            </div>
+
+            <div className="mt-5 grid grid-cols-2 gap-2.5">
+              <button type="button" onClick={() => saveChoice('declined')} className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-semibold text-slate-700 transition hover:border-[#c9a227]/60 hover:bg-[#fffaf0] focus:outline-none focus:ring-2 focus:ring-[#c9a227]/30">Essential only</button>
+              <button type="button" onClick={() => saveChoice('accepted')} className="rounded-xl bg-gradient-to-r from-[var(--maroon)] to-[#541522] px-3 py-2.5 text-xs font-semibold text-white shadow-lg shadow-[var(--maroon)]/25 transition hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[var(--maroon)]/30">Accept all</button>
+            </div>
           </div>
-        </motion.div>
+        </motion.aside>
       ) : (
-        /* Minimized Button */
         <motion.button
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0, opacity: 0 }}
+          type="button"
+          initial={{ scale: 0.9, opacity: 0, y: -8 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.9, opacity: 0, y: -8 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          onClick={handleRestore}
-          className="fixed bottom-6 right-6 z-[9998] bg-[var(--maroon)] text-white px-5 py-3 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
-          style={{
-            background: 'linear-gradient(135deg, #7a1f2a 0%, #5a1620 100%)',
-          }}
+          onClick={() => setIsMinimized(false)}
+          className="fixed top-24 right-3 z-[9998] flex items-center gap-2 rounded-full border border-white/20 bg-[var(--maroon)] px-4 py-2.5 text-white shadow-xl transition hover:-translate-y-0.5 hover:shadow-2xl sm:right-6"
         >
-          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
-          <span className="text-sm font-medium">Cookies</span>
+          <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#f4d27c]" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" /></svg>
+          <span className="text-xs font-semibold">Cookie settings</span>
         </motion.button>
       )}
     </AnimatePresence>

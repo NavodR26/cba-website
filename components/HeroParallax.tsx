@@ -101,7 +101,7 @@ export function HeroParallax() {
       </div>
 
       <motion.div
-        className="relative z-10 mx-auto grid min-h-[calc(var(--cba-hero-min-height)-var(--navbar-height))] w-full max-w-[1440px] items-center gap-10 px-6 pb-28 pt-14 sm:px-10 lg:grid-cols-[minmax(0,1fr)_350px] lg:px-16 lg:pt-16"
+        className="relative z-10 mx-auto grid min-h-[calc(var(--cba-hero-min-height)-var(--navbar-height))] w-full max-w-[1440px] items-center gap-10 px-6 py-14 sm:px-10 lg:grid-cols-[minmax(0,1fr)_350px] lg:px-16 lg:py-16"
         style={{ y: contentY }}
       >
         <div className="max-w-3xl">
@@ -109,25 +109,21 @@ export function HeroParallax() {
             <span className="h-px w-12 bg-gradient-to-r from-amber-300 to-transparent" />
             <span className="text-[11px] font-bold uppercase tracking-[0.32em] text-amber-200/90">Est. 1904</span>
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.8 }} className="font-serif text-[clamp(2.9rem,4.45vw,4.85rem)] leading-[0.94] tracking-[-0.05em] text-white lg:whitespace-nowrap">
+          <motion.h1 initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.8 }} className="font-serif text-[clamp(2.45rem,3.8vw,4.2rem)] leading-[0.98] tracking-[-0.04em] text-white lg:whitespace-nowrap">
             The Colombo Brokers&apos;<br />
             <span className="bg-gradient-to-r from-[#f7d572] via-[#e8c86a] to-[#c8a45d] bg-clip-text text-transparent animate-shimmer">Association</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28, duration: 0.7 }} className="mt-8 max-w-xl text-[15px] leading-7 text-white/90 sm:text-base font-light">
+          <motion.p initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28, duration: 0.7 }} className="mt-6 max-w-lg text-sm leading-6 text-white/85 sm:text-[15px] sm:leading-7 font-light">
             Representing the highest standards of broking excellence across Sri Lanka&apos;s <span className="text-amber-200/80 font-medium">Tea, Rubber, Coconut and Spices</span> auctions.
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.7 }} className="mt-10 flex flex-wrap gap-4">
-            <Link href="/about" className="group relative inline-flex items-center gap-4 overflow-hidden rounded-full bg-gradient-to-r from-[#d9af57] via-[#e8c86a] to-[#d9af57] bg-[length:200%_100%] px-8 py-4 text-sm font-semibold text-[#061733] shadow-[0_12px_32px_rgba(217,175,87,0.35)] transition-all duration-300 hover:bg-[position:100%_0] hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(217,175,87,0.45)]">
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.7 }} className="mt-8">
+            <Link href="/about" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-[#f5d276]/50 bg-gradient-to-r from-[#d4aa52] via-[#f1cf75] to-[#c9973f] bg-[length:200%_100%] px-6 py-3 text-[13px] font-bold tracking-[0.01em] text-[#122039] shadow-[0_12px_30px_rgba(217,175,87,0.32)] transition-all duration-300 hover:bg-[position:100%_0] hover:-translate-y-1 hover:shadow-[0_16px_38px_rgba(217,175,87,0.48)] focus:outline-none focus:ring-2 focus:ring-amber-200 focus:ring-offset-2 focus:ring-offset-[#0a0f1a]">
               <span className="relative z-10">Discover CBA</span>
-              <span className="relative z-10 text-xl transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <span className="relative z-10 text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
             </Link>
-            <Link href="/members" className="group relative inline-flex items-center gap-4 overflow-hidden rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-white/50 hover:bg-white/10 hover:shadow-[0_12px_32px_rgba(0,0,0,0.25)]">
-              <span className="relative z-10">Our Members</span>
-              <span className="relative z-10 text-xl transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </Link>
           </motion.div>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.65, duration: 0.7 }} className="mt-12 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/20 pt-6 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.65, duration: 0.7 }} className="mt-9 flex flex-wrap gap-x-7 gap-y-3 border-t border-white/20 pt-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
             <span className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400/80" />
               Licensed auction authority
@@ -160,13 +156,6 @@ export function HeroParallax() {
             <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-amber-400/30 rounded-br-lg" />
           </div>
         </motion.aside>
-      </motion.div>
-
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 0.8 }} className="absolute bottom-16 left-6 z-20 hidden items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70 lg:flex lg:left-16">
-        <span className="relative flex h-8 w-5 justify-center rounded-full border border-white/30 pt-1.5 bg-white/5 backdrop-blur-sm">
-          <motion.span className="animate-scroll-dot h-1.5 w-1.5 rounded-full bg-gradient-to-b from-amber-300 to-amber-500" />
-        </span>
-        <span className="text-white/80">Scroll to explore</span>
       </motion.div>
 
     </section>
