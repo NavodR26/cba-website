@@ -36,6 +36,6 @@ export const NAV: NavItem[] = [
 export const QUICK_ACCESS = [
   { href: '/resources#auction-calendar', label: 'Auction Calendar' },
   { href: '/resources#downloads', label: 'Downloads' },
-  { href: '/brokers', label: 'Brokers Directory' },
+  { href: '/members#brokers', label: 'Brokers Directory' },
   { href: '/contact', label: 'Contact Us' },
 ]

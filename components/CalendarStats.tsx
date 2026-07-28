@@ -1,3 +1,5 @@
+'use client'
+
 type Event = {
   start_date: string | null
   end_date?: string | null

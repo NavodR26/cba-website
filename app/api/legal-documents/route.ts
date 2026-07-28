@@ -15,7 +15,8 @@ export async function GET() {
       }
     `)
     return NextResponse.json(legalDocuments || [])
-  } catch {
+  } catch (error) {
+    console.error('Error fetching legal documents:', error)
     return NextResponse.json({ error: 'Failed to load legal documents' }, { status: 500 })
   }
 }

@@ -105,10 +105,11 @@ export default function Footer() {
             <div className="relative w-16 h-16 shrink-0 rounded-xl bg-white/10 border border-white/10 p-1.5 hover-scale">
               <Image
                 src="/logo.png"
-                alt="CBA"
+                alt="CBA Logo - Colombo Brokers Association"
                 fill
                 className="object-contain group-hover:rotate-12 transition-transform duration-300"
                 sizes="64px"
+                quality={90}
               />
             </div>
             <div>
@@ -261,22 +262,18 @@ export default function Footer() {
 
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
             <div className="flex items-center gap-4">
-              <a 
-                href="/CBA_Privacy_Policy_Terms_of_Use.pdf" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <Link 
+                href="/privacy-policy" 
                 className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
               >
                 Privacy Policy
-              </a>
-              <a 
-                href="/CBA_Privacy_Policy_Terms_of_Use.pdf" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              </Link>
+              <Link 
+                href="/terms-of-use" 
                 className="text-gray-400 hover:text-amber-300 hover:underline underline-offset-4 transition-all duration-300 hover-lift font-medium"
               >
                 Terms of Use
-              </a>
+              </Link>
             </div>
             <div className="hidden md:block w-px h-2 bg-white/15" />
             <p className="text-[10px] text-gray-500 hover:text-gray-400 transition-colors duration-300">

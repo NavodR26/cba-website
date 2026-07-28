@@ -32,7 +32,15 @@ export function HeroParallax() {
         animate={{ scale: [1.01, 1.0, 1.01] }}
         transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <Image src="/hero.png" alt="Colombo skyline" fill className="object-cover object-[58%_center] sm:object-center" priority />
+        <Image
+          src="/hero.png"
+          alt="Colombo skyline with tea auction center"
+          fill
+          className="object-cover object-[58%_center] sm:object-center"
+          priority
+          sizes="100vw"
+          quality={90}
+        />
       </motion.div>
 
       {/* Refined gradient overlay - more subtle while maintaining readability */}

@@ -149,6 +149,7 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
           <SiteSearch
             showTrigger
             triggerClassName={`hidden lg:inline-flex items-center gap-2 rounded-full px-3 py-2 text-[0.7rem] font-semibold shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cba-gold)] ${isHomeHeroNav ? 'border border-slate-200 bg-white text-slate-800 shadow-[0_5px_16px_rgba(15,23,42,0.08)] hover:border-[var(--cba-gold)] hover:text-[var(--cba-maroon)]' : scrolled ? 'border border-gray-200 bg-gray-50 text-gray-700 hover:border-[var(--maroon)]/30 hover:bg-white' : 'border border-white/10 bg-white/6 text-white backdrop-blur-[8px] hover:border-amber-200/40 hover:bg-white/12'}`}
+            aria-label="Search site"
           />
 
           {/* MOBILE */}
@@ -156,8 +157,9 @@ export default function Navbar({ topbarHeight = 44 }: NavbarProps) {
             <button
               type="button"
               onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))}
-              className="relative flex h-[2.75rem] w-[2.75rem] items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 shadow-sm transition hover:border-[var(--maroon)]/30 hover:text-[var(--maroon)] focus:outline-none focus:ring-2 focus:ring-[var(--cba-maroon)] focus:ring-offset-2"
+              className="relative flex h-10 w-10 sm:h-[2.75rem] sm:w-[2.75rem] items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 shadow-sm transition hover:border-[var(--maroon)]/30 hover:text-[var(--maroon)] focus:outline-none focus:ring-2 focus:ring-[var(--cba-maroon)] focus:ring-offset-2"
               aria-label="Open site search"
+              tabIndex={0}
             >
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="11" cy="11" r="7" />

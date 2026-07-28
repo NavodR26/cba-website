@@ -223,7 +223,8 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
           <button
             aria-label="Previous month"
             onClick={() => setCursor(addMonths(cursor, -1))}
-            className="w-9 h-9 rounded-full border border-gray-200 hover:bg-gray-50 hover:border-[var(--maroon)] transition flex items-center justify-center text-gray-600"
+            className="w-9 h-9 rounded-full border border-gray-200 hover:bg-gray-50 hover:border-[var(--maroon)] transition flex items-center justify-center text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--maroon)] focus:ring-offset-2"
+            tabIndex={0}
           >
             ‹
           </button>
@@ -233,20 +234,23 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
           <button
             aria-label="Next month"
             onClick={() => setCursor(addMonths(cursor, 1))}
-            className="w-9 h-9 rounded-full border border-gray-200 hover:bg-gray-50 hover:border-[var(--maroon)] transition flex items-center justify-center text-gray-600"
+            className="w-9 h-9 rounded-full border border-gray-200 hover:bg-gray-50 hover:border-[var(--maroon)] transition flex items-center justify-center text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--maroon)] focus:ring-offset-2"
+            tabIndex={0}
           >
             ›
           </button>
           <button
             onClick={() => setCursor(startOfMonth(new Date()))}
-            className="ml-1 hidden px-3 py-1.5 text-xs font-semibold rounded-full border border-gray-200 text-gray-700 hover:border-[var(--maroon)] hover:text-[var(--maroon)] transition sm:ml-2 sm:inline-flex sm:px-3.5"
+            className="ml-1 hidden px-3 py-1.5 text-xs font-semibold rounded-full border border-gray-200 text-gray-700 hover:border-[var(--maroon)] hover:text-[var(--maroon)] transition sm:ml-2 sm:inline-flex sm:px-3.5 focus:outline-none focus:ring-2 focus:ring-[var(--maroon)] focus:ring-offset-2"
+            tabIndex={0}
+            aria-label="Go to today"
           >
             Today
           </button>
         </div>
 
         {/* Filter chips */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter events by category">
           {filterChips.map((l) => {
             const on = enabled.has(l.label)
             return (
@@ -259,6 +263,9 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
                     : 'border-gray-200 text-gray-500 hover:border-gray-300'
                 }`}
                 style={on ? { background: l.color } : undefined}
+                aria-pressed={on}
+                aria-label={`Toggle ${l.label} events`}
+                tabIndex={0}
               >
                 <span
                   className="inline-block w-2 h-2 rounded-full"
@@ -276,7 +283,7 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
         {weekdays.map((w) => (
           <div
             key={w}
-            className="py-3 text-center text-[11px] font-semibold tracking-wider uppercase text-gray-500"
+            className="py-2 sm:py-3 text-center text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase text-gray-500"
           >
             {w}
           </div>
@@ -296,7 +303,7 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
             return (
               <div
                 key={i}
-                className={`relative min-h-[86px] p-1.5 border-r border-b border-gray-100 sm:min-h-[110px] sm:p-2 md:min-h-[120px] ${
+                className={`relative min-h-[70px] sm:min-h-[86px] md:min-h-[110px] p-1 sm:p-1.5 md:p-2 border-r border-b border-gray-100 ${
                   inMonth
                     ? 'bg-white'
                     : 'bg-gray-50/60'
@@ -304,9 +311,9 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
               >
                 <div className="flex items-center justify-between">
                   <span
-                    className={`inline-flex items-center justify-center text-xs font-semibold ${
+                    className={`inline-flex items-center justify-center text-[10px] sm:text-xs font-semibold ${
                       isToday
-                        ? 'w-6 h-6 rounded-full bg-[var(--maroon)] text-white'
+                        ? 'w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[var(--maroon)] text-white'
                         : inMonth
                         ? 'text-gray-700'
                         : 'text-gray-300'
@@ -316,14 +323,14 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
                   </span>
                 </div>
 
-                <div className="mt-1.5 space-y-1">
+                <div className="mt-1 sm:mt-1.5 space-y-0.5 sm:space-y-1">
                   {visible.map((e, idx) => {
                     const c = colorFor(e.title, e.category, e.type)
                     return (
                       <button
                         key={idx}
                         onClick={() => setSelected(e)}
-                        className="w-full text-left truncate rounded px-1 py-0.5 text-[9px] font-medium hover:opacity-90 transition sm:px-1.5 sm:text-[10.5px]"
+                        className="w-full text-left truncate rounded px-0.5 sm:px-1 py-0.5 text-[8px] sm:text-[9px] md:text-[10.5px] font-medium hover:opacity-90 transition"
                         style={{ background: c.bg, color: c.text }}
                         title={e.title}
                       >
@@ -334,7 +341,7 @@ export default function MonthCalendar({ events }: { events: EventType[] }) {
                   {more > 0 && (
                     <button
                       onClick={() => setSelected(dayEvents[0])}
-                      className="text-[9px] font-semibold text-[var(--maroon)] hover:underline sm:text-[10.5px]"
+                      className="text-[8px] sm:text-[9px] font-semibold text-[var(--maroon)] hover:underline"
                     >
                       +{more} more
                     </button>

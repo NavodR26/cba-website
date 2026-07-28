@@ -42,7 +42,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="grid gap-3 sm:gap-4 sm:grid-cols-2">
       <Field label="Full Name" name="name" autoComplete="name" required />
       <Field label="Email" name="email" type="email" autoComplete="email" required />
       <Field label="Phone" name="phone" type="tel" autoComplete="tel" />
@@ -55,23 +55,23 @@ export default function ContactForm() {
         <textarea
           id="message"
           name="message"
-          rows={5}
+          rows={4}
           required
-          className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-[var(--maroon)] focus:outline-none focus:ring-2 focus:ring-[var(--maroon)]/30"
+          className="w-full rounded-lg border border-gray-200 px-3 sm:px-4 py-2 sm:py-2.5 text-sm transition focus:border-[var(--maroon)] focus:outline-none focus:ring-2 focus:ring-[var(--maroon)]/30"
         />
       </div>
 
       {error && (
         <div
-          className="sm:col-span-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+          className="sm:col-span-2 rounded-lg border border-amber-200 bg-amber-50 px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-amber-800"
           role="alert"
         >
           {error}
         </div>
       )}
 
-      <div className="sm:col-span-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs leading-5 text-gray-500 max-w-md">
+      <div className="sm:col-span-2 flex flex-col gap-3 sm:gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-[11px] sm:text-xs leading-5 text-gray-500 max-w-md">
           Your enquiry opens in your email app addressed to{' '}
           <a href={`mailto:${OFFICIAL_EMAIL}`} className="font-medium text-[var(--maroon)] hover:underline">
             {OFFICIAL_EMAIL}
@@ -82,7 +82,7 @@ export default function ContactForm() {
 
         <button
           type="submit"
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--maroon)] px-7 py-3 text-sm font-semibold text-white transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--maroon)] px-5 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 w-full sm:w-auto"
         >
           Email the Secretariat
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

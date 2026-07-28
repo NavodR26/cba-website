@@ -75,6 +75,7 @@ export default function MobileMenu({ topbarHeight = 44 }: MobileMenuProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Site navigation"
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
           <div className="flex min-w-0 items-center gap-3">

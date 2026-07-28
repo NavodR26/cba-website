@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { urlFor } from '@/lib/sanity'
 import Image from 'next/image'
+import { VirtualTourSkeleton } from './LoadingSkeleton'
 
 interface VideoChapter {
   title: string
@@ -123,11 +124,23 @@ export default function FacilityShowcase() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [nextSlide, prevSlide])
 
-  if (loading) return null
+  if (loading) return <VirtualTourSkeleton />
 
   if (!showcase || !showcase.showcaseItems || showcase.showcaseItems.length === 0) {
-    console.log('[FacilityShowcase] No data:', showcase)
-    return null
+    return (
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white">
+        <div className="max-w-[1400px] mx-auto text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gray-100 flex items-center justify-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <circle cx="9" cy="9" r="2" />
+              <path d="M21 15l-5-5L5 21" />
+            </svg>
+          </div>
+          <p className="text-gray-500 text-sm">No facility showcase available at the moment.</p>
+        </div>
+      </section>
+    )
   }
 
   const categories = ['all', ...new Set(items.map(item => item.category).filter((cat): cat is string => Boolean(cat)))]
@@ -319,10 +332,12 @@ export default function FacilityShowcase() {
                   <div className="relative w-full h-full">
                     <Image
                       src={urlFor(currentItem.floorMap).width(1920).height(1080).url()}
-                      alt={currentItem.title}
+                      alt={`Floor plan for ${currentItem.title}`}
                       fill
                       className="object-cover"
                       priority={currentIndex === 0}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 90vw"
+                      quality={85}
                     />
                     <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md rounded-xl px-3 py-2">
                       <span className="text-white text-xs font-medium">Interactive Floor Map</span>
@@ -331,10 +346,12 @@ export default function FacilityShowcase() {
                 ) : currentItem.image ? (
                   <Image
                     src={urlFor(currentItem.image).width(1920).height(1080).url()}
-                    alt={currentItem.title}
+                    alt={currentItem.title || 'Facility showcase image'}
                     fill
                     className="object-cover cursor-zoom-in"
                     priority={currentIndex === 0}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 90vw"
+                    quality={85}
                     onClick={handleZoomIn}
                   />
                 ) : null}
@@ -369,15 +386,17 @@ export default function FacilityShowcase() {
                         </a>
                       )}
                       {currentItem.qrCode && (
-                        <button
-                          onClick={() => {/* Show QR modal */}}
+                        <a
+                          href={urlFor(currentItem.qrCode).url()}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg text-white text-sm font-medium hover:bg-white/20 transition"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                           </svg>
                           View QR Code
-                        </button>
+                        </a>
                       )}
                     </div>
                   </motion.div>
@@ -390,8 +409,9 @@ export default function FacilityShowcase() {
               <>
                 <button
                   onClick={prevSlide}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group z-20"
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group z-20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent"
                   aria-label="Previous slide"
+                  tabIndex={0}
                 >
                   <svg
                     className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:scale-110 transition-transform"
@@ -406,8 +426,9 @@ export default function FacilityShowcase() {
 
                 <button
                   onClick={nextSlide}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group z-20"
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group z-20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent"
                   aria-label="Next slide"
+                  tabIndex={0}
                 >
                   <svg
                     className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:scale-110 transition-transform"
@@ -422,11 +443,11 @@ export default function FacilityShowcase() {
 
                 {/* Zoom Controls */}
                 {currentItem.mediaType === 'image' && (
-                  <div className="absolute top-4 right-4 flex gap-2 z-20">
+                  <div className="absolute top-3 sm:top-4 right-3 sm:right-4 flex gap-1.5 sm:gap-2 z-20">
                     <button
                       onClick={handleZoomOut}
                       disabled={zoomLevel <= 1}
-                      className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                       aria-label="Zoom out"
                     >
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -436,7 +457,7 @@ export default function FacilityShowcase() {
                     <button
                       onClick={handleZoomIn}
                       disabled={zoomLevel >= 3}
-                      className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                       aria-label="Zoom in"
                     >
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -445,7 +466,7 @@ export default function FacilityShowcase() {
                     </button>
                     <button
                       onClick={handleResetZoom}
-                      className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300"
                       aria-label="Reset zoom"
                     >
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -458,7 +479,7 @@ export default function FacilityShowcase() {
                 {/* Fullscreen Button */}
                 <button
                   onClick={toggleFullscreen}
-                  className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 z-20"
+                  className="absolute top-3 sm:top-4 left-3 sm:left-4 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 z-20"
                   aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
                 >
                   {isFullscreen ? (
@@ -475,7 +496,7 @@ export default function FacilityShowcase() {
                 {/* Play/Pause Button */}
                 <button
                   onClick={() => setIsPaused(prev => !prev)}
-                  className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 z-20"
+                  className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 z-20"
                   aria-label={isPaused ? 'Play slideshow' : 'Pause slideshow'}
                 >
                   {isPaused ? (

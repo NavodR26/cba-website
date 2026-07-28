@@ -61,7 +61,8 @@ function GalleryImage({ src, index, onClick }: { src: string; index: number; onC
           transformStyle: 'preserve-3d',
         }}
         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-        alt=""
+        alt={index === 0 ? 'Gallery image' : ''}
+        loading={index < 4 ? 'eager' : 'lazy'}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
       <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 text-[var(--maroon)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-sm">
@@ -126,12 +127,12 @@ export default function GalleryClient({ albums }: { albums: GalleryDoc[] }) {
     <>
       {/* FILTERS */}
       <section className="sticky top-[72px] z-20 bg-white/95 backdrop-blur border-b border-gray-100">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 overflow-x-auto">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 overflow-x-auto scrollbar-hide">
           {albumTitles.map((t, i) => (
             <button
               key={t}
               onClick={() => setActive(t)}
-              className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-transform duration-300 ${
+              className={`shrink-0 px-3 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold transition-transform duration-300 ${
                 active === t
                   ? 'bg-[var(--maroon)] text-white shadow-lg'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:-translate-y-0.5'
@@ -144,34 +145,34 @@ export default function GalleryClient({ albums }: { albums: GalleryDoc[] }) {
         </div>
       </section>
 
-      <section className="py-14 px-4 sm:px-6 lg:px-8 bg-white min-h-[460px]">
-        <div className="max-w-[1400px] mx-auto space-y-12">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-white min-h-[460px]">
+        <div className="max-w-[1400px] mx-auto space-y-8 sm:space-y-12">
           {filteredAlbums.map((album) => {
             const startIdx = flatImages.findIndex(
               (f) => f.album._id === album._id
             )
             return (
-              <div key={album._id} className="rounded-[2rem] border border-gray-200 bg-white shadow-sm p-6">
-                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+              <div key={album._id} className="rounded-[1.5rem] sm:rounded-[2rem] border border-gray-200 bg-white shadow-sm p-4 sm:p-6">
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
                   <div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
                       {album.eventTitle || 'Untitled'}
                     </h2>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-[11px] sm:text-xs text-gray-500 mt-1">
                       {formatDate(album.date)}
                       {album.images?.length
                         ? ` · ${album.images.length} photos`
                         : ''}
                     </p>
                     {album.description && (
-                      <p className="text-sm text-gray-600 mt-3 max-w-2xl">
+                      <p className="text-sm text-gray-600 mt-2 sm:mt-3 max-w-2xl">
                         {album.description}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-4">
                   {(album.images || []).map((img: any, i: number) => (
                     <GalleryImage
                       key={i}

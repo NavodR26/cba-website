@@ -11,6 +11,7 @@ import PageTransition from '@/components/PageTransition'
 import BackToTop from '@/components/BackToTop'
 import FloatingQuickDock from '@/components/FloatingQuickDock'
 import CookieConsent from '@/components/CookieConsent'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -124,12 +125,14 @@ export default function RootLayout({
           }}
         />
         <PageTransition>
-          <SmoothScroll>
-            {children}
-            <BackToTop />
-            <FloatingQuickDock />
-            <CookieConsent />
-          </SmoothScroll>
+          <ErrorBoundary>
+            <SmoothScroll>
+              {children}
+              <BackToTop />
+              <FloatingQuickDock />
+              <CookieConsent />
+            </SmoothScroll>
+          </ErrorBoundary>
         </PageTransition>
       </body>
     </html>

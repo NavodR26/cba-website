@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -12,8 +13,24 @@ const ACTIONS = [
 
 export default function FloatingQuickDock() {
   const pathname = usePathname()
+  const [inFooter, setInFooter] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollY = window.scrollY
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      const footerThreshold = documentHeight - windowHeight - 300 // 300px before footer
+
+      setInFooter(scrollY > footerThreshold)
+    }
+    window.addEventListener('scroll', onScroll)
+    onScroll() // Initial check
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   if (pathname === '/') return null
+  if (inFooter) return null
 
   // All other pages retain the dock for compact navigation.
   return (

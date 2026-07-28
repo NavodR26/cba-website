@@ -90,7 +90,7 @@ export default function GavelSymbolSection() {
                   animate={imageLoaded ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.96 }}
                   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                   className="w-full max-w-[380px] object-contain"
-                  style={{ filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.22))' }}
+                  style={{ filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.22))', height: 'auto' }}
                 />
               </motion.div>
             </motion.div>
