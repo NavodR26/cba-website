@@ -9,16 +9,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 // GAVEL_CONTACT_Y so the calibrated impact position is preserved exactly.
 // Horizontal offset: shifts the gavel image so the hammer HEAD (not the
 // bounding box) lands on the base centre at strike. Negative = left.
-const GAVEL_HEAD_OFFSET_X = 23;
+const GAVEL_HEAD_OFFSET_X = 15;
 
 // Wooden base horizontal nudge. Negative = left.
-const BASE_OFFSET_X = -95;
+const BASE_OFFSET_X = -80;
 // Raise the base so the hammer head meets its upper surface at the strike.
-const BASE_OFFSET_Y = -1;
+const BASE_OFFSET_Y = 5;
 
-const GAVEL_OFFSET_Y = -7;
+const GAVEL_OFFSET_Y = -5;
 
-const GAVEL_CONTACT_Y = 29; // px — the calibrated "impact" position. DO NOT
+const GAVEL_CONTACT_Y = 25; // px — the calibrated "impact" position. DO NOT
                              // change this: it's what makes the head land on
                              // the base center. Verified correct already.
 
@@ -26,18 +26,18 @@ const GAVEL_CONTACT_Y = 29; // px — the calibrated "impact" position. DO NOT
 // (25px previously) is widened by GAVEL_OFFSET_Y so the gavel hovers
 // further above the base at idle/lift — this is what fixes the handle
 // overlapping the base. STRIKE_Y is intentionally left as-is.
-const REST_GAP = 25 + GAVEL_OFFSET_Y;   // was 25 — now includes clearance fix
+const REST_GAP = 20 + GAVEL_OFFSET_Y;   // was 25 — now includes clearance fix
 const IDLE_Y = GAVEL_CONTACT_Y - REST_GAP;   // hovers clear of the base
-const LIFT_Y = IDLE_Y - 35;                  // raised further for anticipation
+const LIFT_Y = IDLE_Y - 40;                  // raised further for anticipation
 const STRIKE_Y = GAVEL_CONTACT_Y;            // exact contact — unchanged
 
 // Strike point on the base surface (256×256 container).
 const STRIKE_POINT_X = 128 + BASE_OFFSET_X;
-const STRIKE_POINT_Y = 185 + BASE_OFFSET_Y;
+const STRIKE_POINT_Y = 175 + BASE_OFFSET_Y;
 
 // Gavel render size — kept large for presence on the loader screen.
-const GAVEL_RENDER_SIZE = 370;
-const STRIKE_ADJUSTMENT_Y = 5;
+const GAVEL_RENDER_SIZE = 340;
+const STRIKE_ADJUSTMENT_Y = 3;
 
 export default function GavelLoader() {
   const mounted = useRef(false);
@@ -229,13 +229,13 @@ export default function GavelLoader() {
                 <Image
                   src="/base.png"
                   alt="Wooden Base"
-                  width={200}
-                  height={110}
+                  width={180}
+                  height={100}
                   priority
-                  className="w-52 h-auto object-contain relative z-[1]"
+                  className="w-44 h-auto object-contain relative z-[1]"
                   draggable={false}
                   style={{
-                    filter: 'drop-shadow(0 20px 36px rgba(0, 0, 0, 0.28))',
+                    filter: 'drop-shadow(0 18px 32px rgba(0, 0, 0, 0.28))',
                   }}
                 />
 
@@ -291,7 +291,7 @@ export default function GavelLoader() {
                     : animationStage >= 2 && animationStage < 4
                     ? [IDLE_Y, IDLE_Y - 3, IDLE_Y]
                     : IDLE_Y,
-                rotate: animationStage === 4 ? 22 : animationStage >= 5 ? [22, 0, -1.5, 0] : 0,
+                rotate: animationStage === 4 ? 18 : animationStage >= 5 ? [18, 0, -1.2, 0] : 0,
               }}
               transition={{
                 scale: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
@@ -309,7 +309,7 @@ export default function GavelLoader() {
               }}
               className="relative"
               style={{
-                transformOrigin: '75% 88%',
+                transformOrigin: '70% 85%',
               }}
             >
               {/* Light reflection/shimmer on gavel head */}

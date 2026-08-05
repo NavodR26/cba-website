@@ -13,12 +13,11 @@ type Resource = {
 }
 
 const resources: Resource[] = [
-  { title: 'Auction Calendar', description: 'Live auction dates, meetings and market activity.', href: '/resources', image: '/resources_hero.png' },
-  { title: 'Committee', description: 'Meet the leadership guiding the association.', href: '/committee', image: '/members_hero.png' },
-  { title: 'Brokers Directory', description: 'Explore our trusted member broker network.', href: '/brokers', image: '/members_hero.png' },
+  { title: 'Auction Calendar', description: 'Stay updated with auction dates and meetings.', href: '/resources', image: '/resources_hero.png' },
+  { title: 'Committee and Office Bearers', description: 'Meet our leadership and explore our broker network.', href: '/committee', image: '/members_hero.png' },
   { title: 'Announcements', description: 'Important notices and association updates.', href: '/#announcements', image: '/about_hero.png' },
   { title: 'Gallery', description: 'Moments from CBA events and milestones.', href: '/gallery', image: '/gallery_hero.png' },
-  { title: 'Contact Us', description: 'Speak directly with the association team.', href: '/contact', image: '/contact_hero.png' },
+  { title: 'Contact Us', description: 'Get in touch with the CBA team.', href: '/contact', image: '/contact_hero.png' },
 ]
 
 export default function QuickActions() {
@@ -151,17 +150,91 @@ export default function QuickActions() {
     <section className="cba-resource-hub relative -mt-10 overflow-hidden px-4 pb-8 pt-[4.5rem] sm:px-6 sm:pb-10 sm:pt-20 lg:px-8 lg:pb-12 lg:pt-24">
       <div className="cba-resource-hub__atmosphere pointer-events-none absolute inset-0" aria-hidden />
       <div className="cba-resource-hub__transition pointer-events-none absolute inset-x-0 top-0" aria-hidden />
-      <motion.div aria-hidden className="cba-resource-hub__signal pointer-events-none absolute right-[8%] top-16 hidden h-36 w-36 rounded-full lg:block" animate={{ scale: [1, 1.08, 1], opacity: [0.35, 0.7, 0.35] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }} />
+      
+      {/* Premium floating orbs */}
+      <motion.div 
+        aria-hidden
+        className="pointer-events-none absolute right-[8%] top-16 hidden h-36 w-36 rounded-full lg:block"
+        animate={{ scale: [1, 1.08, 1], opacity: [0.35, 0.7, 0.35] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          background: 'radial-gradient(circle, rgba(201, 155, 46, 0.3) 0%, transparent 70%)',
+          filter: 'blur(20px)'
+        }}
+      />
+      <motion.div 
+        aria-hidden
+        className="pointer-events-none absolute left-[5%] bottom-20 hidden h-24 w-24 rounded-full lg:block"
+        animate={{ scale: [1, 1.12, 1], opacity: [0.25, 0.5, 0.25] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        style={{
+          background: 'radial-gradient(circle, rgba(141, 35, 48, 0.2) 0%, transparent 70%)',
+          filter: 'blur(16px)'
+        }}
+      />
       <div className="relative mx-auto max-w-[1440px]">
-        <motion.header initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.55 }} className="mb-5 flex flex-col gap-4 border-b border-[#0a1b38]/10 pb-4 sm:mb-6 sm:flex-row sm:items-end sm:justify-between">
+        <motion.header 
+          initial={{ opacity: 0, y: 18 }} 
+          whileInView={{ opacity: 1, y: 0 }} 
+          viewport={{ once: true, amount: 0.4 }} 
+          transition={{ duration: 0.55 }} 
+          className="mb-5 flex flex-col gap-4 border-b border-[#0a1b38]/10 pb-4 sm:mb-6 relative"
+        >
+          {/* Decorative gradient line */}
+          <motion.div 
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-[#c99b2e] via-[#d4af37] to-transparent"
+            style={{ originX: 0 }}
+          />
           <div>
-            <p className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.24em] text-[#8d2330]"><span className="h-px w-7 bg-current" />Quick access</p>
-            <h2 className="mt-2 text-[clamp(2rem,3.4vw,3.25rem)] font-bold leading-none tracking-[-0.055em] text-[#091936]">Your connection to <span className="text-[#c99b2e]">the market.</span></h2>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500">Essential CBA services, organised for faster access to people, dates and market information.</p>
-          </div>
-          <div className="flex shrink-0 items-center gap-5">
-            <span className="hidden text-right text-[10px] font-semibold uppercase leading-4 tracking-[0.14em] text-slate-400 xl:block">Six essential<br />resources</span>
-            <Link href="/resources" className="group inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.13em] text-[#8d2330] transition hover:text-[#5f1720]">View all resources <span className="flex h-8 w-8 items-center justify-center rounded-full border border-current/30 text-lg transition duration-300 group-hover:translate-x-1 group-hover:bg-[#8d2330] group-hover:text-white">&rarr;</span></Link>
+            <motion.p 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-[#8d2330]"
+            >
+              <motion.span 
+                className="h-px w-8 bg-current"
+                animate={{ width: ['32px', '32px', '32px'] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              Quick access
+            </motion.p>
+            <motion.h2 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="mt-2 text-[clamp(2rem,3.4vw,3.25rem)] font-bold leading-none tracking-[-0.055em] text-[#091936]"
+            >
+              Your connection to <motion.span 
+                className="text-[#c99b2e] inline-block"
+                animate={{ 
+                  backgroundPosition: ['0%', '100%', '0%'],
+                }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                style={{
+                  background: 'linear-gradient(90deg, #c99b2e 0%, #d4af37 50%, #c99b2e 100%)',
+                  backgroundSize: '200% auto',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >the market.</motion.span>
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-2 max-w-xl text-sm leading-6 text-slate-500"
+            >
+              Essential CBA resources for quick access to people, schedules and market information.
+            </motion.p>
           </div>
         </motion.header>
 
@@ -217,13 +290,30 @@ export default function QuickActions() {
                   height: '100%',
                 }}
               >
-                <Image 
-                  src={resource.image} 
-                  alt="" 
-                  fill 
-                  sizes="(min-width: 1280px) 420px, (min-width: 1024px) 320px, (min-width: 640px) 280px, 100vw" 
-                  className="cba-compact-card__image pointer-events-none object-cover" 
+                {/* Premium shine effect on hover */}
+                <motion.div 
+                  className="absolute inset-0 z-20 pointer-events-none"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: expandedCard === index ? 1 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%)',
+                  }}
                 />
+                <motion.div 
+                  initial={{ scale: 1.05 }}
+                  animate={{ scale: expandedCard === index ? 1.1 : 1.05 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image 
+                    src={resource.image} 
+                    alt="" 
+                    fill 
+                    sizes="(min-width: 1280px) 420px, (min-width: 1024px) 320px, (min-width: 640px) 280px, 100vw" 
+                    className="cba-compact-card__image pointer-events-none object-cover" 
+                  />
+                </motion.div>
                 <span className="cba-compact-card__overlay pointer-events-none absolute inset-0" aria-hidden />
                 <span className="cba-compact-card__spotlight pointer-events-none absolute inset-0" aria-hidden />
                 
@@ -278,19 +368,23 @@ export default function QuickActions() {
           ))}
         </motion.div>
 
-        {/* Scroll progress indicator */}
-        <div className="mt-4 flex justify-center gap-2">
+        {/* Premium scroll progress indicator */}
+        <div className="mt-6 flex justify-center gap-2">
           {resources.map((_, index) => (
             <motion.div
               key={index}
-              className="h-1.5 w-8 rounded-full bg-slate-200"
-              initial={{ opacity: 0.3 }}
-              whileInView={{ opacity: 0.5 }}
+              className="h-1.5 rounded-full"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
               animate={{
-                backgroundColor: expandedCard === index ? '#c99b2e' : 'rgba(0,0,0,0.1)',
+                backgroundColor: expandedCard === index ? '#c99b2e' : 'rgba(0,0,0,0.08)',
                 width: expandedCard === index ? '32px' : '24px',
+                boxShadow: expandedCard === index ? '0 0 12px rgba(201, 155, 46, 0.4)' : 'none',
               }}
-              transition={{ duration: 0.3 }}
+              whileHover={{ scale: 1.2 }}
+              style={{ transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)' }}
             />
           ))}
         </div>
