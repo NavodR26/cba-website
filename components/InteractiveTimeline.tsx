@@ -11,9 +11,10 @@ interface TimelineEvent {
 
 const timelineEvents: TimelineEvent[] = [
   { year: '1904', title: 'Foundation', description: 'The Colombo Brokers\' Association was established to regulate tea auctions in Sri Lanka.' },
-  { year: '1915', title: 'Growth Phase', description: 'Expanded operations to include rubber and coconut auctions.' },
-  { year: '1950', title: 'Modernization', description: 'Introduced modern auction practices and standardized procedures.' },
-  { year: '1980', title: 'Industry Leadership', description: 'Recognized as the premier authority for commodity trading in Sri Lanka.' },
+  { year: '1910', title: 'First Rubber Auction', description: 'CBA was instrumental in setting up Sri Lanka’s first rubber auction, held on 4 November.' },
+  { year: '1950', title: 'Rubber Auction Resumes', description: 'The first post-war crepe rubber auction was held at the Ceylon Chamber of Commerce with CRTA.' },
+  { year: '1981', title: 'First Sheet Rubber Auction', description: 'The first sheet rubber auction followed the end of the Rubber/Rice Pact with the People’s Republic of China.' },
+  { year: '1984', title: 'Colombo Spice Auction', description: 'CBA began the Colombo Spice Auction with SAPPTA, initially for cardamom and cloves.' },
   { year: '2000', title: 'Digital Era', description: 'Implemented electronic trading systems and digital record-keeping.' },
   { year: '2024', title: '120 Years', description: 'Celebrating over a century of excellence and continued innovation.' },
 ]

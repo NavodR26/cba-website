@@ -21,7 +21,7 @@ const PILLARS: Pillar[] = [
   },
   {
     name: 'Rubber',
-    tagline: 'Latex & raw rubber',
+    tagline: 'Sri Lankan natural rubber',
     desc: 'Sri Lanka is one of the world’s most respected origins for natural rubber, traded at CBA-supervised auctions.',
     color: '#1f6f43',
     image: '/images/commodities/rubber-auction.png',
@@ -35,7 +35,7 @@ const PILLARS: Pillar[] = [
   },
   {
     name: 'Spices',
-    tagline: 'Cinnamon, pepper, cloves',
+    tagline: 'Cardamom, cloves & allied products',
     desc: 'CBA-backed spice trade connects Sri Lanka’s renowned spice growers with global buyers through transparent auctions.',
     color: '#854d0e',
     image: '/images/commodities/spices-auction.png',
