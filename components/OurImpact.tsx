@@ -5,27 +5,37 @@ import { useRef, useEffect, useState } from 'react'
 
 interface ImpactStat {
   label: string
-  value: number
+  value: number | string
   suffix: string
   description: string
 }
 
 const impactStats: ImpactStat[] = [
-  { label: 'Tea Export Volume', value: 95, suffix: '%', description: 'Of Sri Lanka total exports' },
-  { label: 'Annual Auction Value', value: 2, suffix: 'B+', description: 'USD in trade volume' },
-  { label: 'Member Companies', value: 50, suffix: '+', description: 'Licensed broking firms' },
-  { label: 'Weekly Auctions', value: 52, suffix: '', description: 'Consistent trading schedule' },
+  { label: 'Commodity Export Volume', value: 95, suffix: '%', description: 'Of Sri Lanka total exports' },
+  { label: 'Annual Auction Value of Tea Exports', value: 1.5, suffix: 'B+', description: 'USD in trade volume' },
+  { label: 'Member Companies', value: '8', suffix: '', description: 'Brokering companies under CBA' },
+  { label: 'Weekly Auctions', value: '50', suffix: '', description: 'Auctions held weekly for a year' },
 ]
 
 export default function OurImpact() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
-  const [animatedValues, setAnimatedValues] = useState(impactStats.map(() => 0))
+  const [animatedValues, setAnimatedValues] = useState<(number | string)[]>(impactStats.map(() => 0))
 
   useEffect(() => {
     if (isInView) {
       impactStats.forEach((stat, index) => {
-        const end = stat.value
+        // Skip animation for string values
+        if (typeof stat.value === 'string') {
+          setAnimatedValues((prev) => {
+            const newValues = [...prev]
+            newValues[index] = stat.value
+            return newValues
+          })
+          return
+        }
+
+        const end = stat.value as number
         const duration = 2000
         const startTime = performance.now()
 
@@ -36,7 +46,12 @@ export default function OurImpact() {
           
           setAnimatedValues((prev) => {
             const newValues = [...prev]
-            newValues[index] = Math.floor(easeProgress * end)
+            // Handle decimal numbers for values like 1.5
+            if (end % 1 !== 0) {
+              newValues[index] = parseFloat((easeProgress * end).toFixed(1))
+            } else {
+              newValues[index] = Math.floor(easeProgress * end)
+            }
             return newValues
           })
 

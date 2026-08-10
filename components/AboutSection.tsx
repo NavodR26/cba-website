@@ -63,13 +63,6 @@ export default function AboutSection({ content }: AboutSectionProps) {
           >
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--maroon)] to-[#5a1620] rounded-xl transform rotate-1 group-hover:rotate-2 transition-transform duration-500" />
             <div className="relative bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-500 border border-gray-100">
-              {/* Icon */}
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--maroon)] to-[#5a1620] flex items-center justify-center mb-3 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z" />
-                </svg>
-              </div>
-              
               {/* Content */}
               <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-[var(--maroon)] transition-colors duration-300">
                 {visionTitle}
@@ -93,13 +86,6 @@ export default function AboutSection({ content }: AboutSectionProps) {
           >
             <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl transform -rotate-1 group-hover:-rotate-2 transition-transform duration-500" />
             <div className="relative bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-500 border border-gray-100">
-              {/* Icon */}
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center mb-3 shadow-md group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 17l-6.5 4 2-7.5L2 9h7z" />
-                </svg>
-              </div>
-              
               {/* Content */}
               <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
                 {missionTitle}

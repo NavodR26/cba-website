@@ -49,7 +49,7 @@ export default function VisionMissionSection({ content }: VisionMissionSectionPr
           <div className="grid lg:grid-cols-[0.94fr_1.06fr]">
             <article className="group relative z-10 min-h-[330px] overflow-hidden rounded-tl-2xl bg-slate-950 p-7 text-white sm:p-9 lg:mr-[-38px] lg:min-h-[365px] lg:rounded-bl-2xl lg:p-11 lg:[clip-path:polygon(0_0,92%_0,100%_50%,92%_100%,0_100%)]">
               <Image src="/images/about/vision-integrity.png" alt="" fill sizes="(max-width: 1024px) 100vw, 48vw" className="object-cover object-center opacity-50 transition duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-[linear-gradient(125deg,rgba(5,21,39,0.98),rgba(7,25,44,0.88)_52%,rgba(10,28,48,0.72))]" />
+              <div className="absolute inset-0 bg-[linear-gradient(125deg,rgba(122,31,42,0.98),rgba(122,31,42,0.88)_52%,rgba(122,31,42,0.72))]" />
               <div aria-hidden className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(135deg,transparent_49.5%,rgba(255,255,255,0.55)_50%,transparent_50.5%)] [background-size:15px_15px]" />
               <div className="relative flex h-full flex-col">
                 <SectionLabel text={visionTitle} light />

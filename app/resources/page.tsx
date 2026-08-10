@@ -57,6 +57,16 @@ const IMPORTANT_LINKS = [
     desc: 'Economic and statistical data',
     href: 'https://www.cbsl.gov.lk/',
   },
+  {
+    title: 'Sri Lanka Inland Revenue',
+    desc: 'Official tax authority',
+    href: 'https://www.ird.gov.lk/',
+  },
+  {
+    title: "Sri Lanka Tea Factory Owners' Association",
+    desc: 'Tea factory industry representation',
+    href: 'https://sltfoa.com/',
+  },
 ]
 
 function eventCategory(event: { title?: string; category?: string; type?: string }) {

@@ -14,7 +14,7 @@ type Resource = {
 
 const resources: Resource[] = [
   { title: 'Auction Calendar', description: 'Stay updated with auction dates and meetings.', href: '/resources', image: '/resources_hero.png' },
-  { title: 'Committee and Office Bearers', description: 'Meet our leadership and explore our broker network.', href: '/committee', image: '/members_hero.png' },
+  { title: 'Board of Directors & Office Bearers', description: 'Meet our leadership and explore our broker network.', href: '/committee', image: '/members_hero.png' },
   { title: 'Announcements', description: 'Important notices and association updates.', href: '/#announcements', image: '/about_hero.png' },
   { title: 'Gallery', description: 'Moments from CBA events and milestones.', href: '/gallery', image: '/gallery_hero.png' },
   { title: 'Contact Us', description: 'Get in touch with the CBA team.', href: '/contact', image: '/contact_hero.png' },

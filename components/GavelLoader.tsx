@@ -38,6 +38,9 @@ const STRIKE_POINT_Y = 175 + BASE_OFFSET_Y;
 // Gavel render size — kept large for presence on the loader screen.
 const GAVEL_RENDER_SIZE = 340;
 const STRIKE_ADJUSTMENT_Y = 3;
+// Stage 5 begins the downstroke. The gavel reaches the contact keyframe about
+// one third into its 0.46s motion, so the sound is delayed to that moment.
+const STRIKE_SOUND_DELAY = 155;
 
 export default function GavelLoader() {
   const mounted = useRef(false);
@@ -45,6 +48,9 @@ export default function GavelLoader() {
   const [progress, setProgress] = useState(0);
   const [animationStage, setAnimationStage] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
+  const [isSoundUnlocked, setIsSoundUnlocked] = useState(false);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const unlockAudioRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     if (mounted.current) return;
@@ -56,6 +62,101 @@ export default function GavelLoader() {
       return;
     }
 
+    // Start the sound engine immediately so browsers that permit loader audio
+    // can play the strike on a fresh visit. The gesture listeners below unlock
+    // it as a fallback in browsers with stricter autoplay protection.
+    audioContextRef.current = new AudioContext();
+
+    const unlockAudio = () => {
+      if (audioContextRef.current?.state === 'suspended') {
+        void audioContextRef.current.resume()
+          .then(() => setIsSoundUnlocked(true))
+          .catch(() => undefined);
+      } else if (audioContextRef.current?.state === 'running') {
+        setIsSoundUnlocked(true);
+      }
+    };
+    unlockAudioRef.current = unlockAudio;
+    window.addEventListener('pointerdown', unlockAudio, { once: true });
+    window.addEventListener('keydown', unlockAudio, { once: true });
+
+    const playGavelKnock = async () => {
+      const context = audioContextRef.current;
+      if (!context) return;
+
+      // Resume succeeds automatically where the browser allows autoplay and
+      // otherwise simply leaves the sound ready for the first interaction.
+      if (context.state === 'suspended') {
+        await context.resume().catch(() => undefined);
+      }
+      if (context.state !== 'running') return;
+      setIsSoundUnlocked(true);
+
+      const now = context.currentTime;
+      const master = context.createGain();
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.exponentialRampToValueAtTime(0.13, now + 0.006);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + 0.19);
+      master.connect(context.destination);
+
+      // A short low wooden body gives the strike weight without sounding harsh.
+      const body = context.createOscillator();
+      body.type = 'sine';
+      body.frequency.setValueAtTime(155, now);
+      body.frequency.exponentialRampToValueAtTime(82, now + 0.16);
+      body.connect(master);
+      body.start(now);
+      body.stop(now + 0.2);
+
+      // A filtered transient supplies the crisp, polished wood-on-wood contact.
+      const transient = context.createBufferSource();
+      const noise = context.createBuffer(1, Math.ceil(context.sampleRate * 0.055), context.sampleRate);
+      const samples = noise.getChannelData(0);
+      for (let index = 0; index < samples.length; index += 1) {
+        samples[index] = (Math.random() * 2 - 1) * (1 - index / samples.length);
+      }
+      transient.buffer = noise;
+      const filter = context.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 1150;
+      transient.connect(filter);
+      filter.connect(master);
+      transient.start(now);
+    };
+
+    const playLiftSwish = async () => {
+      const context = audioContextRef.current;
+      if (!context) return;
+      if (context.state === 'suspended') {
+        await context.resume().catch(() => undefined);
+      }
+      if (context.state !== 'running') return;
+      setIsSoundUnlocked(true);
+
+      const now = context.currentTime;
+      const gain = context.createGain();
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.022, now + 0.055);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+      gain.connect(context.destination);
+
+      const source = context.createBufferSource();
+      const noise = context.createBuffer(1, Math.ceil(context.sampleRate * 0.22), context.sampleRate);
+      const samples = noise.getChannelData(0);
+      for (let index = 0; index < samples.length; index += 1) {
+        samples[index] = (Math.random() * 2 - 1) * (1 - index / samples.length);
+      }
+      source.buffer = noise;
+      const filter = context.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(420, now);
+      filter.frequency.exponentialRampToValueAtTime(760, now + 0.2);
+      filter.Q.value = 0.7;
+      source.connect(filter);
+      filter.connect(gain);
+      source.start(now);
+    };
+
     const progressInterval = setInterval(() => {
       setProgress((p) => {
         if (p >= 95) return p;
@@ -66,10 +167,14 @@ export default function GavelLoader() {
     setTimeout(() => setAnimationStage(1), 300);
     setTimeout(() => setAnimationStage(2), 1000);
     setTimeout(() => setAnimationStage(3), 2200);
-    setTimeout(() => setAnimationStage(4), 3000);
-    setTimeout(() => {
+    const liftTimer = setTimeout(() => {
+      setAnimationStage(4);
+      void playLiftSwish();
+    }, 3000);
+    const strikeTimer = setTimeout(() => {
       setAnimationStage(5);
     }, 3800);
+    const soundTimer = setTimeout(playGavelKnock, 3800 + STRIKE_SOUND_DELAY);
     setTimeout(() => setAnimationStage(6), 4200);
 
     const completeTimer = setTimeout(() => setProgress(100), 4400);
@@ -78,9 +183,19 @@ export default function GavelLoader() {
 
     return () => {
       clearInterval(progressInterval);
+      clearTimeout(liftTimer);
+      clearTimeout(strikeTimer);
+      clearTimeout(soundTimer);
       clearTimeout(completeTimer);
       clearTimeout(exitTimer);
       clearTimeout(hideTimer);
+      window.removeEventListener('pointerdown', unlockAudio);
+      window.removeEventListener('keydown', unlockAudio);
+      unlockAudioRef.current = null;
+      if (audioContextRef.current) {
+        void audioContextRef.current.close();
+        audioContextRef.current = null;
+      }
     };
   }, []);
 
@@ -493,6 +608,17 @@ export default function GavelLoader() {
               />
             </motion.div>
           </motion.div>
+
+          {!isSoundUnlocked && (
+            <button
+              type="button"
+              onClick={() => unlockAudioRef.current?.()}
+              className="absolute bottom-6 right-6 rounded-full border border-[#102A43]/15 bg-white/60 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#102A43] shadow-sm backdrop-blur-sm transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A227]"
+              aria-label="Enable gavel loader sound"
+            >
+              Enable sound
+            </button>
+          )}
         </motion.div>
       )}
     </AnimatePresence>
