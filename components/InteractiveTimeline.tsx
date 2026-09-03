@@ -1,91 +1,49 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 
-interface TimelineEvent {
-  year: string
-  title: string
-  description: string
-}
+interface TimelineEvent { year: string; title: string; description: string; type: 'tea' | 'market' }
 
 const timelineEvents: TimelineEvent[] = [
-  { year: '1904', title: 'Foundation', description: 'The Colombo Brokers\' Association was established to regulate tea auctions in Sri Lanka.' },
-  { year: '1910', title: 'First Rubber Auction', description: 'CBA was instrumental in setting up Sri Lanka’s first rubber auction, held on 4 November.' },
-  { year: '1950', title: 'Rubber Auction Resumes', description: 'The first post-war crepe rubber auction was held at the Ceylon Chamber of Commerce with CRTA.' },
-  { year: '1981', title: 'First Sheet Rubber Auction', description: 'The first sheet rubber auction followed the end of the Rubber/Rice Pact with the People’s Republic of China.' },
-  { year: '1984', title: 'Colombo Spice Auction', description: 'CBA began the Colombo Spice Auction with SAPPTA, initially for cardamom and cloves.' },
-  { year: '2000', title: 'Digital Era', description: 'Implemented electronic trading systems and digital record-keeping.' },
-  { year: '2024', title: '120 Years', description: 'Celebrating over a century of excellence and continued innovation.' },
+  { year: '1870s', title: 'A changing plantation economy', description: 'The coffee crisis and the transition to tea created the need for professional broking expertise in Ceylon\'s emerging plantation trade.', type: 'tea' },
+  { year: '1896', title: 'Colombo Share Brokers Association founded', description: 'A professional association for brokers was established as commercial activity around plantation produce expanded.', type: 'tea' },
+  { year: '1904', title: 'Reconstituted as CBA', description: 'The organisation became the Colombo Brokers Association, establishing brokers as an integral part of the country\'s commercial ethics.', type: 'tea' },
+  { year: '1910', title: 'First rubber auction', description: 'CBA was instrumental in establishing Sri Lanka\'s first rubber auction, held on 4 November.', type: 'market' },
+  { year: '1950', title: 'Rubber auction resumes', description: 'The first post-war crepe rubber auction was held with the Colombo Rubber Traders Association.', type: 'market' },
+  { year: '1981', title: 'First sheet rubber auction', description: 'The first sheet rubber auction was held after the end of the Rubber/Rice Pact.', type: 'market' },
+  { year: '1984', title: 'Colombo Spice Auction', description: 'CBA began the Colombo Spice Auction with SAPPTA, initially for cardamom and cloves.', type: 'market' },
+  { year: '2000s', title: 'A new century of market stewardship', description: 'Building on its heritage, CBA continued to support disciplined auction practice and trusted relationships across Sri Lanka Tea Trade and allied commodity markets.', type: 'tea' },
+  { year: 'Today', title: 'A vital link in Sri Lanka Tea Trade', description: 'From sample assessment and market reporting to auction, documentation and settlement, CBA brokers help tea move with precision and trust.', type: 'tea' },
 ]
 
 export default function InteractiveTimeline() {
-  const containerRef = useRef(null)
-  useInView(containerRef, { once: false, margin: '-100px' })
-
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-      <div className="max-w-[1000px] mx-auto" ref={containerRef}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[var(--maroon)]/10 text-[var(--maroon)] text-xs font-semibold uppercase tracking-wider">
-            Our Journey
-          </span>
-          <h2 className="mt-4 text-3xl md:text-4xl font-bold text-gray-900">
-            A Legacy of Excellence
-          </h2>
-          <p className="mt-3 text-sm text-gray-500 max-w-2xl mx-auto">
-            Over 120 years of shaping Sri Lanka&apos;s commodity trading industry
-          </p>
+    <section className="relative overflow-hidden bg-gradient-to-b from-white via-[#fcfaf8] to-white px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_8%_12%,rgba(122,31,42,0.045),transparent_30%),radial-gradient(ellipse_at_92%_70%,rgba(201,162,39,0.08),transparent_30%)]" />
+      <div className="relative mx-auto max-w-[1060px]">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }} className="mb-12 text-center">
+          <div className="flex items-center justify-center gap-3"><span className="h-px w-10 bg-[var(--maroon)]" /><span className="rounded-full border border-[var(--maroon)]/15 bg-[var(--maroon)]/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--maroon)]">CBA heritage timeline</span><span className="h-px w-10 bg-[var(--maroon)]" /></div>
+          <h2 className="mt-5 font-[family-name:var(--font-georgia)] text-3xl tracking-[-0.02em] text-[#24201f] sm:text-4xl">The story of <span className="text-[var(--maroon)]">Sri Lanka Tea Trade</span></h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-stone-500">From the coffee crisis to today's auction ecosystem: a legacy built on professional judgement, transparency and trust.</p>
         </motion.div>
 
         <div className="relative">
-          {/* Timeline Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-[var(--maroon)] to-amber-300" />
-
-          {/* Timeline Events */}
-          <div className="space-y-12">
-            {timelineEvents.map((event, index) => (
-              <motion.div
-                key={event.year}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`relative flex items-center ${
-                  index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
-                }`}
-              >
-                {/* Content */}
-                <div className={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
-                  <motion.div
-                    whileHover={{ scale: 1.02, y: -4 }}
-                    className="bg-white rounded-2xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-all duration-300"
-                  >
-                    <span className="inline-block text-2xl font-bold text-[var(--maroon)] mb-2">
-                      {event.year}
-                    </span>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {event.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                      {event.description}
-                    </p>
-                  </motion.div>
-                </div>
-
-                {/* Center Marker */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-[var(--maroon)] border-4 border-white shadow-lg z-10" />
-
-                {/* Empty Space */}
-                <div className="w-5/12" />
-              </motion.div>
-            ))}
+          <div aria-hidden className="absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-gradient-to-b from-[var(--maroon)] via-[#c9a227] to-[var(--maroon)] md:block" />
+          <div className="space-y-7 md:space-y-10">
+            {timelineEvents.map((event, index) => {
+              const teaEvent = event.type === 'tea'
+              return (
+                <motion.article key={event.year} initial={{ opacity: 0, x: index % 2 === 0 ? -32 : 32 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.5, delay: index * 0.06 }} className={`relative flex items-center ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                  <div className={`relative w-full md:w-[calc(50%-2.5rem)] ${index % 2 === 0 ? 'md:mr-auto md:pr-3' : 'md:ml-auto md:pl-3'}`}>
+                    <div className={`group rounded-2xl border p-5 shadow-[0_10px_28px_rgba(55,31,28,0.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_38px_rgba(55,31,28,0.12)] sm:p-6 ${teaEvent ? 'border-[var(--maroon)]/18 bg-white' : 'border-stone-200 bg-[#fdfcfb]'}`}>
+                      <div className="flex items-start justify-between gap-4"><span className={`font-[family-name:var(--font-georgia)] text-3xl leading-none ${teaEvent ? 'text-[var(--maroon)]' : 'text-[#a57b1c]'}`}>{event.year}</span><span className={`rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.15em] ${teaEvent ? 'bg-[var(--maroon)]/8 text-[var(--maroon)]' : 'bg-[#c9a227]/10 text-[#8c681b]'}`}>{teaEvent ? 'Tea Trade' : 'Rubber & Spices'}</span></div>
+                      <h3 className="mt-4 text-lg font-semibold leading-snug text-[#282322]">{event.title}</h3><p className="mt-2 text-sm leading-6 text-stone-600">{event.description}</p>
+                    </div>
+                  </div>
+                  <div aria-hidden className={`absolute left-1/2 z-10 hidden h-4 w-4 -translate-x-1/2 rounded-full border-[3px] border-white shadow-[0_2px_8px_rgba(55,31,28,0.2)] md:block ${teaEvent ? 'bg-[var(--maroon)]' : 'bg-[#c9a227]'}`} />
+                </motion.article>
+              )
+            })}
           </div>
         </div>
       </div>

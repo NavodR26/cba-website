@@ -13,6 +13,7 @@ import InteractiveTimeline from '@/components/InteractiveTimeline'
 import OurImpact from '@/components/OurImpact'
 import FacilityShowcase from '@/components/VirtualTour'
 import RubberSpicesHeritage from '@/components/RubberSpicesHeritage'
+import CbaTeaTradeHeritage from '@/components/CbaTeaTradeHeritage'
 
 export const metadata = {
   title: "About CBA | The Colombo Brokers' Association",
@@ -271,6 +272,10 @@ export default async function AboutPage() {
 
       <SectionReveal>
         <ArchivalPhotoShowcase />
+      </SectionReveal>
+
+      <SectionReveal>
+        <CbaTeaTradeHeritage />
       </SectionReveal>
 
       <SectionReveal>
