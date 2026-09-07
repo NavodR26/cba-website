@@ -13,10 +13,10 @@
     "node": ">=20.9.0"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@fullcalendar/daygrid": "^6.1.20",
     "@fullcalendar/interaction": "^6.1.20",
     "@fullcalendar/react": "^6.1.20",
@@ -28,12 +28,12 @@
     "next-sanity": "^12.4.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "tailwindcss": "^4",
-    "typescript": "^5",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.0.0",
     "yet-another-react-lightbox": "^3.32.0"
   },
   "devDependencies": {
-    "eslint": "^9",
+    "eslint": "^9.0.0",
     "eslint-config-next": "16.2.4"
   }
 }
