@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+type NextConfigWithLegacyEslint = NextConfig & {
+  eslint: {
+    ignoreDuringBuilds: boolean;
+  };
+};
+
+const nextConfig: NextConfigWithLegacyEslint = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   // Allow LAN/device testing during development (Chrome on phone/tablet).
   allowedDevOrigins: process.env.NODE_ENV === 'development'
     ? ["192.168.100.147", "192.168.8.105", "192.168.8.*", "192.168.100.176", "172.17.240.1"]

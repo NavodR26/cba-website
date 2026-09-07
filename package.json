@@ -6,9 +6,17 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
+    "server": "node server.js",
     "lint": "eslint --max-warnings=9999"
   },
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "dependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "@fullcalendar/daygrid": "^6.1.20",
     "@fullcalendar/interaction": "^6.1.20",
     "@fullcalendar/react": "^6.1.20",
@@ -20,16 +28,12 @@
     "next-sanity": "^12.4.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "tailwindcss": "^4",
+    "typescript": "^5",
     "yet-another-react-lightbox": "^3.32.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.4",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "eslint-config-next": "16.2.4"
   }
 }
